@@ -100,7 +100,6 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="assets/js/cart.js"></script>
 <script src="assets/js/main.js"></script>
 <!-- Schema.org Structured Data -->
 <?php if (file_exists(__DIR__ . '/../partials/schema.php')) include __DIR__ . '/../partials/schema.php'; ?>

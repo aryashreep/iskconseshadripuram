@@ -51,6 +51,9 @@ $ogType ??= 'website';
   <link class="cache-buster" rel="stylesheet" href="assets/css/style.css?v=1.1.4">
   <link rel="stylesheet" href="assets/css/responsive.css?v=1.1.4">
   <link rel="stylesheet" href="assets/css/donate.css?v=1.1.4">
+
+  <!-- Cart Module (must load before page-specific scripts) -->
+  <script src="assets/js/cart.js"></script>
 </head>
 
 <body>
