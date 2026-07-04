@@ -1,0 +1,9 @@
+# Environment — actual credentials (DO NOT COMMIT)
+.env
+
+# Composer dependencies (vendor directory only — lock file is committed for reproducible builds)
+/vendor/
+
+# OS files
+Thumbs.db
+.DS_Store

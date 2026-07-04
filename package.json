@@ -1,0 +1,18 @@
+{
+  "name": "isjm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:puja": "npx playwright test tests/puja-booking.spec.js",
+    "test:yagya": "npx playwright test tests/yagya-booking.spec.js",
+    "test:panihati": "npx playwright test tests/panihati-yatra.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c1b12;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7b1e1e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a85614;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b8942f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#c86b1f;stop-opacity:0" />
+      <stop offset="50%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c86b1f;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)" />
+
+  <!-- Decorative subtle background pattern -->
+  <g opacity="0.04">
+    <circle cx="100" cy="100" r="300" fill="#d4af37" />
+    <circle cx="1100" cy="530" r="250" fill="#d4af37" />
+    <circle cx="600" cy="315" r="400" fill="#c86b1f" />
+  </g>
+
+  <!-- Top decorative line -->
+  <rect x="200" y="0" width="800" height="3" fill="url(#goldGrad)" opacity="0.6" />
+
+  <!-- Logo area -->
+  <g transform="translate(600, 220)">
+    <!-- Circular frame for logo -->
+    <circle cx="0" cy="0" r="65" fill="none" stroke="#d4af37" stroke-width="2" opacity="0.4" />
+    <circle cx="0" cy="0" r="55" fill="#d4af37" fill-opacity="0.1" stroke="#d4af37" stroke-width="1" />
+    <!-- Simplified ISKCON OM / Logo symbol -->
+    <text x="0" y="12" text-anchor="middle" font-family="serif" font-size="48" fill="#d4af37" font-weight="bold">🪷</text>
+  </g>
+
+  <!-- Temple Name -->
+  <text x="600" y="310" text-anchor="middle" font-family="Cinzel, Georgia, serif" font-size="32" fill="#ffffff" font-weight="700" letter-spacing="2">
+    ISKCON
+  </text>
+  <text x="600" y="350" text-anchor="middle" font-family="Cinzel, Georgia, serif" font-size="20" fill="#d4af37" font-weight="500" letter-spacing="1">
+    The Palace Temple of Lord Jagannath
+  </text>
+
+  <!-- Separator line -->
+  <rect x="450" y="370" width="300" height="2" fill="url(#accentLine)" />
+
+  <!-- Location -->
+  <text x="600" y="400" text-anchor="middle" font-family="Poppins, sans-serif" font-size="14" fill="rgba(255,255,255,0.7)" font-weight="400" letter-spacing="3">
+    SESHADRIPURAM  ·  BANGALORE
+  </text>
+
+  <!-- Since -->
+  <text x="600" y="425" text-anchor="middle" font-family="Poppins, sans-serif" font-size="11" fill="rgba(255,255,255,0.4)" font-weight="300" letter-spacing="2">
+    ESTABLISHED 1998
+  </text>
+
+  <!-- Bottom decorative line -->
+  <rect x="200" y="627" width="800" height="3" fill="url(#goldGrad)" opacity="0.6" />
+
+  <!-- Bottom-left tagline -->
+  <text x="40" y="590" font-family="Poppins, sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" font-weight="300">
+    Hare Krishna Movement
+  </text>
+
+  <!-- Bottom-right -->
+  <text x="1160" y="590" text-anchor="end" font-family="Poppins, sans-serif" font-size="10" fill="rgba(255,255,255,0.25)" font-weight="300">
+    iskconbangalore.co.in
+  </text>
+</svg>

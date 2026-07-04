@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /api/
+Disallow: /database/
+Disallow: /vendor/
+Disallow: /assets/
+Disallow: /logs/
+
+Sitemap: https://www.iskconbangalore.co.in/sitemap.xml

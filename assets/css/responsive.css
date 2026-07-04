@@ -1,0 +1,423 @@
+/* ============================================
+   Responsive Styles
+   ============================================ */
+
+/* ----- Large Tablets (max 1024px) ----- */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-links-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .categories-grid,
+  .home-service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .festivals-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gallery-item:nth-child(1),
+  .gallery-item:nth-child(6) {
+    grid-row: span 1;
+    aspect-ratio: 1;
+  }
+
+  .visit-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .about-intro {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .about-intro-image img {
+    height: 350px;
+  }
+}
+
+/* ----- Tablets (max 768px) ----- */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+    --container-padding: 1rem;
+  }
+
+  .top-bar {
+    display: none;
+  }
+
+  .main-nav-list {
+    display: none;
+  }
+
+  .main-nav .btn {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+
+  .mobile-menu-overlay {
+    display: block;
+    pointer-events: none;
+  }
+
+  .mobile-menu-overlay.active {
+    pointer-events: all;
+  }
+
+  /* Typography */
+  h1 { font-size: var(--font-size-3xl); }
+  h2 { font-size: var(--font-size-2xl); }
+  .section-title {
+    font-size: var(--font-size-3xl);
+  }
+
+  .section {
+    padding: var(--space-3xl) 0;
+  }
+
+  /* Hero */
+  .hero-section {
+    height: 85vh;
+    min-height: 500px;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .hero-subtitle {
+    font-size: var(--font-size-base);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+
+  .hero-section .swiper-button-next,
+  .hero-section .swiper-button-prev {
+    display: none;
+  }
+
+  .hero-scroll-indicator {
+    display: none;
+  }
+
+  /* Welcome */
+  .welcome-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .welcome-image img {
+    height: auto;
+  }
+
+  .welcome-features {
+    grid-template-columns: 1fr;
+  }
+
+  /* Services */
+  .services-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Quick Links */
+  .quick-links-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .quick-link-item {
+    padding: var(--space-sm);
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .quick-link-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    font-size: var(--font-size-sm);
+  }
+
+  .quick-link-desc {
+    display: none;
+  }
+
+  /* Categories */
+  .categories-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+  }
+
+  .category-tile {
+    padding: var(--space-md);
+  }
+
+  .category-tile-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: var(--font-size-base);
+  }
+
+  /* Home Service Cards */
+  .home-service-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Festivals Layout */
+  .festivals-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .seasonal-spotlight-image {
+    height: 200px;
+  }
+
+  .featured-festivals-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Gallery */
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
+  /* Visit */
+  .visit-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .visit-card {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  /* Events */
+  .events-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: var(--space-3xl) 0;
+  }
+
+  .cta-stats {
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .cta-stat-number {
+    font-size: var(--font-size-4xl);
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-md);
+    text-align: center;
+  }
+
+  /* Page Header */
+  .page-header h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .page-header {
+    padding: calc(var(--header-height) + 40px) 0 60px;
+  }
+
+  /* Tag Filter */
+  .tag-filter-inner {
+    gap: 6px;
+  }
+
+  .tag-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .tag-pill.tag-pill-all {
+    padding: 4px 14px;
+  }
+
+  /* Seva Page */
+  .seva-detail-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Contact */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ----- Small Mobile (max 480px) ----- */
+@media (max-width: 480px) {
+  .hero-section {
+    height: 75vh;
+    min-height: 450px;
+  }
+
+  .hero-badge {
+    font-size: 10px;
+    padding: 6px 14px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .visit-grid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-bottom-links {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .section-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .logo-text .logo-title {
+    font-size: var(--font-size-base);
+  }
+
+  .logo-text .logo-subtitle {
+    font-size: 10px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .site-header.scrolled .header-inner {
+    height: 56px;
+  }
+
+  /* Quick Links */
+  .quick-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xs);
+  }
+
+  .quick-link-item {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--space-sm) var(--space-xs);
+  }
+
+  .quick-link-label {
+    font-size: var(--font-size-xs);
+  }
+
+  /* Categories */
+  .categories-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+  }
+
+  .category-tile-arrow {
+    display: none;
+  }
+
+  .category-tile-content h3 {
+    font-size: var(--font-size-sm);
+  }
+
+  /* Festivals */
+  .featured-festivals-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .festival-card-image {
+    height: 160px;
+  }
+}
+
+/* ----- Large Desktop (min 1400px) ----- */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
