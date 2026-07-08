@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" width="1920" height="600">
+  <defs>
+    <!-- Warm gradient background -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c1b12"/>
+      <stop offset="25%" stop-color="#5a1414"/>
+      <stop offset="50%" stop-color="#7b1e1e"/>
+      <stop offset="75%" stop-color="#a85614"/>
+      <stop offset="100%" stop-color="#c86b1f"/>
+    </linearGradient>
+
+    <!-- Gold accent gradient -->
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="50%" stop-color="#c9a227"/>
+      <stop offset="100%" stop-color="#b8941f"/>
+    </linearGradient>
+
+    <!-- Glows -->
+    <radialGradient id="glowCenter" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowLeft" cx="20%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#c86b1f" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#c86b1f" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowRight" cx="80%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="topGlow" cx="50%" cy="10%" r="45%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Filter for soft glow -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+
+    <filter id="medGlow">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+
+    <filter id="bigGlow">
+      <feGaussianBlur stdDeviation="15"/>
+    </filter>
+
+    <!-- Dot pattern -->
+    <pattern id="dotPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="0.8" fill="#d4af37" fill-opacity="0.04"/>
+    </pattern>
+
+    <!-- Diagonal line pattern -->
+    <pattern id="diagPattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <line x1="0" y1="0" x2="60" y2="60" stroke="#d4af37" stroke-opacity="0.02" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- Temple arch gradient -->
+    <linearGradient id="archGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="1920" height="600" fill="url(#bgGrad)"/>
+
+  <!-- Patterns overlay -->
+  <rect width="1920" height="600" fill="url(#dotPattern)"/>
+  <rect width="1920" height="600" fill="url(#diagPattern)"/>
+
+  <!-- Glow overlays -->
+  <rect width="1920" height="600" fill="url(#glowCenter)"/>
+  <rect width="1920" height="600" fill="url(#glowLeft)"/>
+  <rect width="1920" height="600" fill="url(#glowRight)"/>
+  <rect width="1920" height="600" fill="url(#topGlow)"/>
+
+  <!-- ===== DECORATIVE TEMPLE ARCH / DOME ===== -->
+  <!-- Main arch at top -->
+  <path d="M600,0 Q960,220 1320,0" fill="none" stroke="url(#goldAccent)" stroke-opacity="0.08" stroke-width="1.5"/>
+  <path d="M680,0 Q960,180 1240,0" fill="none" stroke="url(#goldAccent)" stroke-opacity="0.06" stroke-width="1"/>
+  <path d="M780,0 Q960,130 1140,0" fill="none" stroke="url(#goldAccent)" stroke-opacity="0.04" stroke-width="0.8"/>
+
+  <!-- ===== CORNER ORNAMENTS ===== -->
+  <!-- Top-left corner -->
+  <g>
+    <path d="M0,0 L180,0 L180,3 L3,3 L3,180 L0,180 Z" fill="#d4af37" fill-opacity="0.1"/>
+    <path d="M0,0 L100,0 L100,1.5 L1.5,1.5 L1.5,100 L0,100 Z" fill="#d4af37" fill-opacity="0.06"/>
+    <!-- Small diamond -->
+    <polygon points="40,20 50,30 40,40 30,30" fill="#d4af37" fill-opacity="0.08"/>
+  </g>
+
+  <!-- Top-right corner -->
+  <g>
+    <path d="M1920,0 L1740,0 L1740,3 L1917,3 L1917,180 L1920,180 Z" fill="#d4af37" fill-opacity="0.1"/>
+    <path d="M1920,0 L1820,0 L1820,1.5 L1918.5,1.5 L1918.5,100 L1920,100 Z" fill="#d4af37" fill-opacity="0.06"/>
+    <polygon points="1880,20 1890,30 1880,40 1870,30" fill="#d4af37" fill-opacity="0.08"/>
+  </g>
+
+  <!-- Bottom-left corner -->
+  <g>
+    <path d="M0,600 L180,600 L180,597 L3,597 L3,420 L0,420 Z" fill="#d4af37" fill-opacity="0.1"/>
+    <path d="M0,600 L100,600 L100,598.5 L1.5,598.5 L1.5,500 L0,500 Z" fill="#d4af37" fill-opacity="0.06"/>
+    <polygon points="40,580 50,570 40,560 30,570" fill="#d4af37" fill-opacity="0.08"/>
+  </g>
+
+  <!-- Bottom-right corner -->
+  <g>
+    <path d="M1920,600 L1740,600 L1740,597 L1917,597 L1917,420 L1920,420 Z" fill="#d4af37" fill-opacity="0.1"/>
+    <path d="M1920,600 L1820,600 L1820,598.5 L1918.5,598.5 L1918.5,500 L1920,500 Z" fill="#d4af37" fill-opacity="0.06"/>
+    <polygon points="1880,580 1890,570 1880,560 1870,570" fill="#d4af37" fill-opacity="0.08"/>
+  </g>
+
+  <!-- ===== LEFT DECORATIVE LOTUS ===== -->
+  <g transform="translate(140, 300)" opacity="0.09" filter="url(#softGlow)">
+    <!-- Outer petals -->
+    <ellipse cx="-30" cy="-50" rx="22" ry="38" fill="none" stroke="#d4af37" stroke-width="1"/>
+    <ellipse cx="30" cy="-50" rx="22" ry="38" fill="none" stroke="#d4af37" stroke-width="1"/>
+    <!-- Center petal -->
+    <ellipse cx="0" cy="-55" rx="18" ry="42" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    <ellipse cx="0" cy="-55" rx="10" ry="28" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <!-- Base -->
+    <path d="M-28,-12 Q0,50 28,-12" fill="none" stroke="#d4af37" stroke-width="0.6"/>
+  </g>
+
+  <!-- ===== RIGHT DECORATIVE LOTUS ===== -->
+  <g transform="translate(1780, 300)" opacity="0.09" filter="url(#softGlow)">
+    <ellipse cx="-30" cy="-50" rx="22" ry="38" fill="none" stroke="#d4af37" stroke-width="1"/>
+    <ellipse cx="30" cy="-50" rx="22" ry="38" fill="none" stroke="#d4af37" stroke-width="1"/>
+    <ellipse cx="0" cy="-55" rx="18" ry="42" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    <ellipse cx="0" cy="-55" rx="10" ry="28" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <path d="M-28,-12 Q0,50 28,-12" fill="none" stroke="#d4af37" stroke-width="0.6"/>
+  </g>
+
+  <!-- ===== SMALL LOTUS BOTTOM LEFT ===== -->
+  <g transform="translate(260, 470)" opacity="0.06" filter="url(#softGlow)">
+    <ellipse cx="0" cy="-25" rx="12" ry="20" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    <ellipse cx="0" cy="-25" rx="7" ry="14" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <path d="M-10,-4 Q0,22 10,-4" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+  </g>
+
+  <!-- ===== SMALL LOTUS BOTTOM RIGHT ===== -->
+  <g transform="translate(1660, 470)" opacity="0.06" filter="url(#softGlow)">
+    <ellipse cx="0" cy="-25" rx="12" ry="20" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    <ellipse cx="0" cy="-25" rx="7" ry="14" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <path d="M-10,-4 Q0,22 10,-4" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+  </g>
+
+  <!-- ===== TECH/DEVELOPMENT ICONS (LEFT SIDE) ===== -->
+  <g transform="translate(120, 140)" opacity="0.07" filter="url(#softGlow)">
+    <!-- Monitor/Code icon -->
+    <rect x="-25" y="-20" width="50" height="35" rx="3" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+    <line x1="-15" y1="-8" x2="-5" y2="2" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="-5" y1="2" x2="-15" y2="12" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="5" y1="-8" x2="15" y2="2" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="15" y1="2" x2="5" y2="12" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="-10" y1="18" x2="10" y2="18" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="0" y1="15" x2="0" y2="18" stroke="#d4af37" stroke-width="1.2"/>
+  </g>
+
+  <!-- ===== DESIGN/PALETTE ICON (RIGHT SIDE) ===== -->
+  <g transform="translate(1800, 140)" opacity="0.07" filter="url(#softGlow)">
+    <!-- Paint palette -->
+    <ellipse cx="0" cy="0" rx="28" ry="22" fill="none" stroke="#d4af37" stroke-width="1.5" transform="rotate(-10)"/>
+    <circle cx="-15" cy="-5" r="4" fill="#d4af37" fill-opacity="0.3"/>
+    <circle cx="5" cy="-12" r="3.5" fill="#d4af37" fill-opacity="0.2"/>
+    <circle cx="15" cy="-2" r="3.5" fill="#d4af37" fill-opacity="0.25"/>
+    <circle cx="-5" cy="8" r="3" fill="#d4af37" fill-opacity="0.2"/>
+    <!-- Paint brush -->
+    <line x1="18" y1="12" x2="26" y2="20" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="26" y1="20" x2="30" y2="16" stroke="#d4af37" stroke-width="1.2"/>
+  </g>
+
+  <!-- ===== DECORATIVE SPARKLE DOTS ===== -->
+  <circle cx="350" cy="150" r="1.5" fill="#d4af37" fill-opacity="0.07"/>
+  <circle cx="380" cy="120" r="1" fill="#d4af37" fill-opacity="0.04"/>
+  <circle cx="420" cy="170" r="0.8" fill="#d4af37" fill-opacity="0.03"/>
+  <circle cx="500" cy="100" r="1.2" fill="#d4af37" fill-opacity="0.04"/>
+  <circle cx="1550" cy="140" r="1.5" fill="#d4af37" fill-opacity="0.07"/>
+  <circle cx="1520" cy="110" r="1" fill="#d4af37" fill-opacity="0.04"/>
+  <circle cx="1480" cy="160" r="0.8" fill="#d4af37" fill-opacity="0.03"/>
+  <circle cx="1420" cy="90" r="1.2" fill="#d4af37" fill-opacity="0.04"/>
+
+  <circle cx="300" cy="480" r="1" fill="#d4af37" fill-opacity="0.03"/>
+  <circle cx="450" cy="500" r="0.8" fill="#d4af37" fill-opacity="0.03"/>
+  <circle cx="600" cy="520" r="1.2" fill="#d4af37" fill-opacity="0.04"/>
+  <circle cx="1350" cy="490" r="1" fill="#d4af37" fill-opacity="0.03"/>
+  <circle cx="1500" cy="510" r="0.8" fill="#d4af37" fill-opacity="0.03"/>
+  <circle cx="1650" cy="480" r="1.2" fill="#d4af37" fill-opacity="0.04"/>
+
+  <!-- ===== VERTICAL ACCENT LINES ===== -->
+  <line x1="280" y1="0" x2="280" y2="600" stroke="#d4af37" stroke-opacity="0.02" stroke-width="0.5"/>
+  <line x1="1640" y1="0" x2="1640" y2="600" stroke="#d4af37" stroke-opacity="0.02" stroke-width="0.5"/>
+
+  <!-- ===== BOTTOM WAVE CURVE ===== -->
+  <path d="M0,570 Q240,540 480,560 Q720,580 960,555 Q1200,530 1440,560 Q1680,590 1920,560 L1920,600 L0,600 Z" fill="#c86b1f" fill-opacity="0.05"/>
+  <path d="M0,585 Q240,565 480,575 Q720,585 960,570 Q1200,555 1440,575 Q1680,595 1920,575 L1920,600 L0,600 Z" fill="#d4af37" fill-opacity="0.03"/>
+
+  <!-- ===== ANJALI / NAMASTE HANDS (subtle) ===== -->
+  <g transform="translate(960, 540)" opacity="0.05">
+    <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-family="serif" font-size="32" fill="#d4af37">🙏</text>
+  </g>
+
+  <!-- ===== SUBTLE OM SYMBOL (very faint) ===== -->
+  <g transform="translate(960, 300)" opacity="0.015" filter="url(#bigGlow)">
+    <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-family="serif" font-size="180" fill="#d4af37">🕉</text>
+  </g>
+
+  <!-- ===== HALO / AURA AROUND CENTER ===== -->
+  <ellipse cx="960" cy="260" rx="180" ry="120" fill="none" stroke="#d4af37" stroke-opacity="0.03" stroke-width="0.8" filter="url(#medGlow)"/>
+  <ellipse cx="960" cy="260" rx="220" ry="150" fill="none" stroke="#d4af37" stroke-opacity="0.02" stroke-width="0.5" filter="url(#softGlow)"/>
+
+  <!-- ===== GEAR/TOOLS ICON (subtle center-bottom decoration) ===== -->
+  <g transform="translate(960, 420)" opacity="0.04" filter="url(#softGlow)">
+    <!-- Gear -->
+    <circle cx="0" cy="0" r="15" fill="none" stroke="#d4af37" stroke-width="1.2"/>
+    <circle cx="0" cy="0" r="8" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    <line x1="0" y1="-15" x2="0" y2="-22" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="0" y1="15" x2="0" y2="22" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="-15" y1="0" x2="-22" y2="0" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="15" y1="0" x2="22" y2="0" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="-10" y1="-10" x2="-16" y2="-16" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="10" y1="10" x2="16" y2="16" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="10" y1="-10" x2="16" y2="-16" stroke="#d4af37" stroke-width="1.2"/>
+    <line x1="-10" y1="10" x2="-16" y2="16" stroke="#d4af37" stroke-width="1.2"/>
+  </g>
+
+  <!-- ===== TOP BORDER ACCENT ===== -->
+  <line x1="0" y1="0" x2="1920" y2="0" stroke="#d4af37" stroke-opacity="0.15" stroke-width="2"/>
+</svg>

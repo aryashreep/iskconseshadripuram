@@ -1,0 +1,2 @@
+[08-Jul-2026 03:22:46 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[08-Jul-2026 03:42:05 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1

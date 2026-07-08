@@ -1,0 +1,300 @@
+/* ============================================
+   Search Page - Google Custom Search Styles
+   ============================================ */
+
+.gsc-control-cse {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-family: var(--font-body) !important;
+}
+
+table.gsc-search-box {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+}
+
+table.gsc-search-box td {
+    vertical-align: middle !important;
+}
+
+/* Input Cell */
+table.gsc-search-box td.gsc-input {
+    padding: 0 !important;
+}
+
+/* Style input container wrapper (do NOT use flex display to avoid breaking Google's inner tables) */
+.gsc-input-box {
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) 0 0 var(--radius-md) !important; /* Left rounded corners */
+    background: var(--white) !important;
+    height: 46px !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+
+/* Fix inner tables in input box */
+.gsc-input-box table {
+    margin: 0 !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+.gsc-input-box td {
+    padding: 0 !important;
+    vertical-align: middle !important;
+}
+
+/* Style inner input tag */
+.gsc-input-box input.gsc-input {
+    background-color: transparent !important; /* Clear Google background color but keep background-image */
+    background-position: left 12px center !important;
+    background-repeat: no-repeat !important;
+    padding: 10px 16px 10px 38px !important; /* Extra left padding to make text start after the icon */
+    font-family: var(--font-body) !important;
+    font-size: var(--font-size-base) !important;
+    color: var(--text) !important;
+    border: none !important;
+    outline: none !important;
+    height: 44px !important;
+    line-height: 24px !important;
+    box-sizing: border-box !important;
+}
+
+/* Search Button Cell */
+table.gsc-search-box td.gsc-search-button {
+    padding: 0 !important;
+    width: 1% !important;
+}
+
+/* Style the button (whether button, input[type=submit], or class wrapper) */
+.gsc-search-button,
+button.gsc-search-button,
+input.gsc-search-button,
+.gsc-search-button-v2 {
+    height: 46px !important;
+    min-height: 46px !important;
+    padding: 0 24px !important;
+    background-color: var(--primary) !important;
+    border: 1px solid var(--primary) !important;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0 !important; /* Right rounded corners */
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+}
+
+/* Hover state */
+.gsc-search-button:hover,
+button.gsc-search-button:hover,
+input.gsc-search-button:hover,
+.gsc-search-button-v2:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+}
+
+/* SVG icon styling inside button */
+.gsc-search-button svg,
+button.gsc-search-button-v2 svg {
+    fill: var(--white) !important;
+    width: 16px !important;
+    height: 16px !important;
+    vertical-align: middle !important;
+}
+
+
+
+.gsc-result .gs-title {
+    font-family: var(--font-heading) !important;
+    color: var(--primary) !important;
+}
+
+.gsc-result .gs-snippet {
+    font-family: var(--font-body) !important;
+    color: var(--text) !important;
+}
+
+.gsc-cursor-page {
+    color: var(--primary) !important;
+    font-family: var(--font-body) !important;
+}
+
+.gsc-cursor-current-page {
+    color: var(--dark) !important;
+    font-weight: 600 !important;
+}
+
+/* ============================================
+   Page layout styles (extracted from inline styles)
+   ============================================ */
+.search-header {
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-5xl) 0;
+    text-align: center;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+}
+
+.search-header-bg {
+    background: linear-gradient(135deg, var(--maroon) 0%, var(--dark) 100%);
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+}
+
+.search-header-container {
+    position: relative;
+    z-index: 1;
+}
+
+.search-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    color: var(--accent);
+    padding: 8px 22px;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: var(--space-lg);
+    backdrop-filter: blur(8px);
+}
+
+.search-header-title {
+    font-family: var(--font-heading);
+    color: var(--white);
+    font-size: calc(var(--font-size-3xl) + 0.8vw);
+    line-height: 1.2;
+    text-shadow: 0 3px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.5px;
+}
+
+.search-header-desc {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: calc(var(--font-size-md) + 1px);
+    max-width: 520px;
+    margin: 0 auto var(--space-xl) auto;
+    line-height: 1.7;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-breadcrumb {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--font-size-sm);
+}
+
+.search-breadcrumb-link {
+    color: var(--accent-light);
+}
+
+.search-breadcrumb-current {
+    color: var(--white);
+}
+
+.search-content-container {
+    max-width: 900px;
+}
+
+.search-intro-desc {
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.search-box-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+.search-tips-card {
+    margin-top: var(--space-2xl);
+    background: var(--cream);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    text-align: center;
+}
+
+.search-tips-text {
+    margin: 0;
+    color: var(--text-light);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+}
+
+.search-tips-icon {
+    color: var(--accent);
+    margin-right: 6px;
+}
+
+/* ============================================
+   Google CSE Overlay Styling & Visibility Override
+   ============================================ */
+.gsc-results-wrapper-overlay {
+    z-index: 999999 !important; /* Force it to overlay above the sticky site-header (z-index: 100) */
+    width: 90% !important;
+    max-width: 1000px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 50px !important;
+    height: calc(100% - 100px) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-xl) !important;
+    border: 1px solid var(--border) !important;
+    padding: var(--space-xl) !important;
+    background: var(--white) !important;
+}
+
+/* Ensure the background shade overlay is visible and behind the results modal */
+.gsc-modal-background-image {
+    z-index: 999998 !important;
+    background-color: rgba(26, 15, 8, 0.6) !important; /* Translucent dark brown tint matching site branding */
+    backdrop-filter: blur(4px) !important;
+}
+
+/* ============================================
+   Google CSE Autocomplete/Suggestions Dropdown Override
+   ============================================ */
+.gsc-completion-container {
+    z-index: 1000000 !important; /* Display above sticky header (100) and results overlay (999999) */
+    font-family: var(--font-body) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-md) !important;
+    background-color: var(--white) !important;
+    padding: var(--space-xs) 0 !important;
+}
+
+/* Individual suggestion items */
+.gsc-completion-container table {
+    font-family: var(--font-body) !important;
+    font-size: var(--font-size-sm) !important;
+    color: var(--text) !important;
+}
+
+/* Hover/Keyboard selected suggestion item */
+.gsc-completion-selected {
+    background-color: var(--cream) !important;
+    color: var(--primary-dark) !important;
+}
+
+
+

@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+  .contact-layout-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-2xl) !important;
+  }
+}

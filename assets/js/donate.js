@@ -16,6 +16,20 @@
   const donationModeInput = document.getElementById("donationMode");
   const formTypeInput = document.getElementById("formType");
 
+  // Read Razorpay config from data attribute (set by PHP)
+  let RAZORPAY_CONFIG = {};
+  if (form && form.hasAttribute("data-razorpay")) {
+    try {
+      RAZORPAY_CONFIG = JSON.parse(form.getAttribute("data-razorpay"));
+    } catch (e) {
+      console.error("donate.js: invalid data-razorpay JSON", e);
+    }
+  }
+  // Fallback to global if data attribute missing (backward compat)
+  if (!RAZORPAY_CONFIG.keyId && typeof window.RAZORPAY_CONFIG !== "undefined") {
+    RAZORPAY_CONFIG = window.RAZORPAY_CONFIG;
+  }
+
   // Amount state
   let currentAmount = selectedAmountInput
     ? parseInt(selectedAmountInput.value, 10)

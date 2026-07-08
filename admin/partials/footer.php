@@ -1,19 +1,8 @@
 <?php
+
 /**
- * Admin Panel Footer Partial
+ * Backward-compatibility wrapper.
+ * File has been moved to modules/Kernel/Admin/partials/footer.php.
  */
-?>
-  </main>
-  
-  <!-- Admin Script Utilities -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Mobile sidebar toggle check
-      const sidebar = document.getElementById('adminSidebar');
-      if (sidebar) {
-        // Can add a toggle trigger dynamically on small screens if required
-      }
-    });
-  </script>
-</body>
-</html>
+
+require_once __DIR__ . '/../../modules/Kernel/Admin/partials/' . basename(__FILE__);

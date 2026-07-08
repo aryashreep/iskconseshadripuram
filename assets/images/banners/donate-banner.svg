@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" width="1920" height="600">
+  <defs>
+    <!-- Warm gradient background -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c1b12"/>
+      <stop offset="35%" stop-color="#7b1e1e"/>
+      <stop offset="70%" stop-color="#a85614"/>
+      <stop offset="100%" stop-color="#c86b1f"/>
+    </linearGradient>
+
+    <!-- Radial glow -->
+    <radialGradient id="glowCenter" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowTop" cx="50%" cy="20%" r="50%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowBottom" cx="50%" cy="80%" r="40%">
+      <stop offset="0%" stop-color="#c86b1f" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#c86b1f" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Golden gradient for decorative elements -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#d4af37" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Subtle texture pattern -->
+    <pattern id="texture" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="50" cy="50" r="1" fill="#ffffff" fill-opacity="0.03"/>
+      <circle cx="0" cy="0" r="0.8" fill="#ffffff" fill-opacity="0.02"/>
+      <circle cx="0" cy="100" r="0.8" fill="#ffffff" fill-opacity="0.02"/>
+      <circle cx="100" cy="0" r="0.8" fill="#ffffff" fill-opacity="0.02"/>
+      <circle cx="100" cy="100" r="0.8" fill="#ffffff" fill-opacity="0.02"/>
+    </pattern>
+
+    <!-- Diagonal lines pattern -->
+    <pattern id="diagonalLines" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
+      <line x1="0" y1="0" x2="80" y2="80" stroke="#d4af37" stroke-opacity="0.03" stroke-width="1"/>
+    </pattern>
+
+    <!-- Radial rays -->
+    <radialGradient id="rays" cx="50%" cy="40%" r="70%">
+      <stop offset="40%" stop-color="#d4af37" stop-opacity="0"/>
+      <stop offset="60%" stop-color="#d4af37" stop-opacity="0.02"/>
+      <stop offset="80%" stop-color="#d4af37" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Filter for blur -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="bigGlow">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1920" height="600" fill="url(#bgGrad)"/>
+
+  <!-- Texture overlay -->
+  <rect width="1920" height="600" fill="url(#texture)"/>
+  <rect width="1920" height="600" fill="url(#diagonalLines)"/>
+  <rect width="1920" height="600" fill="url(#rays)"/>
+
+  <!-- Central glow -->
+  <rect width="1920" height="600" fill="url(#glowCenter)"/>
+  <rect width="1920" height="600" fill="url(#glowTop)"/>
+  <rect width="1920" height="600" fill="url(#glowBottom)"/>
+
+  <!-- Top-left corner ornate border -->
+  <path d="M0,0 L200,0 L200,4 L4,4 L4,200 L0,200 Z" fill="#d4af37" fill-opacity="0.12"/>
+  <path d="M0,0 L120,0 L120,2 L2,2 L2,120 L0,120 Z" fill="#d4af37" fill-opacity="0.08"/>
+
+  <!-- Bottom-right corner ornate border -->
+  <path d="M1920,600 L1720,600 L1720,596 L1916,596 L1916,400 L1920,400 Z" fill="#d4af37" fill-opacity="0.12"/>
+  <path d="M1920,600 L1800,600 L1800,598 L1918,598 L1918,480 L1920,480 Z" fill="#d4af37" fill-opacity="0.08"/>
+
+  <!-- Decorative arch / dome shape at top center -->
+  <path d="M760,0 Q960,180 1160,0" fill="none" stroke="#d4af37" stroke-opacity="0.06" stroke-width="1"/>
+  <path d="M800,0 Q960,140 1120,0" fill="none" stroke="#d4af37" stroke-opacity="0.04" stroke-width="0.5"/>
+
+  <!-- Left decorative lotus petals -->
+  <g transform="translate(120, 300)" opacity="0.08" filter="url(#softGlow)">
+    <ellipse cx="0" cy="-60" rx="30" ry="50" fill="none" stroke="#d4af37" stroke-width="1"/>
+    <ellipse cx="0" cy="-60" rx="20" ry="40" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <ellipse cx="0" cy="-60" rx="10" ry="22" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <!-- Lotus base -->
+    <path d="M-25,-10 Q0,60 25,-10" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+  </g>
+
+  <!-- Right decorative lotus petals -->
+  <g transform="translate(1800, 300)" opacity="0.08" filter="url(#softGlow)">
+    <ellipse cx="0" cy="-60" rx="30" ry="50" fill="none" stroke="#d4af37" stroke-width="1"/>
+    <ellipse cx="0" cy="-60" rx="20" ry="40" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <ellipse cx="0" cy="-60" rx="10" ry="22" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <path d="M-25,-10 Q0,60 25,-10" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+  </g>
+
+  <!-- Left side small lotus -->
+  <g transform="translate(260, 450)" opacity="0.05" filter="url(#softGlow)">
+    <ellipse cx="0" cy="-30" rx="15" ry="25" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    <ellipse cx="0" cy="-30" rx="10" ry="18" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <path d="M-12,-5 Q0,30 12,-5" fill="none" stroke="#d4af37" stroke-width="0.6"/>
+  </g>
+
+  <!-- Right side small lotus -->
+  <g transform="translate(1660, 450)" opacity="0.05" filter="url(#softGlow)">
+    <ellipse cx="0" cy="-30" rx="15" ry="25" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    <ellipse cx="0" cy="-30" rx="10" ry="18" fill="none" stroke="#d4af37" stroke-width="0.5"/>
+    <path d="M-12,-5 Q0,30 12,-5" fill="none" stroke="#d4af37" stroke-width="0.6"/>
+  </g>
+
+  <!-- Top-left small decorative dots -->
+  <circle cx="80" cy="80" r="2" fill="#d4af37" fill-opacity="0.15"/>
+  <circle cx="80" cy="95" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+  <circle cx="95" cy="80" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+
+  <!-- Top-right small decorative dots -->
+  <circle cx="1840" cy="80" r="2" fill="#d4af37" fill-opacity="0.15"/>
+  <circle cx="1840" cy="95" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+  <circle cx="1825" cy="80" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+
+  <!-- Bottom-left small decorative dots -->
+  <circle cx="80" cy="520" r="2" fill="#d4af37" fill-opacity="0.15"/>
+  <circle cx="80" cy="505" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+  <circle cx="95" cy="520" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+
+  <!-- Bottom-right small decorative dots -->
+  <circle cx="1840" cy="520" r="2" fill="#d4af37" fill-opacity="0.15"/>
+  <circle cx="1840" cy="505" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+  <circle cx="1825" cy="520" r="1.5" fill="#d4af37" fill-opacity="0.1"/>
+
+  <!-- Scattered sparkle dots -->
+  <circle cx="350" cy="180" r="1.5" fill="#d4af37" fill-opacity="0.06"/>
+  <circle cx="450" cy="130" r="1" fill="#d4af37" fill-opacity="0.04"/>
+  <circle cx="1500" cy="170" r="1.5" fill="#d4af37" fill-opacity="0.06"/>
+  <circle cx="1400" cy="200" r="1" fill="#d4af37" fill-opacity="0.04"/>
+  <circle cx="600" cy="100" r="1" fill="#d4af37" fill-opacity="0.03"/>
+  <circle cx="1300" cy="120" r="1" fill="#d4af37" fill-opacity="0.03"/>
+
+  <!-- Thin vertical accent lines -->
+  <line x1="300" y1="0" x2="300" y2="600" stroke="#d4af37" stroke-opacity="0.02" stroke-width="0.5"/>
+  <line x1="1620" y1="0" x2="1620" y2="600" stroke="#d4af37" stroke-opacity="0.02" stroke-width="0.5"/>
+
+  <!-- Om / Aum symbol decorative (central) - very subtle -->
+  <g transform="translate(960, 300)" opacity="0.04" filter="url(#bigGlow)">
+    <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-family="serif" font-size="200" fill="#d4af37">&#x1F549;</text>
+  </g>
+
+  <!-- Bottom wave/curve -->
+  <path d="M0,580 Q240,560 480,575 Q720,590 960,570 Q1200,550 1440,575 Q1680,600 1920,570 L1920,600 L0,600 Z" fill="#c86b1f" fill-opacity="0.04"/>
+
+  <!-- Hand/offering symbol - very subtle small icon -->
+  <g transform="translate(960, 520)" opacity="0.04">
+    <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-family="serif" font-size="40" fill="#d4af37">🙏</text>
+  </g>
+</svg>

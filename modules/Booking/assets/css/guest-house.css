@@ -1,0 +1,11 @@
+@media(max-width: 991px) {
+  .guesthouse-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-2xl) !important;
+  }
+}
+@media(max-width: 768px) {
+  .guesthouse-rules {
+    grid-template-columns: 1fr !important;
+  }
+}

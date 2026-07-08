@@ -1,0 +1,57 @@
+/* ============================================
+   Report Seva - Three-Level Accordion Styles
+   ============================================ */
+
+.lv1-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: var(--cream);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+}
+
+.lv1-header:hover {
+    background: #f0ece3;
+}
+
+.lv1-section {
+    border-bottom: 1px solid var(--border);
+}
+
+.lv2-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: rgba(0,0,0,0.02);
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: background 0.15s;
+}
+
+.lv2-header:hover {
+    background: rgba(0,0,0,0.04);
+}
+
+.lv2-section {
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.lv2-section:last-child {
+    border-bottom: none;
+}
+
+.lv3-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 20px 8px 52px;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    transition: background 0.1s;
+}
+
+.lv3-row:hover {
+    background: rgba(0,0,0,0.015);
+}

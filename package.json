@@ -1,8 +1,13 @@
 {
   "name": "isjm",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "scripts": {
+    "build": "node scripts/build.js",
+    "build:js": "node scripts/build.js --js-only",
+    "build:css": "node scripts/build.js --css-only",
+    "watch": "node scripts/build.js --watch",
+    "clean": "node scripts/build.js --clean",
     "test": "npx playwright test",
     "test:puja": "npx playwright test tests/puja-booking.spec.js",
     "test:yagya": "npx playwright test tests/yagya-booking.spec.js",
@@ -11,8 +16,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "ISKCON The Palace Temple of Lord Jagannath - Official Website",
   "devDependencies": {
-    "@playwright/test": "^1.61.1"
+    "@playwright/test": "^1.61.1",
+    "terser": "^5.31.0",
+    "lightningcss": "^1.25.0"
   }
 }

@@ -1,0 +1,116 @@
+/* ============================================
+   Donate Seva Page Styles
+   ============================================ */
+
+/* Image wrapper */
+.donate-image-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-lg);
+}
+
+/* Full-width responsive image */
+.donate-responsive-img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Section divider aligned left */
+.donate-divider-left {
+    justify-content: flex-start;
+}
+
+/* Section subtitle aligned left */
+.donate-subtitle-left {
+    text-align: left;
+}
+
+/* Seva offerings heading */
+.seva-offerings-heading {
+    font-family: var(--font-heading);
+    margin-bottom: var(--space-md);
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: var(--space-xs);
+    display: inline-block;
+}
+
+/* Occasion textarea */
+.occasion-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    color: var(--text);
+    outline: none;
+    background: var(--cream-light);
+    resize: vertical;
+}
+
+/* PAN label hint */
+.pan-label-hint {
+    color: var(--text-light);
+    font-weight: 400;
+    font-size: 11px;
+}
+
+/* PAN input uppercase */
+.pan-input-upper {
+    text-transform: uppercase;
+}
+
+/* Cart summary */
+.cart-summary-wrap {
+    display: none;
+    font-size: 12px;
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px;
+    margin-bottom: var(--space-md);
+}
+
+.cart-summary-title {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.cart-items-list {
+    padding-left: 15px;
+    margin: 0;
+    color: var(--text-light);
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+/* Monthly notice */
+.monthly-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 123, 255, 0.08);
+    border: 1px solid rgba(0, 123, 255, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-xs);
+    color: var(--text);
+}
+
+/* Related section text center */
+.related-text-center {
+    text-align: center;
+}
+
+/* ISKCON logo in promise */
+.iskcon-logo-sm {
+    height: 28px;
+    width: auto;
+}

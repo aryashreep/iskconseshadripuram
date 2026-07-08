@@ -411,6 +411,137 @@
   }
 }
 
+/* ============================================
+   404 PAGE RESPONSIVE
+   ============================================ */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .not-found-404 {
+    font-size: clamp(5rem, 16vw, 10rem);
+  }
+
+  .not-found-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .not-found-halo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .not-found-logo-in-404 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .not-found-suggestion-grid {
+    justify-content: center;
+  }
+
+  .not-found-suggestion-card {
+    min-width: 160px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .not-found-404 {
+    font-size: clamp(4rem, 20vw, 6rem);
+    letter-spacing: -2px;
+  }
+
+  .not-found-halo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .not-found-logo-in-404 {
+    width: 36px;
+    height: 36px;
+  }
+
+  .not-found-message {
+    font-size: var(--font-size-base);
+  }
+
+  .not-found-links-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .not-found-link-card {
+    padding: var(--space-md);
+  }
+
+  .not-found-path {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    width: 100%;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .not-found-actions .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .not-found-suggestion-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .not-found-suggestion-card {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .not-found-blessing-text {
+    font-size: var(--font-size-xl);
+  }
+
+  .not-found-help-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .not-found-help-actions .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .not-found-finder {
+    max-width: 100%;
+  }
+
+  .not-found-finder-input {
+    font-size: var(--font-size-base);
+    padding: 12px 40px 12px 40px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .not-found-404 {
+    font-size: clamp(3rem, 22vw, 4.5rem);
+  }
+
+  .not-found-halo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .not-found-logo-in-404 {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 /* ----- Large Desktop (min 1400px) ----- */
 @media (min-width: 1400px) {
   .container {

@@ -4,6 +4,21 @@
 # Composer dependencies (vendor directory only — lock file is committed for reproducible builds)
 /vendor/
 
+# Build output (regenerate with: npm run build)
+/assets/dist/
+
+# Node modules
+/node_modules/
+
 # OS files
 Thumbs.db
 .DS_Store
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test results
+/test-results/

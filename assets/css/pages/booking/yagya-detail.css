@@ -1,0 +1,80 @@
+  .yagya-info-badge {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: var(--font-size-sm);
+    color: var(--text-dark);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .yagya-info-badge i {
+    color: var(--primary);
+    font-size: 18px;
+  }
+
+  .yagya-tier-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all var(--transition-base);
+  }
+
+  .yagya-tier-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-light);
+  }
+
+  .yagya-inc-badge {
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    color: var(--text-light);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .yagya-inc-badge i {
+    color: #2e7d32;
+  }
+
+  @keyframes modalZoom {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media(max-width: 991px) {
+    .booking-grid {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-2xl) !important;
+    }
+  }

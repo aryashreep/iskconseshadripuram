@@ -2,6 +2,8 @@
 
 PHP website for ISKCON Seshadripuram, Bangalore. No framework — vanilla PHP with PDO, Apache mod_rewrite, and Razorpay payments. Runs on Laragon (Windows) locally.
 
+All original file paths are preserved as backward-compatible wrappers that delegate to module files in `modules/`.
+
 ---
 
 ## Quick Commands
@@ -9,51 +11,270 @@ PHP website for ISKCON Seshadripuram, Bangalore. No framework — vanilla PHP wi
 | Task | Command |
 |------|---------|
 | Run all E2E tests | `npx playwright test` |
-| Run single test file | `npx playwright test tests/puja-booking.spec.js` |
+| Run single E2E test file | `npx playwright test tests/puja-booking.spec.js` |
+| Run all PHPUnit unit tests | `vendor/bin/phpunit` |
 | Check PHP syntax | `php -l <file>` |
-| Install Playwright | `npm install -D @playwright/test && npx playwright install chromium` |
-
-No build step, no composer install needed for normal development. Composer autoload is used only for `vlucas/phpdotenv`.
+| Run DB migration | `php database/migrations/<name>.php` |
+| Run RBAC seed migration | `php modules/RBAC/database/migrations/002_seed_roles_and_permissions.php` |
+| Seed test data | `php database/migrations/seed_dashboard_data.php` |
+| Regenerate autoloader | `composer dump-autoload` |
+| Build assets | `npm run build` |
 
 ---
 
-## Project Structure
+## Module Architecture
 
 ```
-├── admin/                  # Admin panel (PHP, session-based auth)
-│   ├── partials/           # Admin header/footer (includes auth-check.php)
-│   ├── dashboard.php       # Role-specific dashboards (super_admin, editor, pujari)
-│   ├── donations.php       # Transaction logs with filters
-│   └── bookings.php        # Puja/Yagya booking management
-├── api/                    # REST-ish endpoints (no auth — verified by CORS + Razorpay HMAC)
-│   ├── create-order.php    # Razorpay order creation (donations)
-│   ├── verify-payment.php  # Payment signature verification
-│   ├── create-booking-order.php
-│   ├── create-panihati-order.php
-│   └── webhook.php         # Razorpay webhook (HMAC verified)
-├── booking/                # Public booking pages
-│   ├── puja/               # Puja listing + detail (detail.php uses slug param)
-│   └── yagya/              # Yagya listing + detail
-├── donate/                 # Donation cause pages
-├── yatra/                  # Yatra pages (panihati registration)
-├── database/
-│   ├── schema.sql          # Table definitions
-│   ├── seed.sql            # Seed data (categories, causes, sevas)
-│   ├── booking_schema.sql  # Booking-specific tables
-│   └── migrations/         # PHP migration scripts (run manually)
-├── includes/
-│   ├── db.php              # PDO singleton (getDB())
-│   ├── donation-helpers.php # All donation/cause/seva helper functions
-│   └── panihati-helpers.php # Panihati registration helpers
-├── media/                  # User-uploaded images (auto-scanned by gallery)
-├── assets/
-│   ├── css/style.css       # Main stylesheet + design system tokens
-│   ├── css/admin.css       # Admin panel styles
-│   └── js/                 # cart.js, main.js, donate.js
-├── config.php              # Site config, env loading, Razorpay keys
-├── .htaccess               # URL rewriting, CSP headers, security headers
-├── playwright.config.js    # E2E test config
-└── package.json            # Test scripts only
+modules/
+├── Donation/     (Phase 1 — Payment system, reports, seva catalog)
+├── Panihati/     (Phase 2 — Yatra registration & admin)
+├── Booking/      (Phase 3 — Puja/yagya/guest house booking)
+├── Festivals/    (Phase 4 — ~70 public festival pages)
+├── Blogs/        (Phase 5 — Blog posts & admin)
+├── Content/      (Phase 6 — Static content pages)
+├── RBAC/         (Phase 8 — Role-based access control)
+└── Kernel/       (Phase 7 — Shared infrastructure)
+```
+
+### Full Module Tree
+
+```
+modules/
+├── Donation/
+│   ├── Admin/       (13 files — reports, festivals, seva catalogue, exports)
+│   ├── api/         (5 files — create-order, verify-payment, webhook, etc.)
+│   ├── assets/      (CSS + JS for donate, checkout, cart)
+│   ├── content/     (4 files — donate landing, seva, payment success/fail)
+│   ├── src/         (3 files — DonationRepository, Service, Renderer)
+│   └── docs/        (markdown: README, API, DATABASE, etc.)
+│
+├── Panihati/
+│   ├── Admin/       (8 files — dashboard, records, reports, pricing, etc.)
+│   ├── api/         (2 files — create-panihati-order, verify-panihati-payment)
+│   ├── content/     (2 files — public registration + success)
+│   ├── assets/      (CSS)
+│   └── panihati-helpers.php
+│
+├── Booking/
+│   ├── Admin/       (bookings management)
+│   ├── api/         (create-booking-order, create-cart-order)
+│   ├── assets/      (CSS + JS for puja, yagya, guest house)
+│   └── content/     (puja, yagya, guest-house public pages)
+│
+├── Festivals/
+│   └── content/
+│       ├── appearance/        (5 files)
+│       ├── disappearance/     (6 files)
+│       ├── ekadashi/          (25 files)
+│       ├── events/            (3 files)
+│       ├── grand-festivals/   (26 files)
+│       ├── vaishnava-calendar/ (1 file)
+│       ├── index.php, listing.php, detail.php
+│
+├── Blogs/
+│   ├── Admin/       (blogs.php, blog-edit.php)
+│   └── content/     (index.php, detail.php)
+│
+├── Content/
+│   └── content/
+│       ├── about/       (8 files — founder, mission, philosophy, schedule)
+│       ├── courses/     (5 files — bhakti-shastri, vaibhava, idc, etc.)
+│       ├── services/    (24 files — siksha, sunday-feast, life-membership)
+│       ├── yatra/       (2 files — index, detail)
+│       ├── contact.php, darshan.php, forums.php
+│       ├── resources.php, seva.php, sitemap.php
+│
+├── RBAC/
+│   ├── Admin/           (4 files — roles, role-edit, permissions)
+│   ├── RbacService.php  (Core RBAC logic — permission checking, CRUD)
+│   ├── PermissionRegistry.php (55 permission definitions)
+│   └── database/migrations/ (3 migrations)
+│
+└── Kernel/
+    ├── Admin/
+    │   ├── auth-check.php
+    │   └── partials/       (header.php, footer.php)
+    ├── config.php
+    ├── content/index.php   (homepage)
+    ├── includes/
+    │   ├── db.php, bootstrap.php, asset-helper.php
+    │   ├── donation-helpers.php, panihati-helpers.php
+    ├── partials/           (9 files — header, footer, home sections, schema, CTA)
+    └── src/
+        ├── Donations/      (Repository, Service, Renderer)
+        └── Helpers/        (SessionGuard)
+```
+
+---
+
+## Wrapper Convention
+
+Every file that was moved to a module has a **backward-compatibility wrapper** at its original path. Wrappers are one-liner `require_once` using `__DIR__` and `basename()`:
+
+```php
+<?php
+require_once __DIR__ . '/../modules/Kernel/partials/' . basename(__FILE__);
+```
+
+Key benefit: CWD-based includes (`include '../partials/header.php'`) continue to work because the CWD stays with the wrapper's directory, not the module file's directory.
+
+---
+
+## Complete Wrapper Listing (~190 files)
+
+Every `.php` file listed below is a backward-compatibility wrapper at its original path. The actual code lives in `modules/<Module>/content/` (or `Admin/`, `api/`, etc.).
+
+### Root Level (8)
+```
+config.php   index.php   contact.php   darshan.php
+forums.php   resources.php   seva.php   sitemap.php
+```
+
+### Partials (9)
+```
+partials/
+├── donation-cta.php
+├── footer.php
+├── header.php
+├── home-category-grid.php
+├── home-hero.php
+├── home-quick-links.php
+├── home-seasonal-spotlight.php
+├── home-service-cards.php
+└── schema.php
+```
+
+### Includes (5)
+```
+includes/
+├── asset-helper.php
+├── bootstrap.php
+├── db.php
+├── donation-helpers.php
+└── panihati-helpers.php
+```
+
+### Admin (19)
+```
+admin/
+├── auth-check.php
+├── admin-edit.php          (→ modules/RBAC/Admin/role-edit.php wrapper)
+├── admins.php
+├── blog-edit.php
+├── blogs.php
+├── bookings.php
+├── dashboard.php
+├── donations.php
+├── export-dashboard.php
+├── export-donations.php
+├── export-report-activity.php
+├── export-report-category.php
+├── export-report-seva.php
+├── festival-edit.php
+├── festivals.php
+├── panihati-*.php          (8 files)
+├── permissions.php         (→ modules/RBAC/Admin/permissions.php wrapper)
+├── report-*.php            (4 files)
+├── role-edit.php           (→ modules/RBAC/Admin/role-edit.php wrapper)
+├── roles.php               (→ modules/RBAC/Admin/roles.php wrapper)
+├── seva-catalogue*.php     (2 files)
+├── ajax/master-sevas-by-category.php
+└── partials/
+    ├── header.php
+    └── footer.php
+```
+
+### API (9)
+```
+api/
+├── create-booking-order.php
+├── create-cart-order.php
+├── create-order.php
+├── create-panihati-order.php
+├── create-subscription.php
+├── track-view.php
+├── verify-panihati-payment.php
+├── verify-payment.php
+└── webhook.php
+```
+
+### Donate (4)
+```
+donate/
+├── index.php
+├── donate-seva.php
+├── payment-success.php
+└── payment-failed.php
+```
+
+### Booking (9)
+```
+booking/
+├── index.php
+├── guest-house/index.php
+├── puja/index.php
+├── puja/detail.php
+├── yagya/index.php
+└── yagya/detail.php
+
+admin/bookings.php
+api/create-booking-order.php
+api/create-cart-order.php
+```
+
+### Content Pages (46)
+```
+about/                          (8 files)
+├── index.php, founder-acharya.php, golden-temple.php
+├── hare-krishna-movement.php, history-of-iskcon.php
+├── our-mission.php, our-philosophy.php, temple-schedule.php
+
+courses/                        (5 files)
+├── bhakti-shastri.php, bhakti-vaibhava.php
+├── bhaktivedanta-education.php
+├── idc.php, teachers-training.php
+
+services/                       (24 files)
+├── index.php, bhakti-sadan.php, bhakti-vriksha.php
+├── corporate-programs.php, food-for-life.php
+├── function-hall.php, govindas-prasadam.php
+├── harinam-initiation.php, harinam-sankirtana.php
+├── krishna-fun-school.php, krishna-sadhaka.php
+├── krishna-sevaka.php, krishna-upasaka.php
+├── life-membership.php, music-school.php
+├── new-rajapur.php, our-centers.php
+├── siksha.php, sraddhavan.php
+├── sri-guru-carana-ashraya.php
+├── srila-prabhupada-ashraya.php
+├── sunday-feast.php, vaishnavi-forum.php
+└── youth-forum.php
+
+yatra/                          (4 files — 2 wrap Content, 2 wrap Panihati)
+├── index.php, detail.php        → modules/Content/content/yatra/
+├── panihati.php                 → modules/Panihati/content/panihati.php
+└── panihati-success.php         → modules/Panihati/content/panihati-success.php
+```
+
+### Festivals (~70)
+```
+festivals/
+├── index.php
+├── listing.php
+├── detail.php
+├── appearance/       (5 files)
+├── disappearance/    (6 files)
+├── ekadashi/         (25 files)
+├── events/           (3 files)
+├── grand-festivals/  (26 files)
+└── vaishnava-calendar/index.php
+```
+
+### Blogs (4)
+```
+blogs/index.php
+blogs/detail.php
+admin/blogs.php
+admin/blog-edit.php
 ```
 
 ---
@@ -62,131 +283,194 @@ No build step, no composer install needed for normal development. Composer autol
 
 - **Local DB name**: `isjm_donations`
 - **Prod DB name**: `iskcop35_iskconseshadripuram`
-- **Credentials**: env vars `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` (defaults: localhost/root/no password)
-- **Connection**: `getDB()` returns a PDO singleton (prepared statements, emulated prepares off)
-- **Schema setup**: Run `database/schema.sql` then `database/seed.sql`
-- **Migrations**: Run PHP files in `database/migrations/` manually via CLI or phpMyAdmin
+- **Credentials**: env vars `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
+- **Connection**: `getDB()` returns a PDO singleton
 
 ### Key Tables
-- `donation_causes` — festivals/services (74 rows, drives the donation system)
-- `donation_cause_sevas` — seva offerings per cause (pricing)
-- `donation_cause_master_sevas` — master seva catalog links
-- `donation_transactions` — payment records (production data — never truncate)
-- `booking_pujas` — puja/yagya bookings
-- `panihati_yatra_registrations` — yatra registrations (production data)
-- `blogs` — CMS content
-- `admins` — admin users with roles (super_admin, editor, pujari, treasurer, travel_agent)
+
+| Table | Purpose |
+|-------|---------|
+| `donation_causes` | Activities/festivals (74 rows, has `category` field) |
+| `donation_transactions` | Payment records (cause_id, seva_id, master_seva_id) |
+| `master_seva_categories` | 10 top-level seva categories |
+| `master_sevas` | Single source of truth for all seva offerings |
+| `donation_cause_master_sevas` | Pivot: links causes to sevas with override support |
+| `donation_cause_sevas` | Legacy per-cause seva table (backward compatible) |
+| `booking_pujas` | Puja/yagya bookings |
+| `panihati_yatra_registrations` | Yatra registrations |
+| `rbac_roles` | RBAC role definitions (11 roles, data-driven via UI) |
+| `rbac_permissions` | RBAC permission definitions (55 across 13 modules) |
+| `rbac_role_permissions` | Role ↔ Permission assignments (many-to-many) |
+| `rbac_user_roles` | Admin ↔ Role assignments (replaces `admins.role` column) |
+| `admins` | Admin users — RBAC roles now managed via `rbac_user_roles` table |
+
+### Donation Reporting Hierarchy
+
+```
+Category (donation_causes.category)
+    → Activity (donation_causes.title)
+        → Seva (master_sevas.name)
+```
+
+Reports aggregate `donation_transactions` joined through this chain.
 
 ---
 
-## Routing
+## Admin Roles (RBAC)
 
-`.htaccess` rewrites clean URLs. Key rules:
-- `/donate/{slug}` → `donate/donate-seva.php?cause={slug}`
-- `/booking/puja/{slug}` → `booking/puja/detail.php?slug={slug}`
-- `/booking/yagya/{slug}` → `booking/yagya/detail.php?slug={slug}`
-- `/blogs/{slug}` → `blogs/detail.php?slug={slug}`
-- `/yatra/{slug}` → `yatra/detail.php?slug={slug}`
-- Any `/page` → `/page.php` (generic rewrite)
+| Role | Description |
+|------|-------------|
+| `super_admin` | Unrestricted access — bypasses all permission checks |
+| `temple_admin` | Full access to all operational modules (no user/role management) |
+| `donation_manager` | Manage donations, causes, and reporting |
+| `festival_manager` | Manage festivals, events, and seva catalog |
+| `accounts` | View financial data, reports, exports |
+| `content_manager` | Manage blogs and website content |
+| `report_viewer` | Read-only access to reports and dashboards |
+| `devotee_care` | Manage devotee records |
+| `volunteer_coordinator` | Manage volunteers |
+| `event_coordinator` | Manage special events |
+| `read_only` | View-only across permitted modules |
 
-**Important**: Pagination links must use absolute URLs (`BASE_URL . 'darshan?page=2'`) — relative `?page=2` gets stripped by the generic rewrite rule.
+Permissions use `module.action` format (e.g., `donations.view`). 55 total permissions across 13 modules.
+
+Permission helpers (globally available in admin pages):
+- `hasPermission('module.action')` — Boolean check
+- `hasAnyPermission(['a', 'b'])` — Check if user has any of the listed permissions
+- `requirePermission('module.action')` — Block with 403 if not granted
+- `requireAnyPermission(['a', 'b'])` — Block with 403 if none granted
+
+## RBAC Admin Pages
+
+| Page | URL | Access | Purpose |
+|------|-----|--------|---------|
+| Roles | `/admin/roles` | super_admin | List roles with user counts, edit/delete |
+| Role Edit | `/admin/role-edit` | super_admin | Create/edit role + permission matrix |
+| Permissions | `/admin/permissions` | super_admin | Read-only permission reference |
+| Admins | `/admin/admins` | super_admin | List admin users with RBAC roles |
+| Admin Edit | `/admin/admin-edit` | super_admin | Create/edit admin with multi-role assignment |
+
+## Admin Sidebar Navigation
+
+```
+Dashboard (requires: dashboard.view)
+Manage Blogs (requires: blogs.view)
+Seva Catalogue (requires: seva_catalog.view)
+Manage Festivals (requires: festivals.view)
+Donations (group: donations.view | reports.view)
+Puja & Yagya Bookings (requires: bookings.view)
+Panihati Yatra (group: panihati.*)
+Sudamaseva (group: sudamaseva.view)
+Role Management (group: super_admin only)
+  ├── Manage Admins
+  ├── Assign Roles
+  ├── Roles
+  └── Permissions
+View Website
+Logout
+```
+
+## PHPUnit Tests
+
+74 tests, 505 assertions — run with `vendor/bin/phpunit`.
+
+- `PermissionRegistryTest` (14 tests) — Module structure, 55 permissions, slug/label format, sort order
+- `RbacServiceTest` (30 tests) — Permission checking, super_admin bypass, role CRUD, permission CRUD, role-permission assignment, user-role assignment, edge cases
+
+Tests use an **in-memory SQLite database** for full isolation — no MySQL connection required.
 
 ---
 
-## Security Rules
+## Donation Report Pages
 
-- **Prepared statements** everywhere — never concatenate user input into SQL
-- **CSRF tokens**: All forms and GET-based destructive actions must include `csrf_token` validated with `hash_equals()`
-- **Auth**: `admin/auth-check.php` handles session validation. All admin pages include it via `partials/header.php`
-- **RBAC**: Use `requireRole(['super_admin', 'editor'])` — never check `$_SESSION['admin_role']` inline
-- **CORS**: API endpoints use origin validation, not `*` wildcard
-- **File uploads**: Validate extension + MIME type (`finfo_file()`), enforce size limits
-- **Error messages**: Never expose `$e->getMessage()` to users — log server-side, show generic messages
-- **Amount verification**: Always verify payment amounts server-side against the catalog, never trust client-sent amounts
-- **Column whitelists**: When building dynamic UPDATE queries, whitelist allowed column names
+| Page | URL | Purpose |
+|------|-----|---------|
+| Dashboard | `/admin/report-dashboard` | KPIs, charts, YoY, heatmap, retention, top donors |
+| Category Report | `/admin/report-category` | Aggregated by donation category |
+| Activity Report | `/admin/report-activity` | Grouped by activity with search |
+| Seva Report | `/admin/report-seva` | 3-level: Category → Activity → Seva |
 
----
-
-## Admin Roles
-
-| Role | Access |
-|------|--------|
-| `super_admin` | Everything |
-| `treasurer` | Dashboard (donations), donation logs |
-| `editor` | Blogs, festivals, seva catalogue |
-| `pujari` | Dashboard (bookings), booking management |
-| `travel_agent` | Panihati Yatra management only |
+All reports support:
+- Date range filtering
+- CSV export
+- Accordion expand/collapse
+- Summary cards
 
 ---
 
-## Design System
+## Dashboard Charts
 
-Defined in `assets/css/style.css`. Key tokens:
+Uses Chart.js. Data queries are PHP-side, rendered as JSON into JS.
 
-**Colors**: `--primary` (#c86b1f), `--accent` (#d4af37), `--maroon` (#7b1e1e), `--cream` (#f8f1e7), `--dark` (#2c1b12)
-
-**Typography**: `--font-heading` (Cinzel), `--font-subheading` (Cormorant Garamond), `--font-body` (Poppins)
-
-**Spacing**: `--space-xs` through `--space-3xl` (0.25rem to 4rem)
-
-**Always use CSS variables** — never hardcode colors, fonts, or spacing values.
-
----
-
-## Asset Loading
-
-- Use `BASE_URL` for all asset paths: `<?php echo BASE_URL; ?>assets/images/...`
-- Never use relative paths (`../../`) — they break under pretty URLs
-- Images for gallery/media: stored in `media/` folder, auto-scanned by `RecursiveDirectoryIterator`
-- External images: not allowed in production. Download to `assets/images/` first
+| Chart | Type | Data |
+|-------|------|------|
+| Monthly Trend | Dual-axis line | Revenue (₹) + donation count |
+| Revenue by Category | Doughnut | 8 categories with % tooltips |
+| Top 10 Activities | Horizontal bar | Revenue by activity |
+| Donation Count by Category | Vertical bar | Count per category |
+| Day-of-Week Heatmap | CSS grid | Color intensity by count |
+| Donor Retention | Stacked bar | First-time vs returning by month |
+| Year-over-Year | Dual line | Current vs previous year monthly |
+| Category → Activity | Accordion | Drill-down hierarchy |
 
 ---
 
-## E2E Testing
+## Composer Autoloading
 
-Playwright with Chromium. Tests cover:
-- **Puja booking flow**: listing → detail → offering selection → form validation
-- **Yagya booking flow**: listing → detail → tier selection → modal
-- **Panihati registration**: form fields, pricing calculation, travel mode toggle
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "Isjm\\": "modules/Kernel/src/",
+            "Isjm\\Modules\\": "modules/"
+        },
+        "files": [
+            "includes/db.php",
+            "includes/donation-helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Isjm\\Tests\\": "tests/"
+        }
+    }
+}
+```
 
-Config: `playwright.config.js` (baseURL: `http://isjm.test:8080`)
+After changing `composer.json`, run `composer dump-autoload` to regenerate.
+
+---
+
+## Security
+
+- Prepared statements everywhere — never concatenate user input
+- CSRF tokens on all forms and state-changing GET requests
+- `requirePermission()` / `hasPermission()` for granular access control
+- Super Admin has implicit bypass for all permissions
+- Permissions cached in `$_SESSION['admin_permissions']` for fast in-memory checking
+- Action buttons hidden when user lacks edit/delete/export permissions
+- API endpoints use Razorpay HMAC signature verification
+- Amount verification against server-side catalog
 
 ---
 
 ## Payment Flow (Razorpay)
 
-1. Client sends POST to `/api/create-order.php` with amount + cause details
-2. Server verifies amount against catalog (`donation_cause_sevas.amount`)
-3. Server creates Razorpay order via API, returns `order_id` to client
+1. Client POSTs to `/api/create-order.php` with amount + cause
+2. Server verifies amount against `donation_cause_master_sevas` catalog
+3. Creates Razorpay order, returns `order_id`
 4. Client opens Razorpay checkout modal
-5. On success, client calls `/api/verify-payment.php` with signature
-6. Server verifies HMAC signature, updates `donation_transactions.payment_status = 'paid'`
-7. Webhook (`/api/webhook.php`) provides secondary verification
-
-**Test mode**: `RAZORPAY_TEST_MODE=true` in `.env`. Use test keys (`rzp_test_*`).
-
----
-
-## Environment
-
-Copy `.env.example` to `.env` and set:
-```
-DB_HOST=localhost
-DB_NAME=isjm_donations
-DB_USER=root
-DB_PASS=
-RAZORPAY_KEY_ID=rzp_test_...
-RAZORPAY_KEY_SECRET=...
-RAZORPAY_TEST_MODE=true
-```
+5. On success, calls `/api/verify-payment.php` with signature
+6. Server verifies HMAC, updates `payment_status = 'paid'`
+7. Webhook (`/api/webhook.php`) provides secondary verification (authoritative)
 
 ---
 
 ## Production Deployment
 
-1. **Backup prod DB** before any changes
-2. **Generate migration**: `php scripts/generate_prod_migration.php` → `scripts/prod_migration.sql`
-3. **Review** the SQL, then run on prod via phpMyAdmin
-4. **Never truncate** transaction tables (`donation_transactions`, `panihati_yatra_registrations`)
-5. **Set env vars** on prod server (not `.env` file for credentials)
-6. **Clear browser cache** after deploying CSS/JS changes
+1. Backup prod DB
+2. Generate migration: `php scripts/generate_prod_migration.php`
+3. Review SQL, run via phpMyAdmin
+4. **Never truncate** transaction tables
+5. Set env vars on server (not `.env` file)
+6. Clear browser cache after CSS/JS changes

@@ -1,0 +1,404 @@
+/* ============================================
+   Shared Booking Page Utilities
+   ============================================ */
+
+/* Centered section with bottom margin */
+.booking-section-center {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+}
+
+/* Section description constrained */
+.booking-desc-constrained {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+/* Section divider logo */
+.iskcon-logo-divider {
+    height: 24px;
+    width: auto;
+}
+
+/* Responsive image - full width, auto height, block display */
+.img-responsive {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Image wrapper with rounded corners and shadow */
+.img-wrap-rounded {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Heading: font heading, dark color, no top margin, bottom margin */
+.booking-heading {
+    font-family: var(--font-heading);
+    color: var(--text-dark);
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+}
+
+/* Description text: light color, small font, 1.8 line height */
+.booking-desc-text {
+    color: var(--text-light);
+    font-size: var(--font-size-sm);
+    line-height: 1.8;
+}
+
+/* Card style: white bg, rounded, shadow, border */
+.card-white {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+/* Card with padding */
+.card-white-padded {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+/* Card with padding-lg */
+.card-white-padded-lg {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+/* Section heading with bottom border */
+.booking-section-heading {
+    font-family: var(--font-heading);
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-md);
+}
+
+/* Sticky sidebar */
+.booking-sticky-sidebar {
+    position: sticky;
+    top: 100px;
+}
+
+/* Section bottom border heading */
+.booking-sub-heading {
+    font-family: var(--font-heading);
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-lg);
+}
+
+/* Info badge style */
+.booking-info-badge {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md) var(--space-xl);
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: var(--space-xl);
+}
+
+/* Date preset group */
+.date-preset-group {
+    margin-top: 8px;
+}
+
+/* Dashed divider */
+.dashed-divider {
+    border-top: 1px dashed var(--border);
+    margin: var(--space-md) 0;
+    padding-top: var(--space-sm);
+}
+
+/* Cream background section */
+.booking-cream-bg {
+    background: var(--cream);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: var(--space-md) 0;
+    border: 1px solid var(--border);
+}
+
+/* Total amount label */
+.total-amount-label {
+    font-size: var(--font-size-xl);
+    font-family: var(--font-heading);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Full width button */
+.btn-full-width {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Loading spinner overlay */
+.loading-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    z-index: 10;
+    border-radius: var(--radius-lg);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    margin-top: var(--space-sm);
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 13px;
+}
+
+/* Flex between container */
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Flex center */
+.flex-center {
+    display: flex;
+    align-items: center;
+}
+
+/* Hover lift effect */
+.hover-lift {
+    transition: all var(--transition-base);
+}
+.hover-lift:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+/* Room card image */
+.room-card-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Room card overlay */
+.room-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.1);
+}
+
+/* Gradient primary box */
+.gradient-primary-box {
+    background: var(--gradient-primary);
+    color: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gradient decorative circle */
+.gradient-deco-circle {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+
+/* Modal overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+}
+
+/* Modal content */
+.modal-content {
+    background: var(--white);
+    width: 100%;
+    max-width: 550px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    animation: modalZoom 0.25s var(--transition-ease);
+}
+
+/* Modal header */
+.modal-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: var(--space-lg) var(--space-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h4 {
+    font-family: var(--font-heading);
+    margin: 0;
+    font-size: var(--font-size-lg);
+}
+
+/* Modal close */
+.modal-close {
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    line-height: 1;
+}
+
+/* Modal body */
+.modal-body {
+    padding: var(--space-xl);
+}
+
+/* Yagya info badge */
+.yagya-info-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    background: var(--cream-light);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    font-size: var(--font-size-sm);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.yagya-info-badge i {
+    color: var(--primary);
+    font-size: var(--font-size-lg);
+    min-width: 20px;
+}
+
+/* Tier card */
+.tier-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all var(--transition-base);
+}
+
+.tier-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-light);
+}
+
+/* Yagya inc badge */
+.yagya-inc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    color: var(--text);
+}
+
+/* Checkmark list item */
+.checkmark-item {
+    display: flex;
+    gap: 10px;
+    align-items: start;
+    font-size: var(--font-size-sm);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.checkmark-item i {
+    color: var(--primary);
+    margin-top: 2px;
+}
+
+.checkmark-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Feature icon circle for guest-house amenity grid */
+.feature-icon-circle {
+    width: 36px;
+    height: 36px;
+    background: var(--cream);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+}
+
+/* Guest house features grid */
+.guest-house-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+}
+
+/* Yagya badge label and value */
+.yagya-badge-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.yagya-badge-value {
+    color: var(--text-dark);
+    font-size: var(--font-size-md);
+}

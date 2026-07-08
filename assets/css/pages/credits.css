@@ -1,0 +1,365 @@
+/* ============================================
+   Credits Page Styles
+   ============================================ */
+
+
+
+/* Decorative Badge */
+.credits-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.35);
+    color: var(--accent);
+    padding: 8px 22px;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: var(--space-lg);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 20px rgba(212,175,55,0.08);
+}
+
+
+
+/* Hero Description */
+.credits-hero-desc {
+    color: rgba(255,255,255,0.8);
+    font-size: calc(var(--font-size-md) + 2px);
+    max-width: 580px;
+    margin: 0 auto var(--space-xl) auto;
+    line-height: 1.7;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.3);
+}
+
+
+
+/* Content Container */
+.credits-content-container {
+    max-width: 1000px;
+}
+
+/* Centered Section */
+.credits-section-center {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+}
+
+/* Description Text */
+.credits-desc-text {
+    color: var(--text-light);
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* Section Block */
+.credits-section-block {
+    margin-bottom: var(--space-3xl);
+}
+
+/* Section Header Wrap */
+.credits-section-header-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+/* Icon Circle */
+.credits-icon-circle {
+    width: 56px;
+    height: 56px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: var(--font-size-xl);
+    flex-shrink: 0;
+}
+
+/* Section Heading */
+.credits-section-heading {
+    margin: 0;
+    font-size: var(--font-size-2xl);
+}
+
+/* Section Subtitle */
+.credits-section-subtitle {
+    margin: 4px 0 0 0;
+    color: var(--text-light);
+    font-size: var(--font-size-sm);
+}
+
+/* Credit Grid */
+.credits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+/* Credit Card */
+.credit-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    transition: all var(--transition-base);
+    text-align: center;
+}
+.credit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(44, 27, 18, 0.12);
+    border-color: var(--primary-light);
+}
+
+/* Avatar Circle */
+.credits-avatar-circle {
+    width: 72px;
+    height: 72px;
+    background: var(--cream);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-md);
+    font-size: 28px;
+    color: var(--primary);
+}
+
+/* Person Name */
+.credits-person-name {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    margin-bottom: 4px;
+    color: var(--dark);
+}
+
+/* Person Role */
+.credits-person-role {
+    font-size: var(--font-size-sm);
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+}
+
+/* Person Description */
+.credits-person-desc {
+    font-size: var(--font-size-xs);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Tech Stack Section */
+.credits-tech-stack-wrap {
+    margin-bottom: var(--space-3xl);
+    background: var(--cream);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    text-align: center;
+}
+
+/* Tech Tag */
+.credits-tech-tag {
+    padding: 8px 20px;
+    background: var(--white);
+    border-radius: 50px;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--dark);
+    border: 1px solid var(--border);
+}
+
+/* Tech Stack Grid */
+.credits-tech-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Donation CTA Title */
+.credits-cta-title {
+    font-size: var(--font-size-2xl);
+    margin: 0 0 var(--space-md) 0;
+    color: var(--white);
+    font-family: var(--font-heading);
+}
+
+/* Donation CTA Text */
+.credits-cta-text {
+    color: rgba(255,255,255,0.9);
+    line-height: 1.8;
+    margin: 0 0 var(--space-md) 0;
+}
+.credits-cta-text-light {
+    color: rgba(255,255,255,0.85);
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* Donation Wrap */
+.credits-donation-wrap {
+    background: linear-gradient(135deg, #7b1e1e 0%, #c86b1f 50%, #2c1b12 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(200, 107, 31, 0.2);
+}
+.credits-donation-wrap::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.credits-donation-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.credits-donation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.35);
+    color: var(--accent);
+    padding: 6px 18px;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: var(--space-lg);
+    backdrop-filter: blur(8px);
+}
+.credits-donation-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: var(--space-2xl);
+    align-items: start;
+    position: relative;
+    z-index: 1;
+}
+.credits-donation-list-header {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.credits-donation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-lg) 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.credits-donation-list li {
+    color: rgba(255,255,255,0.85);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.6;
+}
+.credits-donation-list li::before {
+    content: '✦';
+    color: var(--accent);
+    font-size: 10px;
+    flex-shrink: 0;
+}
+.credits-donation-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    color: var(--primary);
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    justify-content: center;
+}
+.credits-donation-btn:hover {
+    background: var(--cream);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+.credits-donation-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: var(--font-size-xs);
+    text-align: center;
+    margin: var(--space-sm) 0 0 0;
+}
+
+/* Thank You Card */
+.credits-thankyou-card {
+    text-align: center;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+.credits-thankyou-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-md);
+}
+.credits-thankyou-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-md);
+}
+.credits-thankyou-text {
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .credit-section-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .credit-section-header div:first-child {
+        margin: 0 auto;
+    }
+    .credits-donation-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    .credits-donation-wrap {
+        padding: var(--space-xl);
+    }
+}

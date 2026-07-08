@@ -132,6 +132,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$rateLimited) {
                 $_SESSION['admin_name'] = $admin['full_name'] ?: $admin['username'];
                 $_SESSION['admin_role'] = $admin['role'];
                 
+                // Load RBAC permissions into session
+                try {
+                    $rbac = new \Isjm\Modules\RBAC\RbacService();
+                    $rbac->loadPermissionsIntoSession((int) $admin['id']);
+                } catch (\Exception $e) {
+                    // RBAC tables may not exist yet
+                    $_SESSION['admin_permissions'] = [];
+                }
+                
                 header('Location: ' . BASE_URL . 'admin/dashboard');
                 exit;
             } else {

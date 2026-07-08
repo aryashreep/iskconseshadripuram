@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" width="1920" height="600">
+  <defs>
+    <!-- Warm saffron-to-maroon gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c86b1f;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#a0522d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7b1e1e;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Gold accent gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0d060;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Success green gradient -->
+    <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:0.25" />
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:0" />
+    </linearGradient>
+
+    <!-- Radial glow -->
+    <radialGradient id="glow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.12" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- Decorative pattern -->
+    <pattern id="dots" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <circle cx="30" cy="30" r="1" fill="#ffffff" opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1920" height="600" fill="url(#bgGrad)"/>
+  <rect width="1920" height="600" fill="url(#successGrad)"/>
+  <rect width="1920" height="600" fill="url(#dots)"/>
+  <rect width="1920" height="600" fill="url(#glow)"/>
+
+  <!-- Top decorative border -->
+  <line x1="0" y1="0" x2="1920" y2="0" stroke="url(#goldGrad)" stroke-width="4"/>
+
+  <!-- Bottom decorative border -->
+  <line x1="0" y1="598" x2="1920" y2="598" stroke="url(#goldGrad)" stroke-width="2"/>
+
+  <!-- Decorative left lotus -->
+  <g transform="translate(120, 180)" opacity="0.15">
+    <ellipse cx="0" cy="-30" rx="25" ry="40" fill="#ffffff"/>
+    <ellipse cx="20" cy="-15" rx="25" ry="40" fill="#ffffff" transform="rotate(25)"/>
+    <ellipse cx="-20" cy="-15" rx="25" ry="40" fill="#ffffff" transform="rotate(-25)"/>
+    <ellipse cx="0" cy="-15" rx="35" ry="50" fill="#ffffff" transform="rotate(12)"/>
+    <ellipse cx="0" cy="-15" rx="35" ry="50" fill="#ffffff" transform="rotate(-12)"/>
+    <ellipse cx="0" cy="-5" rx="10" ry="15" fill="#d4af37"/>
+  </g>
+
+  <!-- Decorative right lotus -->
+  <g transform="translate(1800, 200)" opacity="0.12">
+    <ellipse cx="0" cy="-30" rx="20" ry="35" fill="#ffffff"/>
+    <ellipse cx="15" cy="-15" rx="20" ry="35" fill="#ffffff" transform="rotate(25)"/>
+    <ellipse cx="-15" cy="-15" rx="20" ry="35" fill="#ffffff" transform="rotate(-25)"/>
+    <ellipse cx="0" cy="-10" rx="8" ry="12" fill="#d4af37"/>
+  </g>
+
+  <!-- Decorative circles -->
+  <circle cx="300" cy="500" r="80" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.05"/>
+  <circle cx="300" cy="500" r="120" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.03"/>
+  <circle cx="1620" cy="100" r="60" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.05"/>
+  <circle cx="1620" cy="100" r="100" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.03"/>
+
+  <!-- Top-left success particles -->
+  <circle cx="220" cy="120" r="3" fill="#2ecc71" opacity="0.3"/>
+  <circle cx="280" cy="90" r="2" fill="#2ecc71" opacity="0.2"/>
+  <circle cx="170" cy="160" r="2" fill="#f0d060" opacity="0.2"/>
+
+  <!-- Bottom-right success particles -->
+  <circle cx="1700" cy="480" r="3" fill="#2ecc71" opacity="0.3"/>
+  <circle cx="1650" cy="520" r="2" fill="#2ecc71" opacity="0.2"/>
+  <circle cx="1740" cy="440" r="2" fill="#f0d060" opacity="0.2"/>
+
+  <!-- ISKCON Logo / emblem -->
+  <g transform="translate(960, 120)">
+    <path d="M0,-45 L-22,-18 L-22,45 L22,45 L22,-18 Z" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.5"/>
+    <path d="M-10,-18 L0,-36 L10,-18" fill="none" stroke="url(#goldGrad)" stroke-width="2" opacity="0.5"/>
+    <circle cx="0" cy="10" r="5" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.5"/>
+    <path d="M0,-45 L0,-58 L13,-53 L0,-48" fill="url(#goldGrad)" opacity="0.4"/>
+  </g>
+
+  <!-- Success checkmark icon -->
+  <g transform="translate(960, 200)">
+    <circle cx="0" cy="0" r="28" fill="none" stroke="#2ecc71" stroke-width="3" opacity="0.9"/>
+    <polyline points="-12,0 -5,8 12,-8" fill="none" stroke="#2ecc71" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  </g>
+
+  <!-- Gold decorative line -->
+  <rect x="730" y="255" width="460" height="2" rx="1" fill="url(#goldGrad)"/>
+
+  <!-- Gold star/diamond accent -->
+  <polygon points="960,263 965,268 960,273 955,268" fill="url(#goldGrad)" opacity="0.8"/>
+
+  <!-- Main heading -->
+  <text x="960" y="310" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-size="42" font-weight="700" fill="#ffffff" letter-spacing="4">
+    Subscription Active
+  </text>
+
+  <!-- Subtitle -->
+  <text x="960" y="360" text-anchor="middle" font-family="'Cormorant Garamond', 'Georgia', serif" font-size="26" fill="#f0d060" letter-spacing="2" font-style="italic">
+    Your Monthly Seva Has Been Set Up
+  </text>
+
+  <!-- Description line -->
+  <text x="960" y="405" text-anchor="middle" font-family="'Poppins', 'Arial', sans-serif" font-size="16" fill="rgba(255,255,255,0.85)" letter-spacing="1">
+    May the Divine Couple Bless You and Your Family
+  </text>
+
+  <!-- Bottom decorative line -->
+  <rect x="760" y="440" width="400" height="1" rx="0.5" fill="rgba(255,255,255,0.2)"/>
+
+  <!-- End ornament - small lotus -->
+  <g transform="translate(960, 500)" opacity="0.08">
+    <ellipse cx="0" cy="-10" rx="8" ry="14" fill="#ffffff"/>
+    <ellipse cx="7" cy="-5" rx="8" ry="14" fill="#ffffff" transform="rotate(20)"/>
+    <ellipse cx="-7" cy="-5" rx="8" ry="14" fill="#ffffff" transform="rotate(-20)"/>
+    <ellipse cx="0" cy="-3" rx="3" ry="5" fill="#d4af37"/>
+  </g>
+
+  <!-- Sanskrit text -->
+  <text x="960" y="560" text-anchor="middle" font-family="'Cormorant Garamond', 'Georgia', serif" font-size="20" fill="rgba(255,255,255,0.2)" font-style="italic">
+    ॐ सुदामसेवा 🙏
+  </text>
+</svg>

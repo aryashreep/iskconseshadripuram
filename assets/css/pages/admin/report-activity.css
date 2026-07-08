@@ -1,0 +1,39 @@
+/* ============================================
+   Report Activity - Accordion Styles
+   ============================================ */
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--cream);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+}
+
+.accordion-header:hover {
+    background: #f0ece3;
+}
+
+.accordion-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    transition: background 0.1s;
+}
+
+.accordion-row:hover {
+    background: rgba(0,0,0,0.02);
+}
+
+.accordion-section {
+    border-bottom: 1px solid var(--border);
+}
+
+.accordion-section:last-child {
+    border-bottom: none;
+}

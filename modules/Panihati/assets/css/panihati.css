@@ -1,0 +1,78 @@
+@media (max-width: 900px) {
+  .yatra-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .yatra-sidebar {
+    position: static !important;
+  }
+}
+
+.registration-card input[type="text"], 
+.registration-card input[type="tel"], 
+.registration-card input[type="email"], 
+.registration-card input[type="number"], 
+.registration-card select {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  font-family: var(--font-body) !important;
+  font-size: 13.5px !important;
+  background: var(--white) !important;
+  color: var(--text-dark) !important;
+  outline: none;
+  transition: all var(--transition-fast) !important;
+}
+
+.registration-card input:focus, 
+.registration-card select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(200, 107, 31, 0.12) !important;
+  background: var(--white) !important;
+}
+
+.travel-mode-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 12px !important;
+  cursor: pointer;
+  background: var(--white) !important;
+  transition: all var(--transition-fast) !important;
+  user-select: none;
+}
+
+.travel-mode-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.travel-mode-option:hover {
+  border-color: var(--primary-light) !important;
+  background: var(--cream-light) !important;
+}
+
+.travel-mode-active {
+  border-color: var(--primary) !important;
+  background: var(--cream-light) !important;
+  box-shadow: 0 0 0 3px rgba(200, 107, 31, 0.1) !important;
+}
+
+.travel-mode-active strong {
+  color: var(--primary) !important;
+}
+
+.gallery-grid img {
+  transition: transform var(--transition-slow) !important;
+}
+
+.gallery-item:hover img,
+.gallery-item-main:hover img {
+  transform: scale(1.04);
+}

@@ -1,0 +1,9 @@
+/* Smooth filter buttons */
+.btn-outline-dark.active {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  border-color: var(--primary) !important;
+}
+.calendar-item:last-child {
+  border-bottom: none;
+}

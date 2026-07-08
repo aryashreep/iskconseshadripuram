@@ -2,10 +2,20 @@
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
-if (isset($_SESSION['admin_role']) && $_SESSION['admin_role'] === 'travel_agent') {
-  require_once __DIR__ . '/../config.php';
-  header('Location: ' . BASE_URL . 'admin/panihati-yatra');
-  exit;
+if (isset($_SESSION['admin_role'])) {
+  $roles = array_map('trim', explode(',', $_SESSION['admin_role']));
+  if (!in_array('super_admin', $roles)) {
+    if (in_array('travel_agent', $roles) && count($roles) === 1) {
+      require_once __DIR__ . '/../config.php';
+      header('Location: ' . BASE_URL . 'admin/panihati-yatra');
+      exit;
+    }
+    if (in_array('sudamaseva', $roles) && count($roles) === 1) {
+      require_once __DIR__ . '/../config.php';
+      header('Location: ' . BASE_URL . 'admin/sudamaseva-dashboard');
+      exit;
+    }
+  }
 }
 
 require_once __DIR__ . '/../config.php';
@@ -62,10 +72,15 @@ if (isset($_GET['toggle_status_id'])) {
 
 include 'partials/header.php';
 
-$role = $_SESSION['admin_role'] ?? 'editor';
+$roleString = $_SESSION['admin_role'] ?? 'editor';
+$userRoles = array_map('trim', explode(',', $roleString));
+$isSuperAdmin = in_array('super_admin', $userRoles);
+$isTreasurer = in_array('treasurer', $userRoles);
+$isEditor = in_array('editor', $userRoles);
+$isPujari = in_array('pujari', $userRoles);
 
 try {
-  if ($role === 'super_admin' || $role === 'treasurer') {
+  if ($isSuperAdmin || $isTreasurer) {
     // 1. Stats Queries
     // Total Revenue (Paid)
     $stmt = $db->query("SELECT SUM(amount) as total FROM donation_transactions WHERE payment_status = 'paid'");
@@ -194,7 +209,8 @@ try {
             LIMIT 5
         ");
     $recentDonations = $stmt->fetchAll();
-  } elseif ($role === 'editor') {
+  }
+  if ($isEditor) {
     // Total blogs count
     $stmt = $db->query("SELECT COUNT(*) FROM blogs");
     $totalBlogs = (int)$stmt->fetchColumn();
@@ -214,7 +230,8 @@ try {
     // Fetch 5 recent blogs for quick view
     $stmt = $db->query("SELECT id, title, published_date, is_published, icon FROM blogs ORDER BY id DESC LIMIT 5");
     $recentBlogs = $stmt->fetchAll();
-  } elseif ($role === 'pujari') {
+  }
+  if ($isPujari) {
     // Total Paid Bookings
     $stmt = $db->query("
             SELECT COUNT(*) 
@@ -307,14 +324,16 @@ try {
 <div class="admin-page-header">
   <div class="admin-page-title">
     <h1>Dashboard Overview</h1>
-    <p>Welcome back, <strong><?php echo htmlspecialchars($_SESSION['admin_name']); ?></strong> (Role: <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $role))); ?>)</p>
+    <p>Welcome back, <strong><?php echo htmlspecialchars($_SESSION['admin_name']); ?></strong> (Roles: <?php echo htmlspecialchars(implode(', ', array_map(function($r) { return ucwords(str_replace('_', ' ', $r)); }, $userRoles))); ?>)</p>
   </div>
-  <div class="admin-page-actions">
-    <?php if ($role === 'super_admin' || $role === 'treasurer'): ?>
+  <div class="admin-page-actions" style="display:flex; gap:6px;">
+    <?php if ($isSuperAdmin || $isTreasurer): ?>
       <a href="admin/donations" class="btn btn-primary btn-sm"><i class="fas fa-list-ul"></i> View All Donations</a>
-    <?php elseif ($role === 'editor'): ?>
+    <?php endif; ?>
+    <?php if ($isEditor): ?>
       <a href="admin/blog-edit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Write Blog Post</a>
-    <?php elseif ($role === 'pujari'): ?>
+    <?php endif; ?>
+    <?php if ($isPujari): ?>
       <a href="admin/bookings" class="btn btn-primary btn-sm"><i class="fas fa-calendar-check"></i> View Pujari Sheet</a>
     <?php endif; ?>
   </div>
@@ -343,7 +362,7 @@ try {
 <!-- ========================================== -->
 <!-- 1. DASHBOARD FOR SUPER_ADMIN & TREASURER -->
 <!-- ========================================== -->
-<?php if ($role === 'super_admin' || $role === 'treasurer'): ?>
+<?php if ($isSuperAdmin || $isTreasurer): ?>
   <!-- Stats Grid -->
   <div class="admin-stats-grid">
     <div class="admin-stat-card">
@@ -677,10 +696,12 @@ try {
     });
   </script>
 
-  <!-- ========================================== -->
-  <!-- 2. DASHBOARD FOR EDITORS -->
-  <!-- ========================================== -->
-<?php elseif ($role === 'editor'): ?>
+<?php endif; ?>
+
+<!-- ========================================== -->
+<!-- 2. DASHBOARD FOR EDITORS -->
+<!-- ========================================== -->
+<?php if ($isEditor): ?>
   <!-- Stats Grid -->
   <div class="admin-stats-grid">
     <div class="admin-stat-card">
@@ -793,10 +814,12 @@ try {
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- 3. DASHBOARD FOR PUJARIS -->
-  <!-- ========================================== -->
-<?php elseif ($role === 'pujari'): ?>
+<?php endif; ?>
+
+<!-- ========================================== -->
+<!-- 3. DASHBOARD FOR PUJARIS -->
+<!-- ========================================== -->
+<?php if ($isPujari): ?>
   <!-- Stats Grid -->
   <div class="admin-stats-grid">
     <div class="admin-stat-card">

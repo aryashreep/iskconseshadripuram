@@ -1,0 +1,19 @@
+    .page-link {
+      padding:6px 12px; background:var(--white); color:var(--text-dark);
+      border:1px solid var(--border); border-radius:var(--radius-md);
+      font-size:12px; text-decoration:none; font-weight:600;
+      transition:all var(--transition-fast);
+    }
+    .page-link:hover {
+      border-color:var(--primary) !important;
+      color:var(--primary) !important;
+    }
+    .page-link.active {
+      background:var(--primary) !important;
+      color:var(--white) !important;
+      border-color:var(--primary) !important;
+    }
+    .page-link.active:hover {
+      border-color:var(--primary) !important;
+      color:var(--white) !important;
+    }
