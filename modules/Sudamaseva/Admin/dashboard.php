@@ -56,6 +56,11 @@ if ($donorId > 0) {
     </p>
   </div>
   <div class="admin-page-actions">
+    <?php if ($activeSub): ?>
+      <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $activeSub['id']; ?>" class="btn btn-success btn-sm" style="text-decoration:none; padding:8px 16px; background:#2e7d32; color:white; border-radius:var(--radius-md); font-weight:600; font-size:12px;">
+        <i class="fas fa-hand-holding-usd"></i> Record Payment
+      </a>
+    <?php endif; ?>
     <a href="admin/sudamaseva-dashboard" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">
       <i class="fas fa-arrow-left"></i> Main Dashboard
     </a>
@@ -67,6 +72,22 @@ if ($donorId > 0) {
 
 <?php if ($error): ?>
   <div class="alert alert-danger"><i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <?php echo htmlspecialchars($error); ?></div>
+<?php endif; ?>
+
+<?php if (isset($_GET['payment_recorded']) && $_GET['payment_recorded'] === '1'): ?>
+  <div id="paymentFlash" class="alert alert-success" style="background:#d4edda; border:1px solid #c3e6cb; padding:var(--space-md); border-radius:var(--radius-md); margin-bottom:var(--space-lg); display:flex; align-items:center; gap:var(--space-sm); transition: opacity 0.8s ease;">
+    <i class="fas fa-check-circle" style="color:#155724; font-size:18px;"></i>
+    <span style="color:#155724; font-weight:500;">Payment recorded successfully!</span>
+  </div>
+  <script>
+    setTimeout(function() {
+      var el = document.getElementById('paymentFlash');
+      if (el) {
+        el.style.opacity = '0';
+        setTimeout(function() { el.style.display = 'none'; }, 800);
+      }
+    }, 5000);
+  </script>
 <?php endif; ?>
 
 <!-- Donor Info Card -->
@@ -92,6 +113,11 @@ if ($donorId > 0) {
           <span class="badge <?php echo $statusClass; ?>"><?php echo htmlspecialchars(ucfirst($donor['status'] ?? 'unknown')); ?></span>
         </div>
         <div style="font-size:12px; color:var(--text-light); margin-top:4px;">UUID: <span style="font-family:monospace;"><?php echo htmlspecialchars($donor['uuid'] ?? '—'); ?></span></div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:var(--text-light); text-transform:uppercase; font-weight:600; margin-bottom:4px;">Renewals</div>
+        <div style="font-size:20px; font-weight:700;"><?php echo count($subscriptions) > 1 ? (count($subscriptions) - 1) : 0; ?></div>
+        <div style="font-size:12px; color:var(--text-light); margin-top:4px;"><?php echo count($subscriptions); ?> total cycles</div>
       </div>
     </div>
   </div>
@@ -138,6 +164,9 @@ if ($donorId > 0) {
 <div class="admin-card" style="margin-bottom:var(--space-xl); border-left:4px solid #2e7d32;">
   <div class="admin-card-header">
     <h2><i class="fas fa-sync" style="color:#2e7d32; margin-right:6px;"></i> Active Subscription</h2>
+    <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $activeSub['id']; ?>" style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:var(--maroon); color:white; border-radius:var(--radius-md); font-weight:600; font-size:12px; text-decoration:none;">
+      <i class="fas fa-hand-holding-usd"></i> Record Payment
+    </a>
   </div>
   <div class="admin-card-body">
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:var(--space-lg); margin-bottom:var(--space-lg);">

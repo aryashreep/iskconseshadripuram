@@ -11,10 +11,21 @@ $metaDescription = 'Support ISKCON The Palace Temple of Lord Jagannath with a mo
 $pageType = 'sudamaseva';
 include __DIR__ . '/../../Kernel/partials/header.php';
 
+use Isjm\Modules\Sudamaseva\SudamasevaRepository;
 use Isjm\Modules\Sudamaseva\SudamasevaService;
 
 $service = new SudamasevaService();
 $defaultAmounts = $service->getDefaultAmounts();
+
+// Check for renewal pre-fill
+$renewDonorId = isset($_GET['renew']) ? (int) $_GET['renew'] : 0;
+$renewDonor = null;
+$renewCycle = 1;
+if ($renewDonorId > 0) {
+    $repo = new SudamasevaRepository();
+    $renewDonor = $repo->getDonorById($renewDonorId);
+    $renewCycle = $repo->getMaxCycleForDonor($renewDonorId) + 1;
+}
 ?>
 
 <!-- Page Header -->
@@ -112,7 +123,7 @@ $defaultAmounts = $service->getDefaultAmounts();
           </h4>
           <div class="seva-card-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
             <?php foreach ($defaultAmounts as $amt => $label): 
-              $isSelected = ($amt === 51);
+              $isSelected = ($amt === 100);
             ?>
               <div class="tier-card<?php echo $isSelected ? ' selected' : ''; ?>" data-amount="<?php echo $amt; ?>" onclick="selectTier(this, <?php echo $amt; ?>)">
                 <div class="tier-amount">₹<?php echo number_format($amt); ?></div>
@@ -141,28 +152,61 @@ $defaultAmounts = $service->getDefaultAmounts();
       <!-- Right Column: Subscribe Form -->
       <div class="donate-form-sticky reveal">
         <div class="donate-form-card">
-          <h3><i class="fas fa-sync-alt"></i> Join Sudamaseva</h3>
+          <?php if ($renewDonor): ?>
+            <div style="background:linear-gradient(135deg, #e8f5e9, #c8e6c9); border:2px solid #66bb6a; border-radius:var(--radius-md); padding:var(--space-md); margin-bottom:var(--space-lg); text-align:center;">
+              <div style="font-size:24px; margin-bottom:4px;">🔄</div>
+              <h4 style="margin:0 0 4px; color:#2e7d32; font-size:15px;">Renewing Your Seva</h4>
+              <p style="margin:0; font-size:13px; color:var(--text);">
+                Welcome back, <strong><?php echo htmlspecialchars($renewDonor['donor_name']); ?></strong>!
+                Choose your new plan to continue your monthly seva.
+              </p>
+            </div>
+          <?php endif; ?>
+          <h3><i class="fas fa-sync-alt"></i> <?php echo $renewDonor ? 'Renew Your Seva' : 'Join Sudamaseva'; ?></h3>
 
-          <!-- Mode Toggle: Auto Monthly vs Pay Manually -->
-          <div class="mode-toggle-row reveal" style="margin-bottom: var(--space-lg);">
-            <button type="button" class="mode-btn active" data-mode="recurring" onclick="switchCollectionMode('recurring')">
-              <i class="fas fa-sync-alt"></i> Auto Monthly
-            </button>
-            <button type="button" class="mode-btn" data-mode="manual" onclick="switchCollectionMode('manual')">
-              <i class="fas fa-hand-holding-heart"></i> Pay Monthly
-            </button>
+          <!-- Payment Mode Selector: 4 options -->
+          <div class="reveal" style="margin-bottom: var(--space-lg);">
+            <label style="display:block; font-size:13px; font-weight:600; margin-bottom:var(--space-sm); color:var(--text);">
+              <i class="fas fa-cog"></i> How would you like to offer your seva?
+            </label>
+            <div class="mode-grid-4">
+              <button type="button" class="mode-card active" data-mode="recurring" onclick="switchCollectionMode('recurring')">
+                <div class="mode-card-icon"><i class="fas fa-sync-alt"></i></div>
+                <div class="mode-card-title">Auto Monthly</div>
+                <div class="mode-card-sub">Online (Recurring)</div>
+                <div class="mode-card-desc">Auto-debit via card/UPI each month</div>
+              </button>
+              <button type="button" class="mode-card" data-mode="manual" onclick="switchCollectionMode('manual')">
+                <div class="mode-card-icon"><i class="fas fa-credit-card"></i></div>
+                <div class="mode-card-title">Pay Monthly</div>
+                <div class="mode-card-sub">Online (Manual)</div>
+                <div class="mode-card-desc">Pay each month via Razorpay</div>
+              </button>
+              <button type="button" class="mode-card" data-mode="offline" onclick="switchCollectionMode('offline')">
+                <div class="mode-card-icon"><i class="fas fa-university"></i></div>
+                <div class="mode-card-title">Pay Monthly</div>
+                <div class="mode-card-sub">Offline</div>
+                <div class="mode-card-desc">Bank transfer / cash — admin records</div>
+              </button>
+              <button type="button" class="mode-card" data-mode="hybrid" onclick="switchCollectionMode('hybrid')">
+                <div class="mode-card-icon"><i class="fas fa-random"></i></div>
+                <div class="mode-card-title">Pay Monthly</div>
+                <div class="mode-card-sub">Online or Offline</div>
+                <div class="mode-card-desc">Pay online or via bank transfer</div>
+              </button>
+            </div>
           </div>
 
           <form id="sudamasevaForm" autocomplete="on">
             <div class="form-fields">
               <input type="hidden" id="collectionMode" name="collection_mode" value="recurring">
-              <input type="hidden" id="selectedAmount" name="amount" value="5100">
-              <input type="hidden" id="totalInstallments" name="total_installments" value="12">
+              <input type="hidden" id="selectedAmount" name="amount" value="10000">
+              <input type="hidden" id="totalInstallments" name="total_installments" value="24">
 
               <!-- Selected Amount Display -->
               <div class="form-group" style="text-align:center; margin-bottom:var(--space-lg);">
                 <label style="text-align:center; display:block;">Your Monthly Offering</label>
-                <div id="displayAmount" style="font-size:32px; font-weight:700; color:var(--maroon);">₹51</div>
+                <div id="displayAmount" style="font-size:32px; font-weight:700; color:var(--maroon);">₹100</div>
                 <div style="font-size:11px; color:var(--text-light);" id="perMonthLabel">per month</div>
               </div>
 
@@ -175,7 +219,7 @@ $defaultAmounts = $service->getDefaultAmounts();
                 <label for="customAmount">Enter Amount (₹)</label>
                 <div class="input-group">
                   <span class="input-currency">₹</span>
-                  <input type="number" id="customAmount" min="51" max="100000" step="1" placeholder="e.g. 1000" oninput="updateCustomAmount(this.value)">
+                  <input type="number" id="customAmount" min="100" max="100000" step="100" placeholder="e.g. 1000" oninput="updateCustomAmount(this.value)">
                 </div>
               </div>
 
@@ -184,29 +228,29 @@ $defaultAmounts = $service->getDefaultAmounts();
                 <label for="installments">Subscription Duration</label>
                 <select id="installments" name="total_installments" class="form-control" onchange="document.getElementById('totalInstallments').value=this.value">
                   <option value="6">6 Months</option>
-                  <option value="12" selected>12 Months (1 Year)</option>
-                  <option value="24">24 Months (2 Years)</option>
-                  <option value="36">36 Months (3 Years)</option>
-                  <option value="60">60 Months (5 Years)</option>
-                  <option value="120">120 Months (10 Years)</option>
+                  <option value="12">12 Months</option>
+                  <option value="24" selected>24 Months (Max)</option>
                 </select>
               </div>
 
               <!-- Donor Name -->
               <div class="form-group">
                 <label for="donorName">Donor Name *</label>
-                <input type="text" id="donorName" name="donor_name" placeholder="Enter your full name" required>
+                <input type="text" id="donorName" name="donor_name" placeholder="Enter your full name" required
+                  <?php if ($renewDonor): ?>value="<?php echo htmlspecialchars($renewDonor['donor_name']); ?>" readonly style="background:#f5f5f5;"<?php endif; ?>>
               </div>
 
               <!-- Email + Phone row -->
               <div class="form-row-fields">
                 <div class="form-group">
                   <label for="donorEmail">Email Address *</label>
-                  <input type="email" id="donorEmail" name="donor_email" placeholder="name@domain.com" required>
+                  <input type="email" id="donorEmail" name="donor_email" placeholder="name@domain.com" required
+                    <?php if ($renewDonor && !empty($renewDonor['email'])): ?>value="<?php echo htmlspecialchars($renewDonor['email']); ?>" readonly style="background:#f5f5f5;"<?php endif; ?>>
                 </div>
                 <div class="form-group">
                   <label for="donorPhone">WhatsApp Phone *</label>
-                  <input type="tel" id="donorPhone" name="donor_phone" placeholder="+91-98765" required>
+                  <input type="tel" id="donorPhone" name="donor_phone" placeholder="+91-98765" required
+                    <?php if ($renewDonor): ?>value="<?php echo htmlspecialchars($renewDonor['phone']); ?>" readonly style="background:#f5f5f5;"<?php endif; ?>>
                 </div>
               </div>
 
@@ -236,13 +280,35 @@ $defaultAmounts = $service->getDefaultAmounts();
 
             <!-- Submit -->
             <button type="submit" class="btn btn-primary btn-lg donate-submit-btn" id="subscribeBtn" style="width:100%;">
-              <i class="fas fa-lock"></i> <span id="btnLabel">Subscribe</span> — ₹<span id="payAmount">51</span>/month
+              <i class="fas fa-lock"></i> <span id="btnLabel">Subscribe</span> — ₹<span id="payAmount">100</span>/month
             </button>
 
             <!-- Notice (changes based on mode) -->
             <div class="donate-monthly-notice" id="monthlyNotice">
               <i class="fas fa-info-circle"></i>
-              <span id="noticeText">You authorize automated monthly charges of <strong>₹<span id="monthlyAmountDisplay">51</span></strong> via secure eMandate, eNACH, or UPI Autopay.</span>
+              <span id="noticeText">You authorize automated monthly charges of <strong>₹<span id="monthlyAmountDisplay">100</span></strong> via secure eMandate, eNACH, or UPI Autopay.</span>
+            </div>
+
+            <!-- Offline Payment Info (shown for offline/hybrid modes) -->
+            <div id="offlinePaymentInfo" style="display:none; margin-top:var(--space-md); padding:var(--space-md); background:#f9f6f0; border:1px solid #e8dcc8; border-radius:var(--radius-md);">
+              <h4 style="font-size:14px; margin-bottom:var(--space-sm); color:var(--maroon);">
+                <i class="fas fa-university"></i> Bank Transfer Details
+              </h4>
+              <?php if (isset($BANK_DETAILS)): ?>
+              <div style="font-size:13px; line-height:1.8;">
+                <div><strong>Account Name:</strong> <?php echo htmlspecialchars($BANK_DETAILS['account_name'] ?? ''); ?></div>
+                <div><strong>Account No.:</strong> <span style="font-family:monospace; font-weight:600;"><?php echo htmlspecialchars($BANK_DETAILS['account_number'] ?? ''); ?></span></div>
+                <div><strong>IFSC Code:</strong> <span style="font-family:monospace; font-weight:600;"><?php echo htmlspecialchars($BANK_DETAILS['ifsc_code'] ?? ''); ?></span></div>
+                <div><strong>Bank:</strong> <?php echo htmlspecialchars($BANK_DETAILS['bank_name'] ?? ''); ?>, <?php echo htmlspecialchars($BANK_DETAILS['branch'] ?? ''); ?></div>
+                <?php if (!empty($BANK_DETAILS['upi_id'])): ?>
+                <div><strong>UPI ID:</strong> <span style="font-family:monospace;"><?php echo htmlspecialchars($BANK_DETAILS['upi_id'] ?? ''); ?></span></div>
+                <?php endif; ?>
+              </div>
+              <div style="margin-top:var(--space-sm); padding:var(--space-sm); background:#fff8e1; border-radius:var(--radius-sm); font-size:12px; color:#856404;">
+                <i class="fas fa-info-circle"></i>
+                After making a transfer, please email the transaction details to <strong>seva@iskconseshadripuram.org</strong> or call <strong>+91 99860 77269</strong> so we can confirm your payment.
+              </div>
+              <?php endif; ?>
             </div>
 
             <div class="donate-secure">
@@ -413,14 +479,94 @@ $defaultAmounts = $service->getDefaultAmounts();
 <!-- Page-specific CSS -->
 <link rel="stylesheet" href="<?= asset('modules/Sudamaseva/assets/css/sudamaseva.css') ?>">
 
+<style>
+/* 4-Mode Payment Card Grid */
+.mode-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.mode-card {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.mode-card:hover {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.mode-card.active {
+  border-color: var(--primary);
+  background: #fff8f0;
+  box-shadow: 0 0 0 2px rgba(200,107,31,0.15);
+}
+
+.mode-card-icon {
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 2px;
+}
+
+.mode-card.active .mode-card-icon {
+  color: var(--maroon);
+}
+
+.mode-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mode-card-sub {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.mode-card-desc {
+  font-size: 10px;
+  color: var(--text-light);
+  line-height: 1.3;
+}
+
+@media (max-width: 480px) {
+  .mode-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .mode-card {
+    padding: 10px 8px;
+  }
+  .mode-card-icon {
+    font-size: 18px;
+  }
+  .mode-card-title {
+    font-size: 12px;
+  }
+}
+</style>
+
 <!-- Razorpay Checkout -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 // ============================================================
 // Seva Tier Selection
 // ============================================================
-window.selectedAmount = 51; // INR
-window.selectedAmountPaise = 5100;
+window.selectedAmount = 100; // INR
+window.selectedAmountPaise = 10000;
 
 function selectTier(el, amountInr) {
   // Deselect all tier cards
@@ -459,7 +605,7 @@ function showCustomAmount() {
 
 function updateCustomAmount(val) {
   var amt = parseInt(val) || 0;
-  if (amt < 51) amt = 51;
+  if (amt < 100) amt = 100;
   if (amt > 100000) amt = 100000;
 
   window.selectedAmount = amt;
@@ -480,7 +626,7 @@ function toggleFaq(el) {
 }
 
 // ============================================================
-// Collection Mode Toggle
+// Collection Mode Toggle (4 modes)
 // ============================================================
 window.collectionMode = 'recurring';
 
@@ -488,39 +634,71 @@ function switchCollectionMode(mode) {
   window.collectionMode = mode;
   document.getElementById('collectionMode').value = mode;
 
-  // Toggle active class on buttons
-  document.querySelectorAll('.mode-btn').forEach(function(b) {
-    b.classList.toggle('active', b.getAttribute('data-mode') === mode);
+  // Toggle active class on mode cards
+  document.querySelectorAll('.mode-card').forEach(function(c) {
+    c.classList.toggle('active', c.getAttribute('data-mode') === mode);
   });
 
   var durationGroup = document.getElementById('durationGroup');
   var noticeEl = document.getElementById('monthlyNotice');
   var noticeText = document.getElementById('noticeText');
   var btnLabel = document.getElementById('btnLabel');
-  var payAmount = document.getElementById('payAmount');
-  var monthlyAmount = document.getElementById('monthlyAmountDisplay');
   var subscribeBtn = document.getElementById('subscribeBtn');
   var paymentMethods = document.getElementById('paymentMethods');
   var loadingText = document.getElementById('loadingText');
+  var secureBadge = document.querySelector('.donate-secure');
+  var offlineInfo = document.getElementById('offlinePaymentInfo');
+
+  var amt = window.selectedAmount;
+  var amtDisplay = '₹' + amt.toLocaleString('en-IN');
 
   if (mode === 'recurring') {
+    // Auto Monthly (Online) — Razorpay subscription
     durationGroup.style.display = 'block';
     noticeEl.style.display = 'flex';
-    document.getElementById('monthlyAmountDisplay').textContent = window.selectedAmount.toLocaleString('en-IN');
-    noticeText.innerHTML = 'You authorize automated monthly charges of <strong>₹' + window.selectedAmount.toLocaleString('en-IN') + '</strong> via secure eMandate, eNACH, or UPI Autopay.';
+    noticeText.innerHTML = 'You authorize automated monthly charges of <strong>' + amtDisplay + '</strong> via secure eMandate, eNACH, or UPI Autopay.';
     btnLabel.textContent = 'Subscribe';
-    subscribeBtn.innerHTML = '<i class="fas fa-lock"></i> Subscribe — ₹' + window.selectedAmount.toLocaleString('en-IN') + '/month';
+    subscribeBtn.innerHTML = '<i class="fas fa-lock"></i> Subscribe — ' + amtDisplay + '/month';
     paymentMethods.style.display = 'flex';
+    secureBadge.style.display = 'flex';
     loadingText.textContent = 'Setting up your subscription...';
-  } else {
+    if (offlineInfo) offlineInfo.style.display = 'none';
+
+  } else if (mode === 'manual') {
+    // Pay Monthly (Online) — Razorpay order each month
     durationGroup.style.display = 'none';
     noticeEl.style.display = 'flex';
-    document.getElementById('monthlyAmountDisplay').textContent = window.selectedAmount.toLocaleString('en-IN');
-    noticeText.innerHTML = 'You will be charged <strong>₹' + window.selectedAmount.toLocaleString('en-IN') + '</strong> now for the first month. Return each month to pay the next installment.';
+    noticeText.innerHTML = 'You will be charged <strong>' + amtDisplay + '</strong> now for the first month. Return each month to pay the next installment via Razorpay.';
     btnLabel.textContent = 'Pay First Month';
-    subscribeBtn.innerHTML = '<i class="fas fa-lock"></i> Pay ₹' + window.selectedAmount.toLocaleString('en-IN') + ' Now';
+    subscribeBtn.innerHTML = '<i class="fas fa-lock"></i> Pay ' + amtDisplay + ' Now';
     paymentMethods.style.display = 'flex';
+    secureBadge.style.display = 'flex';
     loadingText.textContent = 'Creating your enrollment...';
+    if (offlineInfo) offlineInfo.style.display = 'none';
+
+  } else if (mode === 'offline') {
+    // Pay Monthly (Offline) — No online payment, bank transfer only
+    durationGroup.style.display = 'none';
+    noticeEl.style.display = 'flex';
+    noticeText.innerHTML = 'You will not be charged online. Our team will contact you to confirm your monthly offering. You can pay via bank transfer, cash, or cheque.';
+    btnLabel.textContent = 'Enroll Now';
+    subscribeBtn.innerHTML = '<i class="fas fa-hand-holding-heart"></i> Enroll — ' + amtDisplay + '/month';
+    paymentMethods.style.display = 'none';
+    secureBadge.style.display = 'none';
+    loadingText.textContent = 'Creating your offline enrollment...';
+    if (offlineInfo) offlineInfo.style.display = 'block';
+
+  } else if (mode === 'hybrid') {
+    // Hybrid — Pay online OR offline
+    durationGroup.style.display = 'none';
+    noticeEl.style.display = 'flex';
+    noticeText.innerHTML = 'You will be charged <strong>' + amtDisplay + '</strong> now for the first month. You can also pay via bank transfer for subsequent months.';
+    btnLabel.textContent = 'Pay First Month';
+    subscribeBtn.innerHTML = '<i class="fas fa-lock"></i> Pay ' + amtDisplay + ' Now';
+    paymentMethods.style.display = 'flex';
+    secureBadge.style.display = 'flex';
+    loadingText.textContent = 'Creating your enrollment...';
+    if (offlineInfo) offlineInfo.style.display = 'block';
   }
 }
 
@@ -545,8 +723,8 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    if (window.selectedAmountPaise < 5100) {
-      alert('Minimum subscription amount is ₹51.');
+    if (window.selectedAmountPaise < 10000) {
+      alert('Minimum subscription amount is ₹100.');
       return;
     }
 
@@ -556,7 +734,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var mode = window.collectionMode;
 
-    if (mode === 'recurring') {
+    if (mode === 'offline') {
+      // ============================================================
+      // OFFLINE FLOW — No Razorpay, just create donor + subscription
+      // ============================================================
+      var payload = {
+        donor_name: name,
+        donor_phone: phone,
+        donor_email: email,
+        pan_number: document.getElementById('panNumber').value.trim().toUpperCase(),
+        amount: window.selectedAmountPaise,
+        total_installments: parseInt(document.getElementById('totalInstallments').value),
+        area: document.getElementById('area').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        state: document.getElementById('state').value.trim(),
+        collection_mode: 'offline',
+        cycle: <?php echo $renewCycle; ?>
+      };
+
+      fetch('<?php echo BASE_URL; ?>api/sudamaseva/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          alert(data.error + (data.details ? ': ' + data.details : ''));
+          btn.disabled = false;
+          loadingEl.style.display = 'none';
+          return;
+        }
+        // Redirect to dashboard with offline notice
+        window.location.href = '<?php echo BASE_URL; ?>sudamaseva/dashboard?donor_id=' + data.donor_id + '&enrolled=offline';
+      })
+      .catch(function(err) {
+        alert('Failed to create enrollment. Please try again.');
+        console.error('Sudamaseva offline enroll error:', err);
+        btn.disabled = false;
+        loadingEl.style.display = 'none';
+      });
+
+    } else if (mode === 'recurring') {
       // ============================================================
       // AUTO MONTHLY FLOW — Uses existing create-subscription API
       // ============================================================
@@ -620,7 +839,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     } else {
       // ============================================================
-      // PAY MONTHLY MANUALLY FLOW — Uses new enroll API
+      // PAY MONTHLY (MANUAL or HYBRID) — Uses enroll API with Razorpay order
       // ============================================================
       var payload = {
         donor_name: name,
@@ -632,6 +851,8 @@ document.addEventListener('DOMContentLoaded', function() {
         area: document.getElementById('area').value.trim(),
         city: document.getElementById('city').value.trim(),
         state: document.getElementById('state').value.trim(),
+        collection_mode: mode,
+        cycle: <?php echo $renewCycle; ?>
       };
 
       fetch('<?php echo BASE_URL; ?>api/sudamaseva/enroll', {

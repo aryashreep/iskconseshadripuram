@@ -6,7 +6,7 @@
  * on a manual (non-recurring) subscription.
  *
  * Flow:
- *   1. Validate the subscription exists, is active, and collection_mode = 'manual'
+ *   1. Validate the subscription exists, is active, and collection_mode = 'manual' or 'hybrid'
  *   2. Validate the installment number is the next unpaid one
  *   3. Create a Razorpay Order for the subscription amount
  *   4. Return order_id + amount to frontend
@@ -76,9 +76,10 @@ try {
     }
 
     $collectionMode = $subscription['collection_mode'] ?? 'recurring';
-    if ($collectionMode !== 'manual') {
+    // Allow Pay Now for both manual (online) and hybrid (online or offline) subscriptions
+    if (!in_array($collectionMode, ['manual', 'hybrid'], true)) {
         http_response_code(400);
-        echo json_encode(['error' => 'This subscription uses auto-debit. Manual payments not allowed.']);
+        echo json_encode(['error' => 'This subscription does not support manual online payments.']);
         exit;
     }
 

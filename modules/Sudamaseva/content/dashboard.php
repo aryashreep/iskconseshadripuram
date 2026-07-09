@@ -59,11 +59,13 @@ try {
     foreach ($subscriptions as &$s) {
         $s['schedule'] = $service->buildInstallmentSchedule($s);
         $s['next_unpaid'] = $service->getNextUnpaidInstallment((int) $s['id']);
-        $s['can_pay'] = $s['collection_mode'] === 'manual' && $s['status'] === 'active' && $s['next_unpaid'] !== null;
+        $s['can_pay'] = in_array($s['collection_mode'] ?? '', ['manual', 'hybrid'], true) && $s['status'] === 'active' && $s['next_unpaid'] !== null;
+    $s['is_offline'] = ($s['collection_mode'] ?? '') === 'offline';
+    $s['is_hybrid'] = ($s['collection_mode'] ?? '') === 'hybrid';
 
         if ($s['status'] === 'active') {
             $activeSubscriptions[] = $s;
-            if ($s['collection_mode'] === 'manual') {
+            if (in_array($s['collection_mode'] ?? '', ['manual', 'hybrid'], true)) {
                 $manualSubscriptions[] = $s;
             }
         }
@@ -112,6 +114,25 @@ try {
 
     <?php if ($error): ?>
       <div class="alert alert-danger"><i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <?php echo htmlspecialchars($error); ?></div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['enrolled']) && $_GET['enrolled'] === 'offline'): ?>
+      <div class="reveal" style="background:#fff8e1; border:2px solid #ffd54f; border-radius:var(--radius-lg); padding:var(--space-lg); margin-bottom:var(--space-xl); text-align:center;">
+        <div style="font-size:36px; margin-bottom:var(--space-sm);">🙏</div>
+        <h3 style="margin-bottom:var(--space-sm); color:var(--maroon);">Enrolled Successfully!</h3>
+        <p style="color:var(--text); max-width:500px; margin:0 auto;">
+          Thank you for enrolling in Sudamaseva. Your monthly offering has been noted. Please pay via bank transfer or cash each month using the bank details below. Our team will contact you to confirm.
+        </p>
+        <div style="margin-top:var(--space-md); font-size:13px; color:var(--text-light);">
+          <i class="fas fa-phone"></i> Call us at <strong>+91 99860 77269</strong> for any assistance.
+        </div>
+      </div>
+    <?php elseif (isset($_GET['payment']) && $_GET['payment'] === 'success'): ?>
+      <div class="reveal" style="background:#e8f5e9; border:2px solid #a5d6a7; border-radius:var(--radius-lg); padding:var(--space-lg); margin-bottom:var(--space-xl); text-align:center;">
+        <div style="font-size:36px; margin-bottom:var(--space-sm);">🎉</div>
+        <h3 style="margin-bottom:var(--space-sm); color:#2e7d32;">Payment Successful!</h3>
+        <p style="color:var(--text);">Your first month's offering has been received. Thank you for your support!</p>
+      </div>
     <?php endif; ?>
 
     <?php if ($donor): ?>
@@ -163,6 +184,42 @@ try {
       </div>
     </div>
 
+    <?php
+      // Renewal: Show banner only when NO active subscriptions remain
+      // and at least one completed subscription was fully paid.
+      $completedForRenewal = false;
+      $hasActive = false;
+      foreach ($subscriptions as $sub) {
+          if ($sub['status'] === 'active') {
+              $hasActive = true;
+          }
+      }
+      if (!$hasActive) {
+          foreach ($subscriptions as $sub) {
+              $totalInst = (int) ($sub['total_installments'] ?? 0);
+              $paidInst = (int) ($sub['installments_paid'] ?? 0);
+              if ($sub['status'] === 'completed' && $totalInst > 0 && $paidInst >= $totalInst) {
+                  $completedForRenewal = true;
+                  break;
+              }
+          }
+      }
+    ?>
+
+    <?php if ($completedForRenewal): ?>
+      <div class="reveal" style="background:linear-gradient(135deg, #e8f5e9, #c8e6c9); border:2px solid #66bb6a; border-radius:var(--radius-lg); padding:var(--space-lg); margin-bottom:var(--space-xl); text-align:center;">
+        <div style="font-size:40px; margin-bottom:var(--space-sm);">🎉</div>
+        <h3 style="margin-bottom:var(--space-sm); color:#2e7d32;">Your Sudamaseva Plan is Complete!</h3>
+        <p style="color:var(--text); max-width:500px; margin:0 auto var(--space-md);">
+          You have successfully completed your seva cycle. Thank you for your devotion and support!
+          Would you like to continue your seva for another term?
+        </p>
+        <a href="<?php echo BASE_URL; ?>sudamaseva?renew=<?php echo $donorId; ?>" class="btn btn-primary" style="background-color:#2e7d32; color:white; border:none; padding:12px 36px; border-radius:var(--radius-md); font-weight:700; font-size:15px; text-decoration:none; display:inline-block;">
+          <i class="fas fa-sync-alt"></i> Renew Now — Start a New Cycle
+        </a>
+      </div>
+    <?php endif; ?>
+
     <!-- ============================================================ -->
     <!-- My Plans / Subscriptions -->
     <!-- ============================================================ -->
@@ -184,7 +241,9 @@ try {
           $paidInst = (int) ($sub['installments_paid'] ?? 0);
           $progress = $service->calculateSubscriptionProgress($sub);
           $nextUnpaid = $service->getNextUnpaidInstallment($subId);
-          $canPay = $collectionMode === 'manual' && $sub['status'] === 'active' && $nextUnpaid !== null;
+          $canPay = in_array($collectionMode, ['manual', 'hybrid'], true) && $sub['status'] === 'active' && $nextUnpaid !== null;
+          $isOffline = $collectionMode === 'offline';
+          $isHybrid = $collectionMode === 'hybrid';
         ?>
 
         <!-- Subscription Card -->
@@ -247,6 +306,10 @@ try {
                       <button class="pay-inst-btn" data-sub-id="<?php echo $subId; ?>" data-inst="<?php echo $inst['number']; ?>" data-amount="<?php echo ($sub['amount'] ?? 0) * 100; ?>">
                         Pay Now
                       </button>
+                    <?php elseif ($inst['is_next_unpaid'] && $isOffline): ?>
+                      <span class="inst-pending" style="color:var(--primary-dark); font-weight:600;">Pay via Bank</span>
+                    <?php elseif ($inst['is_next_unpaid'] && $isHybrid): ?>
+                      <span class="inst-pending" style="color:var(--primary-dark); font-weight:600;">Pay Online or Bank</span>
                     <?php else: ?>
                       <span class="inst-pending">Pending</span>
                     <?php endif; ?>
@@ -254,6 +317,26 @@ try {
                 </div>
               <?php endforeach; ?>
             </div>
+
+            <!-- Offline/Hybrid Payment Info -->
+            <?php if ($isOffline || $isHybrid): ?>
+              <div style="margin-top:var(--space-lg); padding:var(--space-md); background:#f9f6f0; border:1px solid #e8dcc8; border-radius:var(--radius-md);">
+                <h4 style="font-size:14px; margin-bottom:var(--space-sm); color:var(--maroon);">
+                  <i class="fas fa-university"></i>
+                  <?php echo $isOffline ? 'Pay via Bank Transfer' : 'Also Pay via Bank Transfer'; ?>
+                </h4>
+                <div style="font-size:13px; line-height:1.8;">
+                  <div><strong>Account Name:</strong> <?php echo htmlspecialchars($BANK_DETAILS['account_name'] ?? ''); ?></div>
+                  <div><strong>Account No.:</strong> <span style="font-family:monospace;font-weight:600;"><?php echo htmlspecialchars($BANK_DETAILS['account_number'] ?? ''); ?></span></div>
+                  <div><strong>IFSC Code:</strong> <span style="font-family:monospace;font-weight:600;"><?php echo htmlspecialchars($BANK_DETAILS['ifsc_code'] ?? ''); ?></span></div>
+                  <div><strong>Bank:</strong> <?php echo htmlspecialchars($BANK_DETAILS['bank_name'] ?? ''); ?>, <?php echo htmlspecialchars($BANK_DETAILS['branch'] ?? ''); ?></div>
+                </div>
+                <div style="margin-top:var(--space-sm); padding:var(--space-sm); background:#fff8e1; border-radius:var(--radius-sm); font-size:12px; color:#856404;">
+                  <i class="fas fa-info-circle"></i>
+                  After making a transfer, email the transaction details to <strong>seva@iskconseshadripuram.org</strong> or call <strong>+91 99860 77269</strong>.
+                </div>
+              </div>
+            <?php endif; ?>
 
             <!-- Subscriptions with Razorpay ID -->
             <?php if (!empty($sub['razorpay_subscription_id'])): ?>

@@ -1,2 +1,672 @@
 [08-Jul-2026 03:22:46 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
 [08-Jul-2026 03:42:05 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[09-Jul-2026 00:57:11 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[09-Jul-2026 00:59:21 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 00:59:21 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 00:59:21 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 00:59:21 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:07:22 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in Command line code:16
+Stack trace:
+#0 Command line code(16): PDOStatement->execute(Array)
+#1 {main}
+  thrown in Command line code on line 16
+[2026-07-09 01:07:22] Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in Command line code:16
+Stack trace:
+#0 Command line code(16): PDOStatement->execute(Array)
+#1 {main}
+  thrown in Command line code on line 16
+[09-Jul-2026 01:15:56 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[09-Jul-2026 01:20:01 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:01 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:01 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:20:01 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:20:06 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:06 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:07 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:20:07 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:20:07 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:07 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:07 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:20:07 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:20:46 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:46 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:20:46 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:20:46 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:10 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:10 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:10 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:10 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:12 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:23 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:23 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 16
+[09-Jul-2026 01:21:23 UTC] PHP Warning:  include(C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:21:23 UTC] PHP Warning:  include(): Failed opening 'C:\laragon\www\isjm\modules\Sudamaseva\Admin/partials/footer.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Sudamaseva\Admin\record-payment.php on line 267
+[09-Jul-2026 01:38:55 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-09 01:38:55] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in Command line code on line 1
+[09-Jul-2026 01:39:12 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php on line 7
+[2026-07-09 01:39:12] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php on line 7
+[09-Jul-2026 01:39:23 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php on line 7
+[2026-07-09 01:39:23] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php on line 7
+[09-Jul-2026 01:39:55 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php on line 7
+[2026-07-09 01:39:55] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\cleanup_test_payment.php on line 7
+[09-Jul-2026 01:43:08 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php on line 7
+[2026-07-09 01:43:08] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php on line 7
+[09-Jul-2026 01:43:19 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php on line 7
+[2026-07-09 01:43:19] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php on line 7
+[09-Jul-2026 01:43:30 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php on line 7
+[2026-07-09 01:43:30] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php:7
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php(7): PDO->query('SELECT id, inst...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\Admin\cleanup_data.php on line 7
+[09-Jul-2026 01:46:06 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'where clause' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->exec('DELETE FROM sud...')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-09 01:46:06] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'reference_no' in 'where clause' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->exec('DELETE FROM sud...')
+#1 {main}
+  thrown in Command line code on line 1
+[09-Jul-2026 01:51:51 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 01:51:51 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[2026-07-09 01:51:51] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 01:57:03 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 01:57:03 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[2026-07-09 01:57:03] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 01:57:09 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 01:57:09 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[2026-07-09 01:57:09] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 01:58:49 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 01:58:49 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[2026-07-09 01:58:49] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:5
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:14:07 UTC] PHP Warning:  Undefined variable $1 in Command line code on line 1
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:34:16 UTC] PHP Warning:  Array to string conversion in C:\laragon\www\isjm\modules\Sudamaseva\audit_migration.php on line 48
+[09-Jul-2026 02:38:10 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'd.old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT d.id, d....')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-09 02:38:10] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'd.old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT d.id, d....')
+#1 {main}
+  thrown in Command line code on line 1
+[09-Jul-2026 02:38:13 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'd.old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT d.id, d....')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-09 02:38:13] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'd.old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT d.id, d....')
+#1 {main}
+  thrown in Command line code on line 1
+[09-Jul-2026 02:38:31 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php:15
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php(15): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php on line 15
+[2026-07-09 02:38:31] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php:15
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php(15): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php on line 15
+[09-Jul-2026 02:39:12 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php:15
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php(15): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php on line 15
+[2026-07-09 02:39:12] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php:15
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php(15): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php on line 15
+[09-Jul-2026 02:39:27 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php:15
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php(15): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php on line 15
+[2026-07-09 02:39:27] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php:15
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php(15): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\check_subscribers.php on line 15
+[09-Jul-2026 02:40:16 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-09 02:40:16] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in Command line code on line 1
+[09-Jul-2026 02:40:38 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php(8): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php on line 8
+[2026-07-09 02:40:38] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php(8): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php on line 8
+[09-Jul-2026 02:40:49 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php(8): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php on line 8
+[2026-07-09 02:40:49] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php(8): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php on line 8
+[09-Jul-2026 02:41:43 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php(8): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php on line 8
+[2026-07-09 02:41:43] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php(8): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Sudamaseva\investigate_redirect.php on line 8
+[09-Jul-2026 02:42:05 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-09 02:42:05] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in Command line code on line 1
+[09-Jul-2026 02:42:22 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\check_donors.php:4
+Stack trace:
+#0 C:\laragon\www\isjm\check_donors.php(4): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\check_donors.php on line 4
+[2026-07-09 02:42:22] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\check_donors.php:4
+Stack trace:
+#0 C:\laragon\www\isjm\check_donors.php(4): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\check_donors.php on line 4
+[09-Jul-2026 02:42:33 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\check_donors.php:4
+Stack trace:
+#0 C:\laragon\www\isjm\check_donors.php(4): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\check_donors.php on line 4
+[2026-07-09 02:42:33] Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'old_id' in 'field list' in C:\laragon\www\isjm\check_donors.php:4
+Stack trace:
+#0 C:\laragon\www\isjm\check_donors.php(4): PDO->query('SELECT id, dono...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\check_donors.php on line 4

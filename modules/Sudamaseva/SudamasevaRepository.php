@@ -494,6 +494,22 @@ class SudamasevaRepository
     }
 
     /**
+     * Get the maximum cycle number for a donor across all their subscriptions.
+     * Used to determine the next cycle number when a donor renews.
+     */
+    public function getMaxCycleForDonor(int $donorId): int
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT COALESCE(MAX(cycle), 0) FROM sudamaseva_subscriptions WHERE donor_id = ?");
+            $stmt->execute([$donorId]);
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getMaxCycleForDonor error: ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
      * Get subscription statistics.
      */
     public function getSubscriptionStats(): array
@@ -769,7 +785,7 @@ class SudamasevaRepository
      *
      * @param array $data Keys: [subscription_id], [donor_id], amount, [installment_number],
      *                    [razorpay_payment_id], [razorpay_order_id], [razorpay_signature],
-     *                    [payment_status], [payment_date], [receipt_number], [notes]
+     *                    [payment_status], [payment_date], [receipt_number], [payment_source], [notes]
      * @return int|false New payment ID, or false on failure
      */
     public function createPayment(array $data): int|false
@@ -779,8 +795,8 @@ class SudamasevaRepository
                 INSERT INTO sudamaseva_payments
                 (subscription_id, donor_id, amount, installment_number,
                  razorpay_payment_id, razorpay_order_id, razorpay_signature,
-                 payment_status, payment_date, receipt_number, notes, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                 payment_status, payment_date, receipt_number, payment_source, notes, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
             ");
 
             $stmt->execute([
@@ -794,6 +810,7 @@ class SudamasevaRepository
                 $data['payment_status'] ?? 'created',
                 $data['payment_date'] ?? date('Y-m-d H:i:s'),
                 $data['receipt_number'] ?? null,
+                $data['payment_source'] ?? 'subscription_charge',
                 $data['notes'] ?? null,
             ]);
 

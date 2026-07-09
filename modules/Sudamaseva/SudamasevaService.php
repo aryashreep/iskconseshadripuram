@@ -223,13 +223,13 @@ class SudamasevaService
     public function getDefaultAmounts(): array
     {
         return [
-            51   => 'Tulsi Leaf (₹51)',
-            101  => 'Lotus Petal (₹101)',
-            251  => 'Fruit Offering (₹251)',
-            501  => 'Flower Garland (₹501)',
-            1001 => 'Prasadam Seva (₹1,001)',
-            2501 => 'Annadaan Seva (₹2,501)',
-            5001 => 'Mahaseva (₹5,001)',
+            100   => 'Tulsi Leaf (₹100)',
+            200  => 'Lotus Petal (₹200)',
+            500  => 'Fruit Offering (₹500)',
+            1000 => 'Flower Garland (₹1,000)',
+            2000 => 'Prasadam Seva (₹2,000)',
+            5000 => 'Annadaan Seva (₹5,000)',
+            10000 => 'Mahaseva (₹10,000)',
         ];
     }
 
@@ -390,7 +390,8 @@ class SudamasevaService
 
         // For recurring subscriptions, don't allow manual pay in v1
         $collectionMode = $subscription['collection_mode'] ?? 'recurring';
-        if ($collectionMode !== 'manual') {
+        // Only 'manual' and 'hybrid' allow online Pay Now buttons
+        if (!in_array($collectionMode, ['manual', 'hybrid'], true)) {
             return false;
         }
 
@@ -425,8 +426,10 @@ class SudamasevaService
     public function getCollectionModeLabel(string $mode): string
     {
         return match ($mode) {
-            'recurring' => 'Auto Monthly (Recurring)',
-            'manual'    => 'Pay Monthly Manually',
+            'recurring' => 'Auto Monthly (Online)',
+            'manual'    => 'Pay Monthly (Online)',
+            'offline'   => 'Pay Monthly (Offline)',
+            'hybrid'    => 'Pay Monthly (Online or Offline)',
             default     => ucfirst($mode),
         };
     }
@@ -441,9 +444,9 @@ class SudamasevaService
         }
         return match ($source) {
             'subscription_charge' => 'Auto Debit (Subscription)',
-            'manual_order'        => 'Manual Payment',
+            'manual_order'        => 'Online Payment',
             'migrated'            => 'Migrated (Legacy)',
-            'admin_manual'        => 'Manual Entry (Admin)',
+            'admin_manual'        => 'Offline Payment',
             default               => ucfirst(str_replace('_', ' ', $source)),
         };
     }

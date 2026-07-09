@@ -78,6 +78,12 @@ return [
             'Api\\WebhookController',
             'handle',
         ],
+        'api/sudamaseva/record-offline-payment' => [
+            'POST',
+            'Api\\RecordOfflinePayment',
+            'create',
+            ['super_admin', 'treasurer'],
+        ],
 
         // ============================================================
         // ADMIN PAGES
@@ -109,6 +115,12 @@ return [
         'admin/sudamaseva-receipts' => [
             'GET',
             'Admin\\Receipts',
+            'index',
+            ['super_admin', 'treasurer'],
+        ],
+        'admin/sudamaseva-record-payment' => [
+            'GET',
+            'Admin\\RecordPayment',
             'index',
             ['super_admin', 'treasurer'],
         ],
@@ -152,6 +164,11 @@ return [
                 'label' => 'Receipts',
                 'route' => 'admin/sudamaseva-receipts',
                 'icon' => 'fa-receipt',
+            ],
+            [
+                'label' => 'Record Payment',
+                'route' => 'admin/sudamaseva-record-payment',
+                'icon' => 'fa-hand-holding-usd',
             ],
         ],
     ],

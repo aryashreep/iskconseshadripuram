@@ -1,0 +1,4 @@
+{"timestamp":"2026-07-09 00:59:33","event":"offline_payment_recorded","admin_user":"admin","subscription_id":367,"installment_number":1,"amount":1000,"payment_method":"cash","reference_no":"TEST-001"}
+{"timestamp":"2026-07-09 01:38:09","event":"offline_payment_recorded","admin_user":"admin","subscription_id":367,"installment_number":3,"amount":1000,"payment_method":"cash","reference_no":"TEST-E2E-001"}
+{"timestamp":"2026-07-09 01:42:08","event":"offline_payment_recorded","admin_user":"admin","subscription_id":367,"installment_number":4,"amount":1000,"payment_method":"cash","reference_no":"TEST-BACK-001"}
+{"timestamp":"2026-07-09 01:45:34","event":"offline_payment_recorded","admin_user":"admin","subscription_id":367,"installment_number":1,"amount":1000,"payment_method":"cash","reference_no":"TEST-FLASH-001"}

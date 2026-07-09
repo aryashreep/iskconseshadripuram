@@ -1,20 +1,21 @@
 <?php
 /**
- * Sudamaseva Module — Enroll (Manual Mode)
+ * Sudamaseva Module — Enroll (Manual / Offline / Hybrid Mode)
  *
- * Creates a new manual subscription + Razorpay Order for the first installment.
- * Used when the donor selects "Pay Monthly Manually" on the signup form.
+ * Creates a new subscription and optionally a Razorpay Order for the first installment.
  *
- * For recurring mode, the existing create-subscription.php is used (unchanged).
+ * Modes:
+ *   - collection_mode = 'manual'  → Creates Razorpay Order for installment 1 (online pay)
+ *   - collection_mode = 'offline' → Skips Razorpay; creates subscription only (bank/cash)
+ *   - collection_mode = 'hybrid'  → Creates Razorpay Order + subscription (online or offline)
  *
  * POST /api/sudamaseva/enroll
  *   { donor_name, donor_phone, donor_email, pan_number, amount, total_installments,
- *     area, city, state }
+ *     area, city, state, collection_mode }
  *
  * Response (success):
- *   { success: true, order_id: "order_...", subscription_id: N, donor_id: N,
- *     amount: 5100, currency: "INR", ... }
- */
+ *   { success: true, order_id: "...", subscription_id: N, donor_id: N,
+ *     amount: 10000, currency: "INR", ... }
 
 header('Content-Type: application/json');
 $requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -50,10 +51,17 @@ $donorPhone = trim($input['donor_phone'] ?? '');
 $donorEmail = trim($input['donor_email'] ?? '');
 $panNumber = strtoupper(trim($input['pan_number'] ?? ''));
 $amount = intval($input['amount'] ?? 0); // In paise
-$totalInstallments = max(1, min(120, intval($input['total_installments'] ?? 12)));
+$totalInstallments = max(1, min(24, intval($input['total_installments'] ?? 24)));
 $donorArea = trim($input['area'] ?? '');
 $donorCity = trim($input['city'] ?? '');
 $donorState = trim($input['state'] ?? '');
+$collectionMode = trim($input['collection_mode'] ?? 'manual');
+$cycle = max(1, intval($input['cycle'] ?? 1));
+
+// Validate collection_mode
+if (!in_array($collectionMode, ['manual', 'offline', 'hybrid'], true)) {
+    $collectionMode = 'manual';
+}
 
 if (empty($donorName) || empty($donorPhone)) {
     http_response_code(400);
@@ -62,9 +70,9 @@ if (empty($donorName) || empty($donorPhone)) {
 }
 
 $amountInr = $amount / 100;
-if ($amount < 5100) {
-    $amount = 5100;
-    $amountInr = 51;
+if ($amount < 10000) {
+    $amount = 10000;
+    $amountInr = 100;
 }
 if ($amount > 10000000) {
     $amount = 10000000;
@@ -114,7 +122,7 @@ try {
     }
 
     // ============================================================
-    // Create subscription with collection_mode = 'manual'
+    // Create subscription with specified collection_mode and cycle
     // ============================================================
     $subscriptionId = $repo->createSubscription([
         'donor_id' => $donorId,
@@ -122,27 +130,65 @@ try {
         'status' => 'active',
         'start_date' => date('Y-m-d H:i:s'),
         'total_installments' => $totalInstallments,
-        'source' => 'new',
+        'source' => $cycle > 1 ? 'renewal' : 'new',
     ]);
+
+    // Set cycle number
+    try {
+        $db = getDB();
+        $db->prepare("UPDATE sudamaseva_subscriptions SET cycle = ? WHERE id = ?")
+           ->execute([$cycle, $subscriptionId]);
+    } catch (PDOException $e) {
+        error_log('Sudamaseva enroll: could not set cycle: ' . $e->getMessage());
+    }
 
     if (!$subscriptionId) {
         throw new RuntimeException('Failed to create subscription record');
     }
 
-    // Set collection_mode to manual
+    // Set collection_mode
     try {
         $db = getDB();
-        $db->prepare("UPDATE sudamaseva_subscriptions SET collection_mode = 'manual' WHERE id = ?")
-           ->execute([$subscriptionId]);
+        $db->prepare("UPDATE sudamaseva_subscriptions SET collection_mode = ? WHERE id = ?")
+           ->execute([$collectionMode, $subscriptionId]);
     } catch (PDOException $e) {
-        // Non-critical
         error_log('Sudamaseva enroll: could not set collection_mode: ' . $e->getMessage());
     }
 
     // ============================================================
-    // Create Razorpay Order for installment 1
+    // Create Razorpay Order for installment 1 (skip for offline mode)
     // ============================================================
-    $receipt = 'sms_manual_' . time() . '_' . rand(100, 999);
+    if ($collectionMode === 'offline') {
+        // Offline mode — no Razorpay order; just return the enrollment info
+        $logDir = __DIR__ . '/../../logs';
+        if (!is_dir($logDir)) {
+            @mkdir($logDir, 0755, true);
+        }
+        $logEntry = [
+            'timestamp' => date('Y-m-d H:i:s'),
+            'event' => 'offline_enroll',
+            'donor_id' => $donorId,
+            'subscription_id' => $subscriptionId,
+            'amount' => $amountInr,
+            'total_installments' => $totalInstallments,
+            'collection_mode' => 'offline',
+        ];
+        @file_put_contents($logDir . '/sudamaseva_enroll.log', json_encode($logEntry) . PHP_EOL, FILE_APPEND | LOCK_EX);
+
+        echo json_encode([
+            'success' => true,
+            'mode' => 'offline',
+            'db_subscription_id' => $subscriptionId,
+            'donor_id' => $donorId,
+            'amount_inr' => $amountInr,
+            'total_installments' => $totalInstallments,
+            'collection_mode' => 'offline',
+        ]);
+        exit;
+    }
+
+    // Create Razorpay Order for manual / hybrid modes
+    $receipt = 'sms_' . $collectionMode . '_' . time() . '_' . rand(100, 999);
     if (strlen($receipt) > 40) {
         $receipt = substr($receipt, 0, 40);
     }
@@ -154,7 +200,7 @@ try {
         'payment_capture' => 1,
         'notes' => [
             'module' => 'sudamaseva',
-            'type' => 'manual_installment',
+            'type' => $collectionMode . '_installment',
             'subscription_id' => (string) $subscriptionId,
             'installment_number' => '1',
             'donor_id' => (string) $donorId,
@@ -197,12 +243,13 @@ try {
     }
     $logEntry = [
         'timestamp' => date('Y-m-d H:i:s'),
-        'event' => 'manual_enroll',
+        'event' => $collectionMode . '_enroll',
         'donor_id' => $donorId,
         'subscription_id' => $subscriptionId,
         'order_id' => $order['id'],
         'amount' => $amountInr,
         'total_installments' => $totalInstallments,
+        'collection_mode' => $collectionMode,
     ];
     @file_put_contents($logDir . '/sudamaseva_enroll.log', json_encode($logEntry) . PHP_EOL, FILE_APPEND | LOCK_EX);
 
@@ -211,7 +258,7 @@ try {
     // ============================================================
     echo json_encode([
         'success' => true,
-        'mode' => 'manual',
+        'mode' => $collectionMode,
         'order_id' => $order['id'],
         'subscription_id' => (string) $order['id'], // For Razorpay subscription checkout compat
         'db_subscription_id' => $subscriptionId,

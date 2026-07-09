@@ -125,6 +125,7 @@ $queryString = http_build_query($queryParams);
         <thead>
           <tr>
             <th>ID</th>
+            <th>Cycle</th>
             <th>Donor</th>
             <th>Monthly Amount</th>
             <th>Status</th>
@@ -132,12 +133,13 @@ $queryString = http_build_query($queryParams);
             <th>Installments</th>
             <th>Progress</th>
             <th>Source</th>
+            <th style="text-align:center;">Actions</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($subscriptions)): ?>
             <tr>
-              <td colspan="8" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No subscriptions found.</td>
+              <td colspan="10" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No subscriptions found.</td>
             </tr>
           <?php else: ?>
             <?php foreach ($subscriptions as $s):
@@ -148,6 +150,11 @@ $queryString = http_build_query($queryParams);
             ?>
               <tr>
                 <td style="font-family:monospace; font-size:12px;">#<?php echo $s['id']; ?></td>
+                <td style="text-align:center;">
+                  <span class="badge <?php echo ((int)($s['cycle'] ?? 1)) > 1 ? 'badge-success' : 'badge-secondary'; ?>">
+                    #<?php echo (int) ($s['cycle'] ?? 1); ?>
+                  </span>
+                </td>
                 <td>
                   <strong style="color:var(--dark);"><?php echo htmlspecialchars($s['donor_name'] ?? '—'); ?></strong>
                   <div style="font-size:11px; color:var(--text-light);"><?php echo htmlspecialchars($s['phone'] ?? ''); ?></div>
@@ -174,6 +181,14 @@ $queryString = http_build_query($queryParams);
                 </td>
                 <td>
                   <span class="badge badge-info"><?php echo htmlspecialchars($s['source'] ?? '—'); ?></span>
+                </td>
+                <td style="text-align:center; white-space:nowrap;">
+                  <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $s['id']; ?>" class="btn-sm-action" title="Record Offline Payment" style="color:var(--maroon);">
+                    <i class="fas fa-hand-holding-usd"></i>
+                  </a>
+                  <a href="admin/sudamaseva-dashboard?donor_id=<?php echo $s['donor_id']; ?>" class="btn-sm-action" title="View Donor Dashboard" style="color:var(--primary);">
+                    <i class="fas fa-chart-simple"></i>
+                  </a>
                 </td>
               </tr>
             <?php endforeach; ?>

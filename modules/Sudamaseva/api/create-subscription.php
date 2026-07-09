@@ -48,8 +48,8 @@ $donorPhone = trim($input['donor_phone'] ?? '');
 $donorEmail = trim($input['donor_email'] ?? '');
 $panNumber = strtoupper(trim($input['pan_number'] ?? ''));
 $amount = intval($input['amount'] ?? 0); // Amount in paise (as Razorpay expects)
-$totalInstallments = max(1, intval($input['total_installments'] ?? 12)); // Minimum 1; Razorpay requires positive total_count
-$totalInstallments = min($totalInstallments, 120); // Maximum 120 (10 years monthly)
+$totalInstallments = max(1, intval($input['total_installments'] ?? 24)); // Minimum 1; Razorpay requires positive total_count
+$totalInstallments = min($totalInstallments, 24); // Maximum 24 months
 $donorArea = trim($input['area'] ?? '');
 $donorCity = trim($input['city'] ?? '');
 $donorState = trim($input['state'] ?? '');
@@ -61,11 +61,11 @@ if (empty($donorName) || empty($donorPhone)) {
     exit;
 }
 
-// Validate amount (minimum ₹51 = 5100 paise)
+// Validate amount (minimum ₹100 = 10000 paise)
 $amountInr = $amount / 100;
-if ($amount < 5100) {
-    $amount = 5100;
-    $amountInr = 51;
+if ($amount < 10000) {
+    $amount = 10000;
+    $amountInr = 100;
 }
 
 // Clamp maximum (₹1,00,000 = 10000000 paise)
