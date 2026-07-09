@@ -229,7 +229,15 @@ $queryString = http_build_query($queryParams);
                   <?php endif; ?>
                 </td>
                 <td><?php echo $service->renderStatusBadge($p['payment_status'] ?? 'created', 'payment'); ?></td>
-                <td style="font-family:monospace; font-size:11px;"><?php echo $service->formatReceiptNo($p['receipt_number'] ?? null); ?></td>
+                <td style="font-family:monospace; font-size:11px; white-space:nowrap;">
+                  <?php if (!empty($p['receipt_number'])): ?>
+                    <a href="admin/sudamaseva-receipt-print?payment_id=<?php echo $p['id']; ?>" target="_blank" style="color:var(--maroon); text-decoration:none;" title="Print Receipt">
+                      <i class="fas fa-print"></i> <?php echo htmlspecialchars($p['receipt_number']); ?>
+                    </a>
+                  <?php else: ?>
+                    —
+                  <?php endif; ?>
+                </td>
                 <td style="font-size:10px; font-family:monospace; color:var(--text-light); max-width:120px; overflow:hidden; text-overflow:ellipsis;" title="<?php echo htmlspecialchars($p['razorpay_payment_id'] ?? ''); ?>">
                   <?php echo htmlspecialchars($p['razorpay_payment_id'] ?: '—'); ?>
                 </td>

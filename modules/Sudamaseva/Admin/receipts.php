@@ -3,18 +3,106 @@
  * Sudamaseva Module — Receipts List (Admin)
  *
  * Paginated list with date range filters showing 80G receipts.
+ * Allows manual generation of pending receipts.
  */
 require_once __DIR__ . '/../../../admin/auth-check.php';
 requirePermission('sudamaseva.view');
 
+use Isjm\Modules\Sudamaseva\SudamasevaService;
+use Isjm\Modules\Sudamaseva\SudamasevaRepository;
+
+$service = new SudamasevaService();
+$repo = new SudamasevaRepository();
+$error = '';
+$success = '';
+
+// Initialize Session CSRF token
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// POST Handler for Manual Receipt Generation
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'generate_receipt') {
+    requirePermission('sudamaseva.edit');
+    if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
+        $error = 'Invalid CSRF token.';
+    } else {
+        $paymentId = isset($_POST['payment_id']) ? (int) $_POST['payment_id'] : 0;
+        
+        $db = getDB();
+        $stmtPayment = $db->prepare("SELECT * FROM sudamaseva_payments WHERE id = ? LIMIT 1");
+        $stmtPayment->execute([$paymentId]);
+        $payment = $stmtPayment->fetch();
+        
+        if (!$payment) {
+            $error = 'Payment record not found.';
+        } elseif ($payment['payment_status'] !== 'paid') {
+            $error = 'Receipt can only be generated for paid transactions.';
+        } else {
+            // Check if receipt already exists
+            $stmtReceiptCheck = $db->prepare("SELECT COUNT(*) FROM sudamaseva_receipts WHERE payment_id = ?");
+            $stmtReceiptCheck->execute([$paymentId]);
+            $exists = (int) $stmtReceiptCheck->fetchColumn();
+            
+            if ($exists > 0) {
+                $error = 'A receipt has already been generated for this payment.';
+            } else {
+                try {
+                    $db->beginTransaction();
+                    
+                    // Generate receipt number
+                    $receiptNo = $payment['receipt_number'] ?: $service->generateReceiptNo();
+                    
+                    // Fetch donor
+                    $donor = $repo->getDonorById((int) $payment['donor_id']);
+                    if (!$donor) {
+                        throw new RuntimeException('Donor record not found for payment #' . $paymentId);
+                    }
+                    
+                    $is80g = $service->isEligibleFor80G((int) $payment['amount'], $donor) ? 1 : 0;
+                    
+                    // Create receipt record
+                    $repo->createReceipt([
+                        'payment_id' => $paymentId,
+                        'receipt_no' => $receiptNo,
+                        'receipt_date' => date('Y-m-d H:i:s'),
+                        'is_80g_eligible' => $is80g,
+                        'receipt_data' => [
+                            'donor_name' => $donor['donor_name'],
+                            'donor_pan' => $donor['pan'],
+                            'amount' => (int) $payment['amount'],
+                            'payment_date' => $payment['payment_date'],
+                            'payment_method' => 'online',
+                            'reference_no' => $payment['razorpay_payment_id'],
+                            'fy' => $service->getFinancialYearLabel(),
+                        ],
+                    ]);
+                    
+                    // Update payment receipt number if empty
+                    if (empty($payment['receipt_number'])) {
+                        $stmtUpdatePayment = $db->prepare("UPDATE sudamaseva_payments SET receipt_number = ? WHERE id = ?");
+                        $stmtUpdatePayment->execute([$receiptNo, $paymentId]);
+                    }
+                    
+                    $db->commit();
+                    $success = 'Receipt ' . $receiptNo . ' generated successfully!';
+                } catch (Exception $e) {
+                    if ($db->inTransaction()) {
+                        $db->rollBack();
+                    }
+                    $error = 'Failed to generate receipt: ' . $e->getMessage();
+                }
+            }
+        }
+    }
+}
+
 $pageTitle = 'Sudamaseva Receipts';
 $activePage = 'sudamaseva-receipts';
 include 'partials/header.php';
-
-use Isjm\Modules\Sudamaseva\SudamasevaService;
-
-$service = new SudamasevaService();
-$error = '';
 
 $from = trim($_GET['from'] ?? '');
 $to = trim($_GET['to'] ?? '');
@@ -62,6 +150,12 @@ $queryString = http_build_query($queryParams);
 <?php if ($error): ?>
   <div class="alert alert-danger">
     <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i> <?php echo htmlspecialchars($error); ?>
+  </div>
+<?php endif; ?>
+
+<?php if ($success): ?>
+  <div class="alert alert-success">
+    <i class="fas fa-check-circle" style="margin-right: 6px;"></i> <?php echo htmlspecialchars($success); ?>
   </div>
 <?php endif; ?>
 
@@ -147,7 +241,11 @@ $queryString = http_build_query($queryParams);
           <?php else: ?>
             <?php foreach ($receipts as $r): ?>
               <tr>
-                <td style="font-family:monospace; font-weight:600;"><?php echo htmlspecialchars($r['receipt_no']); ?></td>
+                <td style="font-family:monospace; font-weight:600; white-space:nowrap;">
+                  <a href="admin/sudamaseva-receipt-print?id=<?php echo $r['id']; ?>" target="_blank" style="color:var(--maroon); text-decoration:none;" title="Print Receipt">
+                    <i class="fas fa-print"></i> <?php echo htmlspecialchars($r['receipt_no']); ?>
+                  </a>
+                </td>
                 <td>
                   <strong style="color:var(--dark);"><?php echo htmlspecialchars($r['donor_name'] ?? '—'); ?></strong>
                   <div style="font-size:11px; color:var(--text-light);"><?php echo htmlspecialchars($r['phone'] ?? ''); ?></div>
@@ -190,6 +288,7 @@ $queryString = http_build_query($queryParams);
             <th>Amount</th>
             <th>Date</th>
             <th>PAN</th>
+            <th style="text-align:center;">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -203,11 +302,25 @@ $queryString = http_build_query($queryParams);
               <td style="font-weight:600; color:var(--maroon);"><?php echo $service->formatAmount((float) ($pp['amount'] ?? 0)); ?></td>
               <td style="font-size:12px; color:var(--text-light);"><?php echo $service->formatDate($pp['payment_date'] ?? null, 'd M Y'); ?></td>
               <td style="text-transform:uppercase; font-family:monospace;"><?php echo htmlspecialchars($pp['pan'] ?: '—'); ?></td>
+              <td style="text-align:center;">
+                <?php if (hasPermission('sudamaseva.edit')): ?>
+                  <form action="admin/sudamaseva-receipts" method="POST" style="margin:0; display:inline-block;" onsubmit="return confirm('Generate receipt for payment #<?php echo $pp['id']; ?>?');">
+                    <input type="hidden" name="action" value="generate_receipt">
+                    <input type="hidden" name="payment_id" value="<?php echo $pp['id']; ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                    <button type="submit" class="btn btn-sm" style="background-color:var(--maroon); color:white; border:none; padding:4px 10px; border-radius:3px; font-weight:600; font-size:11px; cursor:pointer;">
+                      <i class="fas fa-receipt"></i> Generate
+                    </button>
+                  </form>
+                <?php else: ?>
+                  <span style="font-size:11px; color:var(--text-light); font-style:italic;">No Perms</span>
+                <?php endif; ?>
+              </td>
             </tr>
           <?php endforeach; ?>
           <?php if (count($pendingReceipts) > 20): ?>
             <tr>
-              <td colspan="5" style="text-align:center; padding:var(--space-md); color:var(--text-light); font-size:12px;">
+              <td colspan="6" style="text-align:center; padding:var(--space-md); color:var(--text-light); font-size:12px;">
                 <i class="fas fa-ellipsis-h"></i> and <?php echo count($pendingReceipts) - 20; ?> more payments awaiting receipts
               </td>
             </tr>

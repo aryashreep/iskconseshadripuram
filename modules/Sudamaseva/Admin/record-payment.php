@@ -46,7 +46,8 @@ if ($subscriptionId > 0) {
                 $maxInst = max(
                     (int) ($subscription['total_installments'] ?? 1),
                     $nextUnpaid ?? 1,
-                    !empty($paidInstallments) ? max($paidInstallments) : 1
+                    !empty($paidInstallments) ? max($paidInstallments) : 1,
+                    60 // Generate at least 60 months so future month labels are always visible
                 );
                 for ($i = 1; $i <= $maxInst; $i++) {
                     $instDate = clone $baseDate;
@@ -57,6 +58,7 @@ if ($subscriptionId > 0) {
                 // If date parsing fails, installmentMonths stays empty
             }
         }
+        $selectedInstallment = isset($_GET['installment_number']) ? (int) $_GET['installment_number'] : ($nextUnpaid ?? 1);
     }
 }
 ?>
@@ -68,8 +70,8 @@ if ($subscriptionId > 0) {
   </div>
   <div class="admin-page-actions">
     <?php if ($donor): ?>
-      <a href="admin/sudamaseva-dashboard?donor_id=<?php echo (int) $donor['id']; ?>" class="btn btn-success btn-sm" style="text-decoration:none; padding:8px 16px; background:#2e7d32; color:white; border-radius:var(--radius-md); font-weight:600; font-size:12px;">
-        <i class="fas fa-user"></i> Back to Donor Dashboard
+      <a href="admin/sudamaseva-donor-detail?id=<?php echo (int) $donor['id']; ?>" class="btn btn-success btn-sm" style="text-decoration:none; padding:8px 16px; background:#2e7d32; color:white; border-radius:var(--radius-md); font-weight:600; font-size:12px;">
+        <i class="fas fa-user"></i> Back to Donor Profile
       </a>
     <?php endif; ?>
     <a href="admin/sudamaseva-subscriptions" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">
@@ -86,6 +88,16 @@ if ($subscriptionId > 0) {
   <div class="alert alert-success" style="background:#d4edda; border:1px solid #c3e6cb; padding:var(--space-md); border-radius:var(--radius-md); margin-bottom:var(--space-lg); display:flex; align-items:center; gap:var(--space-sm);">
     <i class="fas fa-check-circle" style="color:#155724; font-size:18px;"></i>
     <span style="color:#155724; font-weight:500;"><?php echo htmlspecialchars($success); ?></span>
+  </div>
+<?php endif; ?>
+
+<?php if ($subscription && $subscription['status'] !== 'active'): ?>
+  <div class="alert alert-warning" style="background:#fff3cd; border:1px solid #ffeeba; padding:var(--space-md); border-radius:var(--radius-md); margin-bottom:var(--space-lg); display:flex; align-items:center; gap:var(--space-sm);">
+    <i class="fas fa-exclamation-triangle" style="color:#856404; font-size:18px;"></i>
+    <span style="color:#856404; font-weight:500;">
+      <strong>Note:</strong> This subscription status is <strong><?php echo htmlspecialchars(ucfirst($subscription['status'])); ?></strong>. 
+      New payments cannot be recorded for completed or inactive subscriptions.
+    </span>
   </div>
 <?php endif; ?>
 
@@ -164,18 +176,18 @@ if ($subscriptionId > 0) {
           <label for="installmentNumber">Installment Number *</label>
           <div style="display:flex; align-items:center; gap:8px;">
             <input type="number" id="installmentNumber" class="form-control" style="width:120px;"
-                   value="<?php echo $nextUnpaid ?? 1; ?>" min="1"
+                   value="<?php echo $selectedInstallment; ?>" min="1"
                    max="<?php echo max((int) ($subscription['total_installments'] ?? 999), 999); ?>" required>
-            <?php if ($nextUnpaid && isset($installmentMonths[$nextUnpaid])): ?>
+            <?php if (isset($installmentMonths[$selectedInstallment])): ?>
               <span id="installmentMonth" style="font-size:15px; font-weight:700; color:var(--maroon); background:#fef3e9; padding:6px 14px; border-radius:var(--radius-md);">
-                <?php echo $installmentMonths[$nextUnpaid]; ?>
+                <?php echo $installmentMonths[$selectedInstallment]; ?>
               </span>
             <?php endif; ?>
           </div>
           <small style="color:var(--text-light); font-size:11px;">
             <span id="recordingMonthLabel">
-              <?php if ($nextUnpaid && isset($installmentMonths[$nextUnpaid])): ?>
-                Recording payment for <strong id="recordingMonth"><?php echo $installmentMonths[$nextUnpaid]; ?></strong>.
+              <?php if (isset($installmentMonths[$selectedInstallment])): ?>
+                Recording payment for <strong id="recordingMonth"><?php echo $installmentMonths[$selectedInstallment]; ?></strong>.
               <?php endif; ?>
             </span>
             Paid installments:
@@ -242,8 +254,8 @@ if ($subscriptionId > 0) {
           <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $subscription['id']; ?>" class="btn btn-outline-dark" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md); font-size:13px;">
             <i class="fas fa-redo"></i> Refresh
           </a>
-          <a href="admin/sudamaseva-dashboard?donor_id=<?php echo (int) ($donor['id'] ?? $subscription['donor_id']); ?>&payment_recorded=1" class="btn btn-success" style="text-decoration:none; padding:8px 16px; background:#2e7d32; color:white; border-radius:var(--radius-md); font-weight:600; font-size:13px;">
-            <i class="fas fa-user"></i> Back to Donor Dashboard
+          <a href="admin/sudamaseva-donor-detail?id=<?php echo (int) ($donor['id'] ?? $subscription['donor_id']); ?>&payment_recorded=1" class="btn btn-success" style="text-decoration:none; padding:8px 16px; background:#2e7d32; color:white; border-radius:var(--radius-md); font-weight:600; font-size:13px;">
+            <i class="fas fa-user"></i> Back to Donor Profile
           </a>
         </div>
       </div>

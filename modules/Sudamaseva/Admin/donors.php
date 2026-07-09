@@ -48,7 +48,10 @@ $queryString = http_build_query($queryParams);
     <p>Manage all registered donors from the subscription donation system.</p>
   </div>
   <div class="admin-page-actions">
-    <span style="font-size:12px; color:var(--text-light);">
+    <?php if (hasPermission('sudamaseva.edit')): ?>
+      <a href="admin/sudamaseva-donor-add" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fas fa-user-plus"></i> Add New Donor</a>
+    <?php endif; ?>
+    <span style="font-size:12px; color:var(--text-light); margin-left:12px;">
       <i class="fas fa-database"></i> <?php echo $total; ?> total donors
     </span>
   </div>
@@ -183,7 +186,7 @@ $queryString = http_build_query($queryParams);
                 </td>
                 <td style="font-size:11px; color:var(--text-light);"><?php echo $service->formatDate($d['created_at'] ?? null, 'd M Y'); ?></td>
                 <td style="text-align:center; white-space:nowrap;">
-                  <a href="admin/sudamaseva-dashboard?donor_id=<?php echo $d['id']; ?>" class="btn-sm-action btn-edit" title="View Donor Dashboard"><i class="fas fa-chart-simple"></i></a>
+                  <a href="admin/sudamaseva-donor-detail?id=<?php echo $d['id']; ?>" class="btn-sm-action btn-edit" title="View Donor Profile"><i class="fas fa-user"></i></a>
                 </td>
               </tr>
             <?php endforeach; ?>

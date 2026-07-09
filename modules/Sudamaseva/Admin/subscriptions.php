@@ -186,9 +186,7 @@ $queryString = http_build_query($queryParams);
                   <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $s['id']; ?>" class="btn-sm-action" title="Record Offline Payment" style="color:var(--maroon);">
                     <i class="fas fa-hand-holding-usd"></i>
                   </a>
-                  <a href="admin/sudamaseva-dashboard?donor_id=<?php echo $s['donor_id']; ?>" class="btn-sm-action" title="View Donor Dashboard" style="color:var(--primary);">
-                    <i class="fas fa-chart-simple"></i>
-                  </a>
+                  <a href="admin/sudamaseva-donor-detail?id=<?php echo $s['donor_id']; ?>" class="btn-sm-action" title="View Donor Profile" style="color:var(--primary);"><i class="fas fa-user"></i></a>
                 </td>
               </tr>
             <?php endforeach; ?>
