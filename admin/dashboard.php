@@ -2,6 +2,8 @@
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
+
+// Legacy role-based redirect check
 if (isset($_SESSION['admin_role'])) {
   $roles = array_map('trim', explode(',', $_SESSION['admin_role']));
   if (!in_array('super_admin', $roles)) {
@@ -16,6 +18,37 @@ if (isset($_SESSION['admin_role'])) {
       exit;
     }
   }
+}
+
+// RBAC permission-based redirect (for users assigned roles via RBAC, not legacy)
+if (isset($_SESSION['admin_permissions']) && is_array($_SESSION['admin_permissions']) && !empty($_SESSION['admin_permissions'])) {
+    $roleString = $_SESSION['admin_role'] ?? '';
+    $roleList = array_map('trim', explode(',', $roleString));
+    if (!in_array('super_admin', $roleList)) {
+        // Extract unique non-dashboard modules from the user's permissions
+        $modules = [];
+        foreach ($_SESSION['admin_permissions'] as $p) {
+            $parts = explode('.', $p);
+            if (count($parts) >= 2 && $parts[0] !== 'dashboard') {
+                $modules[$parts[0]] = true;
+            }
+        }
+        $moduleNames = array_keys($modules);
+
+        // If user only has access to a single module, redirect to that module's landing page
+        if (count($moduleNames) === 1) {
+            $module = $moduleNames[0];
+            $redirects = [
+                'sudamaseva' => 'admin/sudamaseva-dashboard',
+                'panihati' => 'admin/panihati-yatra',
+            ];
+            if (isset($redirects[$module])) {
+                require_once __DIR__ . '/../config.php';
+                header('Location: ' . BASE_URL . $redirects[$module]);
+                exit;
+            }
+        }
+    }
 }
 
 require_once __DIR__ . '/../config.php';

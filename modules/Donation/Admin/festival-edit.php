@@ -2,10 +2,6 @@
 require_once __DIR__ . '/../../../admin/auth-check.php';
 requireAnyPermission(['festivals.create', 'festivals.edit']);
 
-$pageTitle = 'Edit Festival / Cause';
-$activePage = 'festivals';
-include 'partials/header.php';
-
 $db = getDB();
 $error = '';
 $success = '';
@@ -77,7 +73,7 @@ if ($isEdit) {
     }
 }
 
-// Handle Form Submission
+// Handle Form Submission (before any output)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
         $error .= 'CSRF validation failed. Unauthorized request. ';
@@ -115,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         
         if (in_array($fileExtension, $allowedExtensions)) {
-            $cleanSlug = preg_replace('/[^a-z0-9\-]/', '', $slug);
+            $cleanSlug = preg_replace('/[^a-z0-9\\-]/', '', $slug);
             $newFileName = 'festival-' . $cleanSlug . '-' . time() . '.' . $fileExtension;
             
             $uploadFileDir = __DIR__ . '/../assets/images/banners/';
@@ -294,6 +290,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (isset($_GET['success']) && $_GET['success'] == 1) {
     $success = 'Festival / Cause created successfully!';
 }
+
+// Render page
+$pageTitle = 'Edit Festival / Cause';
+$activePage = 'festivals';
+include 'partials/header.php';
 ?>
 
 <div class="admin-page-header">

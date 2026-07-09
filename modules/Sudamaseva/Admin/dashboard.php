@@ -49,6 +49,88 @@ foreach ($monthlyRevenue as $row) {
     $chartCounts[] = (int) ($row['payment_count'] ?? 0);
 }
 
+// Yearly revenue data
+$yearlyRevenue = $service->getYearlyRevenue();
+$chartYearLabels = [];
+$chartYearRevenue = [];
+$chartYearCounts = [];
+$yearlyComparison = [];
+
+foreach ($yearlyRevenue as $yr) {
+    $chartYearLabels[] = $yr['financial_year'];
+    $chartYearRevenue[] = (float) ($yr['total_amount'] ?? 0);
+    $chartYearCounts[] = (int) ($yr['payment_count'] ?? 0);
+}
+
+// Build year-over-year comparison with % change
+$prevAmount = null;
+foreach ($yearlyRevenue as $yr) {
+    $amount = (float) ($yr['total_amount'] ?? 0);
+    $change = null;
+    $changeLabel = '—';
+    $changeClass = 'var(--text-light)';
+    $changeIcon = '';
+
+    if ($prevAmount !== null && $prevAmount > 0) {
+        $pct = round((($amount - $prevAmount) / $prevAmount) * 100, 1);
+        if ($pct > 0) {
+            $changeLabel = '+' . $pct . '%';
+            $changeClass = '#2e7d32';
+            $changeIcon = '<i class="fas fa-arrow-up" style="font-size:10px;"></i> ';
+        } elseif ($pct < 0) {
+            $changeLabel = $pct . '%';
+            $changeClass = '#c62828';
+            $changeIcon = '<i class="fas fa-arrow-down" style="font-size:10px;"></i> ';
+        } else {
+            $changeLabel = '0%';
+            $changeClass = 'var(--text-light)';
+            $changeIcon = '<i class="fas fa-minus" style="font-size:10px;"></i> ';
+        }
+        $change = $pct;
+    }
+
+    $yearlyComparison[] = [
+        'financial_year' => $yr['financial_year'],
+        'total_amount' => $amount,
+        'payment_count' => (int) ($yr['payment_count'] ?? 0),
+        'change_label' => $changeLabel,
+        'change_class' => $changeClass,
+        'change_icon' => $changeIcon,
+        'change' => $change,
+    ];
+    $prevAmount = $amount;
+}
+
+// Year-over-year monthly comparison (latest 2 financial years)
+$hasYoYMonthly = false;
+$yoyYears = [];
+$yoyMonths = [];
+$yoyPrevData = [];
+$yoyCurrData = [];
+$yoyPrevLabel = '';
+$yoyCurrLabel = '';
+
+if (count($yearlyRevenue) >= 2) {
+    $lastIdx = count($yearlyRevenue) - 1;
+    $currFY = (int) $yearlyRevenue[$lastIdx]['fy_start_year'];
+    $prevFY = (int) $yearlyRevenue[$lastIdx - 1]['fy_start_year'];
+
+    $currMonthly = $service->getYearlyMonthlyRevenue($currFY);
+    $prevMonthly = $service->getYearlyMonthlyRevenue($prevFY);
+
+    $yoyPrevLabel = $yearlyRevenue[$lastIdx - 1]['financial_year'];
+    $yoyCurrLabel = $yearlyRevenue[$lastIdx]['financial_year'];
+    $yoyYears = [$prevFY, $currFY];
+
+    foreach ($currMonthly as $i => $row) {
+        $yoyMonths[] = $row['month_name'];
+        $yoyPrevData[] = (int) ($prevMonthly[$i]['total_amount'] ?? 0);
+        $yoyCurrData[] = (int) ($row['total_amount'] ?? 0);
+    }
+
+    $hasYoYMonthly = array_sum($yoyCurrData) > 0 || array_sum($yoyPrevData) > 0;
+}
+
 $revenueAllTime = $dashStats['revenue_all_time'] ?? 0;
 $revenueToday = $dashStats['revenue_today'] ?? 0;
 $revenueMonth = $dashStats['revenue_this_month'] ?? 0;
@@ -167,6 +249,84 @@ $totalMonthlyAmount = $subscriptionStats['total_monthly_amount'] ?? 0;
         <?php endif; ?>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Yearly Revenue Comparison -->
+<div class="admin-card" style="margin-bottom: var(--space-xl);">
+  <div class="admin-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+    <h2><i class="fas fa-chart-line"></i> Yearly Revenue Comparison</h2>
+    <span style="font-size:11px; color:var(--text-light);"><i class="fas fa-info-circle"></i> Financial Year (Apr–Mar)</span>
+  </div>
+  <div class="admin-card-body" style="padding:var(--space-lg);">
+    <?php if (empty($yearlyRevenue)): ?>
+      <div style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No yearly data available yet.</div>
+    <?php else: ?>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);">
+        <!-- Yearly Bar Chart -->
+        <div>
+          <div class="chart-container" style="height:220px;">
+            <canvas id="yearlyRevenueChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Yearly Table -->
+        <div style="overflow-x:auto;">
+          <table class="admin-table" style="margin:0; border:none;">
+            <thead>
+              <tr>
+                <th>Financial Year</th>
+                <th style="text-align:right;">Revenue</th>
+                <th style="text-align:center;">Payments</th>
+                <th style="text-align:right;">vs Previous</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($yearlyComparison as $yc): ?>
+                <tr>
+                  <td style="font-weight:600;"><?php echo htmlspecialchars($yc['financial_year']); ?></td>
+                  <td style="text-align:right; font-weight:700; color:var(--maroon); font-size:14px;">
+                    <?php echo $service->formatAmount($yc['total_amount']); ?>
+                  </td>
+                  <td style="text-align:center; color:var(--text-light); font-size:13px;">
+                    <?php echo number_format($yc['payment_count']); ?>
+                  </td>
+                  <td style="text-align:right; font-weight:600; color:<?php echo $yc['change_class']; ?>; font-size:13px;">
+                    <?php if ($yc['change'] !== null): ?>
+                      <?php echo $yc['change_icon']; ?><?php echo $yc['change_label']; ?>
+                    <?php else: ?>
+                      <span style="color:var(--text-light);">—</span>
+                    <?php endif; ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+              <tr style="border-top:2px solid var(--border);">
+                <td style="font-weight:700; font-size:13px;">Total</td>
+                <td style="text-align:right; font-weight:700; color:var(--maroon); font-size:15px;">
+                  <?php echo $service->formatAmount(array_sum($chartYearRevenue)); ?>
+                </td>
+                <td style="text-align:center; font-weight:600; font-size:13px;">
+                  <?php echo number_format(array_sum($chartYearCounts)); ?>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <?php if ($hasYoYMonthly): ?>
+        <hr style="border: none; border-top: 1px solid var(--border); margin: var(--space-lg) 0;">
+        <div style="margin-top: var(--space-sm);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-md);">
+            <h3 style="margin:0; font-size:14px; font-weight:600;"><i class="fas fa-exchange-alt"></i> Month-over-Month: <?php echo htmlspecialchars($yoyPrevLabel); ?> vs <?php echo htmlspecialchars($yoyCurrLabel); ?></h3>
+          </div>
+          <div class="chart-container" style="height:240px;">
+            <canvas id="yoyMonthlyChart"></canvas>
+          </div>
+        </div>
+      <?php endif; ?>
+    <?php endif; ?>
   </div>
 </div>
 
@@ -289,7 +449,129 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   <?php endif; ?>
 
-  // 2. Subscription Status Doughnut
+  // 2. Yearly Revenue Bar Chart
+  <?php if (!empty($chartYearRevenue)): ?>
+    new Chart(document.getElementById('yearlyRevenueChart'), {
+      type: 'bar',
+      data: {
+        labels: <?php echo json_encode($chartYearLabels); ?>,
+        datasets: [{
+          label: 'Revenue (₹)',
+          data: <?php echo json_encode($chartYearRevenue); ?>,
+          backgroundColor: 'rgba(200,107,31,0.7)',
+          borderColor: primaryColor,
+          borderWidth: 2,
+          borderRadius: 6,
+          maxBarThickness: 48
+        }, {
+          label: 'Payments',
+          data: <?php echo json_encode($chartYearCounts); ?>,
+          type: 'line',
+          borderColor: accentColor,
+          backgroundColor: 'rgba(212,175,55,0.1)',
+          borderWidth: 2,
+          pointRadius: 5,
+          pointBackgroundColor: accentColor,
+          pointBorderColor: '#fff',
+          pointHoverRadius: 7,
+          tension: 0.3,
+          yAxisID: 'y1',
+          order: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                if (ctx.datasetIndex === 0) {
+                  return 'Revenue: ₹' + ctx.parsed.y.toLocaleString();
+                }
+                return 'Payments: ' + ctx.parsed.y;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { callback: function(v) { return '₹' + v.toLocaleString(); } }
+          },
+          y1: {
+            position: 'right',
+            beginAtZero: true,
+            grid: { drawOnChartArea: false },
+            ticks: { callback: function(v) { return v + ' pmts'; } }
+          }
+        }
+      }
+    });
+  <?php endif; ?>
+
+  // 3. Year-over-Year Monthly Comparison
+  <?php if ($hasYoYMonthly): ?>
+    new Chart(document.getElementById('yoyMonthlyChart'), {
+      type: 'line',
+      data: {
+        labels: <?php echo json_encode($yoyMonths); ?>,
+        datasets: [{
+          label: '<?php echo htmlspecialchars($yoyPrevLabel); ?>',
+          data: <?php echo json_encode($yoyPrevData); ?>,
+          borderColor: '#8a7a6a',
+          backgroundColor: 'rgba(138,122,106,0.08)',
+          borderWidth: 2,
+          borderDash: [5, 4],
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#8a7a6a',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2
+        }, {
+          label: '<?php echo htmlspecialchars($yoyCurrLabel); ?>',
+          data: <?php echo json_encode($yoyCurrData); ?>,
+          borderColor: primaryColor,
+          backgroundColor: 'rgba(200,107,31,0.12)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 5,
+          pointBackgroundColor: primaryColor,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointHoverRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { boxWidth: 14, padding: 14, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                return ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString();
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { callback: function(v) { return '₹' + v.toLocaleString(); } }
+          }
+        }
+      }
+    });
+  <?php endif; ?>
+
+  // 4. Subscription Status Doughnut
   <?php if (($subscriptionStats['total'] ?? 0) > 0): ?>
     new Chart(document.getElementById('subStatusChart'), {
       type: 'doughnut',

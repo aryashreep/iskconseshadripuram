@@ -8,18 +8,6 @@
 require_once __DIR__ . '/../../../admin/auth-check.php';
 requirePermission('sudamaseva.edit');
 
-// Initialize Session CSRF token
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-$pageTitle = 'Enroll New Donor';
-$activePage = 'sudamaseva-donors';
-include 'partials/header.php';
-
 use Isjm\Modules\Sudamaseva\SudamasevaRepository;
 use Isjm\Modules\Sudamaseva\SudamasevaService;
 
@@ -28,6 +16,7 @@ $service = new SudamasevaService($repo);
 $error = '';
 $success = '';
 
+// Handle Form Submission (before any output)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'enroll_donor') {
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
         $error = 'Invalid CSRF token.';
@@ -126,6 +115,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
     }
 }
+
+// Render page
+// Initialize Session CSRF token (done before output)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+$pageTitle = 'Enroll New Donor';
+$activePage = 'sudamaseva-donors';
+include 'partials/header.php';
 ?>
 
 <div class="admin-page-header">

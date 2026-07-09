@@ -2,10 +2,6 @@
 require_once __DIR__ . '/../../../admin/auth-check.php';
 requireAnyPermission(['seva_catalog.create', 'seva_catalog.edit']);
 
-$pageTitle = 'Edit Seva';
-$activePage = 'seva-catalogue-edit';
-include 'partials/header.php';
-
 $db = getDB();
 $error = '';
 $success = '';
@@ -47,7 +43,7 @@ if ($isEdit) {
     $seva['category_id'] = $presetCatId;
 }
 
-// Handle Form Submission
+// Handle Form Submission (before any output)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
         $error .= 'CSRF validation failed. Unauthorized request. ';
@@ -139,6 +135,11 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         $seva = getMasterSevaById($id);
     }
 }
+
+// Render page
+$pageTitle = 'Edit Seva';
+$activePage = 'seva-catalogue-edit';
+include 'partials/header.php';
 ?>
 
 <div class="admin-page-header">

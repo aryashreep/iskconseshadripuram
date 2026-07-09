@@ -17,10 +17,6 @@ requireRole(['super_admin']);
 use Isjm\Modules\RBAC\RbacService;
 use Isjm\Modules\RBAC\PermissionRegistry;
 
-$pageTitle = 'Edit Role';
-$activePage = 'roles';
-include __DIR__ . '/../../Kernel/Admin/partials/header.php';
-
 $rbac = new RbacService();
 $db = getDB();
 $error = '';
@@ -50,7 +46,7 @@ if ($isEditMode) {
     $rolePermissionIds = $rbac->getRolePermissionIds($id);
 }
 
-// Handle form submission
+// Handle form submission (before any output)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
         $error = 'CSRF validation failed.';
@@ -125,6 +121,11 @@ foreach ($allPermissions as $p) {
 
 // Get module metadata from registry
 $modulesMeta = PermissionRegistry::getModules();
+
+// Render page
+$pageTitle = 'Edit Role';
+$activePage = 'roles';
+include __DIR__ . '/../../Kernel/Admin/partials/header.php';
 ?>
 
 <div class="admin-page-header">

@@ -748,6 +748,16 @@ class SudamasevaService
         return $this->repo->getMonthlyRevenue($months);
     }
 
+    public function getYearlyRevenue(): array
+    {
+        return $this->repo->getYearlyRevenue();
+    }
+
+    public function getYearlyMonthlyRevenue(int $fyStartYear): array
+    {
+        return $this->repo->getYearlyMonthlyRevenue($fyStartYear);
+    }
+
     public function getDashboardStats(): array
     {
         return $this->repo->getDashboardStats();

@@ -1188,6 +1188,112 @@ class SudamasevaRepository
     }
 
     /**
+     * Get yearly revenue grouped by Indian financial year (April-March).
+     *
+     * @return array Each row: {financial_year, fy_start_year, payment_count, total_amount}
+     */
+    public function getYearlyRevenue(): array
+    {
+        try {
+            $stmt = $this->db->query("
+                SELECT 
+                    CASE 
+                        WHEN MONTH(payment_date) >= 4 
+                        THEN CONCAT(YEAR(payment_date), '-', YEAR(payment_date) + 1)
+                        ELSE CONCAT(YEAR(payment_date) - 1, '-', YEAR(payment_date))
+                    END as financial_year,
+                    CASE 
+                        WHEN MONTH(payment_date) >= 4 
+                        THEN YEAR(payment_date)
+                        ELSE YEAR(payment_date) - 1
+                    END as fy_start_year,
+                    COUNT(*) AS payment_count,
+                    SUM(amount) AS total_amount
+                FROM sudamaseva_payments
+                WHERE payment_status = 'paid'
+                GROUP BY financial_year, fy_start_year
+                ORDER BY fy_start_year ASC
+            ");
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getYearlyRevenue error: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Get monthly revenue for a specific financial year.
+     * Used for year-over-year monthly comparison charts.
+     *
+     * @param int $fyStartYear The start year of the financial year (e.g., 2025 for FY 2025-2026)
+     * @return array Each row: {month_num, month_name, total_amount, payment_count}
+     */
+    public function getYearlyMonthlyRevenue(int $fyStartYear): array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT 
+                    MONTH(payment_date) AS month_num,
+                    DATE_FORMAT(payment_date, '%b') AS month_name,
+                    SUM(amount) AS total_amount,
+                    COUNT(*) AS payment_count
+                FROM sudamaseva_payments
+                WHERE payment_status = 'paid'
+                  AND payment_date >= ?
+                  AND payment_date < ?
+                GROUP BY month_num, month_name
+                ORDER BY month_num ASC
+            ");
+
+            $startDate = "{$fyStartYear}-04-01 00:00:00";
+            $endDate = ($fyStartYear + 1) . "-03-31 23:59:59";
+            $stmt->execute([$startDate, $endDate]);
+
+            // Pad to all 12 months (April-March)
+            $months = [];
+            for ($i = 4; $i <= 12; $i++) {
+                $months[$i] = [
+                    'month_num' => $i,
+                    'month_name' => date('M', mktime(0, 0, 0, $i, 1)),
+                    'total_amount' => 0,
+                    'payment_count' => 0,
+                ];
+            }
+            for ($i = 1; $i <= 3; $i++) {
+                $months[$i] = [
+                    'month_num' => $i,
+                    'month_name' => date('M', mktime(0, 0, 0, $i, 1)),
+                    'total_amount' => 0,
+                    'payment_count' => 0,
+                ];
+            }
+
+            $rows = $stmt->fetchAll();
+            foreach ($rows as $row) {
+                $mn = (int) $row['month_num'];
+                if (isset($months[$mn])) {
+                    $months[$mn]['total_amount'] = (int) ($row['total_amount'] ?? 0);
+                    $months[$mn]['payment_count'] = (int) ($row['payment_count'] ?? 0);
+                }
+            }
+
+            // Re-order: April to March
+            $ordered = [];
+            for ($i = 4; $i <= 12; $i++) {
+                $ordered[] = $months[$i];
+            }
+            for ($i = 1; $i <= 3; $i++) {
+                $ordered[] = $months[$i];
+            }
+
+            return $ordered;
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getYearlyMonthlyRevenue error: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Get recent payments across all donors.
      */
     public function getRecentPayments(int $limit = 20): array

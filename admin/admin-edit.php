@@ -4,10 +4,6 @@ requireRole(['super_admin']); // Strictly Super Admin only
 
 use Isjm\Modules\RBAC\RbacService;
 
-$pageTitle = 'Edit Admin';
-$activePage = 'admin-edit';
-include 'partials/header.php';
-
 $db = getDB();
 $rbac = new RbacService();
 $error = '';
@@ -29,8 +25,8 @@ if ($isEditMode) {
         $stmt->execute([$id]);
         $admin = $stmt->fetch();
         if (!$admin) {
-            echo "<div class='alert alert-danger'>Admin not found.</div>";
-            include 'partials/footer.php';
+            // Can't show error alert yet — redirect to list with error
+            header('Location: ' . BASE_URL . 'admin/admins?error=' . urlencode('Admin not found.'));
             exit;
         }
         $username = $admin['username'];
@@ -54,7 +50,9 @@ try {
     $error = 'Failed to load roles. RBAC tables may not be initialized. Run RBAC migrations first.';
 }
 
-// Handle Form Submission
+// ==========================================
+// HANDLE FORM SUBMISSION (before any output)
+// ==========================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
         $error = 'CSRF validation failed. Unauthorized request.';
@@ -159,6 +157,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+// ==========================================
+// RENDER PAGE (after all processing is done)
+// ==========================================
+$pageTitle = 'Edit Admin';
+$activePage = 'admin-edit';
+include 'partials/header.php';
 ?>
 
 <div class="admin-page-header">

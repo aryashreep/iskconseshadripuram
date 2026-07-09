@@ -7,18 +7,6 @@
 require_once __DIR__ . '/../../../admin/auth-check.php';
 requirePermission('sudamaseva.edit');
 
-// Initialize Session CSRF token
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-$pageTitle = 'Edit Donor Profile';
-$activePage = 'sudamaseva-donors';
-include 'partials/header.php';
-
 use Isjm\Modules\Sudamaseva\SudamasevaService;
 use Isjm\Modules\Sudamaseva\SudamasevaRepository;
 
@@ -29,15 +17,7 @@ $success = '';
 
 $donorId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-if ($donorId <= 0) {
-    echo '<div class="admin-page-header"><div class="admin-page-title"><h1>Invalid Request</h1></div></div>';
-    echo '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> Donor ID is required.</div>';
-    echo '<a href="admin/sudamaseva-donors" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">&larr; Back to Donors</a>';
-    include 'partials/footer.php';
-    exit;
-}
-
-// POST Handler for Donor Profile Update
+// Handle POST before any output (redirect will work cleanly)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_profile') {
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
         $error = 'Invalid CSRF token.';
@@ -88,16 +68,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
+// Check donor ID after POST handling (for redirect, we don't need to display the form)
+if ($donorId <= 0) {
+    // Render page with error
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    $pageTitle = 'Edit Donor Profile';
+    $activePage = 'sudamaseva-donors';
+    include 'partials/header.php';
+    echo '<div class="admin-page-header"><div class="admin-page-title"><h1>Invalid Request</h1></div></div>';
+    echo '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> Donor ID is required.</div>';
+    echo '<a href="admin/sudamaseva-donors" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">&larr; Back to Donors</a>';
+    include 'partials/footer.php';
+    exit;
+}
+
 // Load current donor data
 $donor = $repo->getDonorById($donorId);
 
 if (!$donor) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    $pageTitle = 'Edit Donor Profile';
+    $activePage = 'sudamaseva-donors';
+    include 'partials/header.php';
     echo '<div class="admin-page-header"><div class="admin-page-title"><h1>Donor Not Found</h1></div></div>';
     echo '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> Donor #' . $donorId . ' not found.</div>';
     echo '<a href="admin/sudamaseva-donors" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">&larr; Back to Donors</a>';
     include 'partials/footer.php';
     exit;
 }
+
+// Render page
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$pageTitle = 'Edit Donor Profile';
+$activePage = 'sudamaseva-donors';
+include 'partials/header.php';
 ?>
 
 <div class="admin-page-header">
