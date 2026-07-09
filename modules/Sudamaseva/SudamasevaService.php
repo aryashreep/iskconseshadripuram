@@ -314,6 +314,141 @@ class SudamasevaService
     }
 
     /**
+     * Build the installment schedule for a subscription.
+     *
+     * Returns an array of installment entries, each containing:
+     *   - number: installment number (1-based)
+     *   - month: month name (e.g. "Jan 2026")
+     *   - label: formatted label (e.g. "Jan-2026")
+     *   - is_paid: boolean
+     *   - is_next_unpaid: boolean (the next one the donor can pay)
+     *   - payment_date: date string if paid, null otherwise
+     *   - payment_id: payment ID if paid, null otherwise
+     *
+     * @param array $subscription Subscription row with id, amount, start_date, total_installments
+     * @param array $paidInstallmentNumbers List of paid installment numbers (from getPaidInstallmentNumbers)
+     * @return array
+     */
+    public function buildInstallmentSchedule(array $subscription, array $paidInstallmentNumbers = []): array
+    {
+        $total = (int) ($subscription['total_installments'] ?? 0);
+        $startDate = $subscription['start_date'] ?? $subscription['created_at'] ?? date('Y-m-d');
+        $startTs = strtotime($startDate);
+
+        if ($total <= 0) {
+            // Open-ended — show 24 months by default
+            $total = 24;
+        }
+
+        if (empty($paidInstallmentNumbers)) {
+            // Try to fetch them if not provided
+            $paidInstallmentNumbers = $this->getPaidInstallmentNumbers((int) $subscription['id']);
+        }
+
+        $schedule = [];
+        $nextUnpaid = null;
+
+        for ($i = 1; $i <= $total; $i++) {
+            $isPaid = in_array($i, $paidInstallmentNumbers);
+            $monthTs = strtotime('+' . ($i - 1) . ' months', $startTs);
+
+            $entry = [
+                'number' => $i,
+                'month' => date('M Y', $monthTs),
+                'label' => date('M-Y', $monthTs),
+                'is_paid' => $isPaid,
+                'is_next_unpaid' => false,
+                'payment_date' => null,
+                'payment_id' => null,
+            ];
+
+            if (!$isPaid && $nextUnpaid === null) {
+                $entry['is_next_unpaid'] = true;
+                $nextUnpaid = $i;
+            }
+
+            $schedule[] = $entry;
+        }
+
+        return $schedule;
+    }
+
+    /**
+     * Check whether a donor can pay a given installment for a subscription.
+     * Rules:
+     *   - Subscription must be active
+     *   - Installment must be the next unpaid one (no skipping)
+     *   - Installment must not exceed total_installments
+     *   - If collection_mode is 'recurring', manual pay is not allowed
+     */
+    public function canPayInstallment(array $subscription, int $installmentNumber): bool
+    {
+        $status = $subscription['status'] ?? '';
+        if ($status !== 'active') {
+            return false;
+        }
+
+        // For recurring subscriptions, don't allow manual pay in v1
+        $collectionMode = $subscription['collection_mode'] ?? 'recurring';
+        if ($collectionMode !== 'manual') {
+            return false;
+        }
+
+        $total = (int) ($subscription['total_installments'] ?? 0);
+        if ($total > 0 && $installmentNumber > $total) {
+            return false;
+        }
+
+        $nextUnpaid = $this->getNextUnpaidInstallment((int) $subscription['id']);
+        if ($nextUnpaid === null) {
+            return false; // All paid
+        }
+
+        return $installmentNumber === $nextUnpaid;
+    }
+
+    /**
+     * Format a phone number with masking (e.g., "9876****34").
+     */
+    public function formatPhoneMasked(?string $phone): string
+    {
+        if (empty($phone) || strlen($phone) < 6) {
+            return $phone ?? '—';
+        }
+
+        return substr($phone, 0, 4) . '****' . substr($phone, -2);
+    }
+
+    /**
+     * Get a human-readable collection mode label.
+     */
+    public function getCollectionModeLabel(string $mode): string
+    {
+        return match ($mode) {
+            'recurring' => 'Auto Monthly (Recurring)',
+            'manual'    => 'Pay Monthly Manually',
+            default     => ucfirst($mode),
+        };
+    }
+
+    /**
+     * Get a human-readable payment source label.
+     */
+    public function getPaymentSourceLabel(?string $source): string
+    {
+        if (empty($source)) {
+            return '—';
+        }
+        return match ($source) {
+            'subscription_charge' => 'Auto Debit (Subscription)',
+            'manual_order'        => 'Manual Payment',
+            'migrated'            => 'Migrated (Legacy)',
+            'admin_manual'        => 'Manual Entry (Admin)',
+            default               => ucfirst(str_replace('_', ' ', $source)),
+        };
+    }
+
+    /**
      * Calculate the remaining amount for a subscription.
      */
     public function calculateSubscriptionRemaining(array $subscription): int
@@ -413,6 +548,31 @@ class SudamasevaService
     public function getDonorByPhone(string $phone): ?array
     {
         return $this->repo->getDonorByPhone($phone);
+    }
+
+    public function findDonorByPhoneOrLegacyId(string $query): ?array
+    {
+        return $this->repo->findDonorByPhoneOrLegacyId($query);
+    }
+
+    public function getPaidInstallmentNumbers(int $subscriptionId): array
+    {
+        return $this->repo->getPaidInstallmentNumbers($subscriptionId);
+    }
+
+    public function getNextUnpaidInstallment(int $subscriptionId): ?int
+    {
+        return $this->repo->getNextUnpaidInstallment($subscriptionId);
+    }
+
+    public function getSubscriptionWithPayments(int $subscriptionId): ?array
+    {
+        return $this->repo->getSubscriptionWithPayments($subscriptionId);
+    }
+
+    public function getSubscriptionsByDonorWithMode(int $donorId): array
+    {
+        return $this->repo->getSubscriptionsByDonorWithMode($donorId);
     }
 
     public function getDonors(?string $status = null, ?string $search = null, int $page = 1, int $perPage = 50, bool $hideOrphans = true): array

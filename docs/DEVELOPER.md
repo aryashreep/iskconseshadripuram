@@ -281,6 +281,7 @@ modules/<ModuleName>/
 | **Blogs** | Blog content management | `Admin/blogs.php`, `content/index.php` |
 | **Content** | Static content pages | `content/about/*`, `content/services/*`, `content/courses/*` |
 | **RBAC** | Role-based access control system | `RbacService.php`, `PermissionRegistry.php`, `Admin/roles.php` |
+| **Sudamaseva** | Recurring + manual seva donation system | `content/index.php` (signup w/ mode toggle), `content/lookup.php`, `content/dashboard.php`, `api/enroll.php`, `api/create-subscription.php`, `api/verify-order.php`, `api/verify-payment.php`, `api/webhook.php`, `SudamasevaService.php`, `SudamasevaRepository.php` |
 
 ### Module Dependency Chain
 
@@ -357,8 +358,13 @@ RewriteRule ^yatra/([^/]+)/?$ yatra/detail.php?slug=$1 [L,QSA]
 RewriteRule ^booking/puja/([a-z0-9\-]+)/?$ booking/puja/detail.php?slug=$1 [L,QSA]
 RewriteRule ^booking/yagya/([a-z0-9\-]+)/?$ booking/yagya/detail.php?slug=$1 [L,QSA]
 
+# Sudamaseva Module — Public Page Rewrites
+RewriteRule ^sudamaseva/?$ sudamaseva/index.php [L,QSA]
+RewriteRule ^sudamaseva/lookup/?$ sudamaseva/lookup.php [L,QSA]
+RewriteRule ^sudamaseva/dashboard/?$ sudamaseva/dashboard.php [L,QSA]
+
 # Sudamaseva API rewrites
-RewriteRule ^api/sudamaseva/(create-subscription|verify-payment|webhook)/?$ api/sudamaseva-$1.php [L,QSA]
+RewriteRule ^api/sudamaseva/(create-subscription|verify-payment|webhook|lookup|enroll|create-order|verify-order)/?$ api/sudamaseva-$1.php [L,QSA]
 
 # Sitemap: /sitemap.xml → sitemap.php
 RewriteRule ^sitemap\.xml$ sitemap.php [L]
@@ -373,6 +379,9 @@ RewriteRule ^sitemap\.xml$ sitemap.php [L]
 | `/blogs/{slug}` | `blogs/detail.php?slug={slug}` | `/blogs/my-post` |
 | `/yatra/{slug}` | `yatra/detail.php?slug={slug}` | `/yatra/vrindavan` |
 | `/booking/puja/{slug}` | `booking/puja/detail.php?slug={slug}` | `/booking/puja/laxmi-narayan-puja` |
+| `/sudamaseva` | `sudamaseva/index.php` | Signup w/ mode toggle |
+| `/sudamaseva/lookup` | `sudamaseva/lookup.php` | Find existing donation |
+| `/sudamaseva/dashboard` | `sudamaseva/dashboard.php` | Donor dashboard (requires `?donor_id=X`) |
 | `/admin/page` | `/admin/page.php` (generic) | `/admin/dashboard` → `/admin/dashboard.php` |
 
 ### Important Gotcha
@@ -680,14 +689,41 @@ The build script:
    → Provides secondary verification (authoritative source)
 ```
 
-### Sudamaseva (Recurring) Flow
+### Sudamaseva (Auto Monthly + Pay Monthly) Flow
 
+Sudamaseva supports two payment modes:
+
+**Auto Monthly (Recurring):**
 ```
-Similar flow but uses:
   /api/sudamaseva/create-subscription → Creates Razorpay subscription
-  /api/sudamaseva/verify-payment      → Verifies + creates donor record
+  /api/sudamaseva/verify-payment      → Verifies + creates donor record (HMAC: {sub_id}|{pay_id})
   /api/sudamaseva/webhook             → Handles subscription.charged, .completed, .halted
 ```
+
+**Pay Monthly (Manual):**
+```
+  /api/sudamaseva/enroll              → Creates donor + manual subscription + Razorpay Order
+  /api/sudamaseva/create-order        → Creates Razorpay Order for next installment
+  /api/sudamaseva/verify-order        → Verifies payment (HMAC: {order_id}|{pay_id})
+```
+
+**Donor Management:**
+```
+  /sudamaseva/lookup                  → Search by phone → redirect to dashboard
+  /sudamaseva/dashboard?donor_id=X    → View subscription, installment grid, pay now
+  /sudamaseva                         → Signup with mode toggle (Auto Monthly / Pay Monthly)
+```
+
+#### Key Differences Between Modes
+
+| Aspect | Auto Monthly | Pay Monthly |
+|--------|-------------|-------------|
+| Razorpay Object | Subscription (auto-debit) | Order (one-time) |
+| HMAC Format | `{subscription_id}|{payment_id}` | `{order_id}|{payment_id}` |
+| Billing | Razorpay auto-charges monthly | Donor clicks "Pay Now" each month |
+| Dashboard | View-only schedule | Installment grid with "Pay Now" buttons |
+| `collection_mode` | `'recurring'` | `'manual'` |
+| `payment_source` | `'subscription_charge'` | `'manual_order'` |
 
 ### Key Security Rules
 

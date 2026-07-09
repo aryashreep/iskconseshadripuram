@@ -29,6 +29,16 @@ return [
             'SudamasevaController',
             'success',
         ],
+        'sudamaseva/lookup' => [
+            'GET',
+            'SudamasevaController',
+            'lookup',
+        ],
+        'sudamaseva/dashboard' => [
+            'GET',
+            'SudamasevaController',
+            'dashboard',
+        ],
 
         // ============================================================
         // API ENDPOINTS
@@ -36,6 +46,26 @@ return [
         'api/sudamaseva/create-subscription' => [
             'POST',
             'Api\\SubscriptionController',
+            'create',
+        ],
+        'api/sudamaseva/create-order' => [
+            'POST',
+            'Api\\OrderController',
+            'create',
+        ],
+        'api/sudamaseva/verify-order' => [
+            'POST',
+            'Api\\OrderController',
+            'verify',
+        ],
+        'api/sudamaseva/lookup' => [
+            'POST',
+            'Api\\DonorController',
+            'lookup',
+        ],
+        'api/sudamaseva/enroll' => [
+            'POST',
+            'Api\\EnrollController',
             'create',
         ],
         'api/sudamaseva/verify-payment' => [

@@ -49,6 +49,21 @@ Credentials via `.env`: `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
 | `rbac_role_permissions` | role_id, permission_id | Many-to-many: which permissions each role has |
 | `rbac_user_roles` | admin_id, role_id, assigned_by | Many-to-many: which roles each admin has (replaces `admins.role` column) |
 
+### Sudamaseva Module
+
+| Table | Key Columns | Purpose |
+|-------|-------------|---------|
+| `sudamaseva_donors` | id, uuid, legacy_id_no, donor_name, phone (UNIQUE), email, pan, area, city, state, source, status | Donor profiles (302 migrated + new enrollments) |
+| `sudamaseva_subscriptions` | id, donor_id, amount, razorpay_subscription_id, razorpay_plan_id, status, start_date, end_date, total_installments, **collection_mode** (recurring/manual), installments_paid, source (migrated/new), old_user_id | Subscription plans — both auto-recurring and manual pay-monthly |
+| `sudamaseva_payments` | id, subscription_id, donor_id, amount, installment_number, razorpay_payment_id, razorpay_order_id, payment_status, payment_date, **payment_source** (subscription_charge/manual_order/migrated/admin_manual), **billing_month**, receipt_number, notes, is_migrated, old_ins_pay_id | Individual installment payments (3,278 migrated + new) |
+| `sudamaseva_receipts` | id, payment_id, receipt_no (SMS/YYYY/NNNNN), receipt_date, receipt_data (JSON), is_80g_eligible | 80G tax receipts |
+
+**New columns** (added by migration 004):
+- `sudamaseva_donors.legacy_id_no` — Backfilled from old system's `tbl_users.id_no`
+- `sudamaseva_subscriptions.collection_mode` — `'recurring'` (auto-debit) or `'manual'` (pay monthly)
+- `sudamaseva_payments.payment_source` — How payment was collected
+- `sudamaseva_payments.billing_month` — Billing period for aggregation
+
 ### Content
 
 | Table | Key Columns | Purpose |

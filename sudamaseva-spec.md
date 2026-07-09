@@ -716,18 +716,42 @@ RewriteRule ^admin/sudamaseva/donor/(\d+)/?$ admin/sudamaseva/donor-detail.php?i
 
 ---
 
-## 12. Implementation Order
+## 12. Implementation Status
 
-1. ✅ Specification written and approved ← **You are here**
-2. Create new module directory structure
-3. Create migration files (001_create_tables.php, 002_migrate_data.php)
-4. Create `SudamasevaRepository.php` (all DB queries)
-5. Create `SudamasevaService.php` (business logic)
-6. Create public pages (landing, registration, dashboard, success/failure)
-7. Create API endpoints (create-subscription, verify-payment, webhook)
-8. Create admin pages (dashboard, donors, payments, subscriptions, reports)
-9. Create wrapper files for backward compatibility
-10. Add .htaccess rules
-11. Run migration and validate data
-12. Test subscription flow end-to-end
-13. Deploy
+| Step | Status | Notes |
+|------|--------|-------|
+| 1. Specification written and approved | ✅ Complete | Initial spec approved Jul 2026 |
+| 2. Create module directory structure | ✅ Complete | `modules/Sudamaseva/` with src/, content/, api/, migrations/, assets/ |
+| 3. Create migration files | ✅ Complete | 001 (tables), 002 (data), 003 (fixes), 004 (manual fields), 005 (backfill) |
+| 4. Create `SudamasevaRepository.php` | ✅ Complete | All DB queries for donors, subscriptions, payments, receipts |
+| 5. Create `SudamasevaService.php` | ✅ Complete | Business logic, formatting, status labels, receipt generation |
+| 6. Create public pages | ✅ Complete | Signup w/ mode toggle, lookup, dashboard (inc. success/failure) |
+| 7. Create API endpoints | ✅ Complete | create-subscription, verify-payment, webhook, **lookup**, **enroll**, **create-order**, **verify-order** |
+| 8. Create admin pages | ⏳ Pending | Dashboard, donors, payments, subscriptions, reports |
+| 9. Create wrapper files | ✅ Complete | `sudamaseva/` directory with page wrappers + `.htaccess` rules |
+| 10. Add .htaccess rules | ✅ Complete | Page rewrites + API rewrites for all 7 endpoints |
+| 11. Run migration and validate data | ✅ Complete | 302 users, 3,278 payments migrated; legacy IDs backfilled |
+| 12. Test subscription flow end-to-end | ✅ Complete | Auto Monthly + Pay Monthly flows tested via API and browser |
+| 13. Deploy | ✅ Complete | Live on production `iskconseshadripuram.org` |
+
+### What Was Added Beyond the Original Spec
+
+| Feature | Original Spec | Actual Implementation |
+|---------|---------------|----------------------|
+| Payment modes | Recurring only | **Auto Monthly** (recurring) + **Pay Monthly** (manual) via mode toggle |
+| Manual payment | Not planned | New `enroll.php`, `create-order.php`, `verify-order.php` APIs |
+| Donor lookup | Brief mention | Full `lookup.php` page + API with phone/legacy ID search |
+| Donor dashboard | Brief mention | Full `dashboard.php` with installment grid, pay now, payment history |
+| Mode toggle | Not planned | UI on signup page — switches between subscription and order flows |
+| `collection_mode` column | Not in spec | New ENUM on subscriptions: `'recurring'` or `'manual'` |
+| `payment_source` column | Not in spec | New ENUM on payments: `'subscription_charge'`, `'manual_order'`, etc. |
+| `billing_month` column | Not in spec | New DATE on payments for monthly aggregation |
+| `legacy_id_no` column | Not in spec | Backfilled from `tbl_users.id_no` for cross-reference |
+| Backfill script | Not in spec | `005_backfill_legacy_ids.php` — 302 records matched by phone |
+| Return to dashboard | Not planned | After manual payment, donor redirected to dashboard with paid status |
+
+### Remaining Work
+
+- **Admin pages** (dashboard, donors, payments, subscriptions, reports) — not yet implemented
+- **SMS notifications** — can be added later via Fast2SMS
+- **PDF receipt download** — can be added later

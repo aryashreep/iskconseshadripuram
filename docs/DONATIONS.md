@@ -12,6 +12,8 @@ Category → Activity → Seva
 
 ## Payment Flow
 
+### Standard One-Time Donation
+
 1. Donor selects cause and seva on `/donate/{slug}`
 2. Amount verified server-side against `donation_cause_master_sevas` catalog
 3. Razorpay order created via `/api/create-order.php`
@@ -20,6 +22,13 @@ Category → Activity → Seva
 6. Server updates `donation_transactions.payment_status = 'paid'`
 7. Webhook `/api/webhook.php` provides secondary verification
 8. Donor sees success page at `/donate/payment-success.php`
+
+### Sudamaseva Recurring Donation
+
+See [docs/API.md](/docs/API.md#sudamaseva-module-api) for full details on:
+- **Auto Monthly**: Razorpay subscription with auto-debit
+- **Pay Monthly**: Donor pays each installment manually via checkout
+- **Lookup & Dashboard**: Returning donor search and payment management
 
 ## Key Tables
 

@@ -91,6 +91,41 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^api/sudamaseva/webhook/?$ api/sudamaseva-webhook.php [L,QSA]
 
+# api/sudamaseva/lookup → api/sudamaseva-lookup.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/sudamaseva/lookup/?$ api/sudamaseva-lookup.php [L,QSA]
+
+# api/sudamaseva/create-order → api/sudamaseva-create-order.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/sudamaseva/create-order/?$ api/sudamaseva-create-order.php [L,QSA]
+
+# api/sudamaseva/verify-order → api/sudamaseva-verify-order.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/sudamaseva/verify-order/?$ api/sudamaseva-verify-order.php [L,QSA]
+
+# api/sudamaseva/enroll → api/sudamaseva-enroll.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/sudamaseva/enroll/?$ api/sudamaseva-enroll.php [L,QSA]
+
+# ============================================
+# Sudamaseva Module — Public Page Rewrites
+# ============================================
+
+# Must come BEFORE the generic rewrite to avoid matching sudamaseva.php
+# sudamaseva/lookup → modules/Sudamaseva/content/lookup.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^sudamaseva/lookup/?$ sudamaseva/lookup.php [L,QSA]
+
+# sudamaseva/dashboard → modules/Sudamaseva/content/dashboard.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^sudamaseva/dashboard/?$ sudamaseva/dashboard.php [L,QSA]
+
 # ============================================
 # Generic Rewrite: /page → /page.php
 # ============================================

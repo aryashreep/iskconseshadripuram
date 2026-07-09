@@ -198,6 +198,47 @@
   min-width: 0;
 }
 
+/* --- Mode Toggle (Auto Monthly / Pay Monthly) --- */
+
+.mode-toggle-row {
+  display: flex;
+  gap: 8px;
+  background: var(--cream-light);
+  padding: 4px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.mode-toggle-row .mode-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.mode-toggle-row .mode-btn i {
+  margin-right: 6px;
+}
+
+.mode-toggle-row .mode-btn:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.6);
+}
+
+.mode-toggle-row .mode-btn.active {
+  background: var(--white);
+  color: var(--maroon);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
 /* --- Mobile --- */
 
 @media (max-width: 600px) {

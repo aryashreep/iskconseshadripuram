@@ -1,5 +1,30 @@
 # CHANGELOG.md
 
+## [2026-07-08] — Sudamaseva Manual Mode & Donor Dashboard
+
+### Added
+- **Manual Payment Mode (Pay Monthly)** — Mode toggle on signup page lets donors choose between:
+  - **Auto Monthly**: Razorpay subscription with auto-debit via eMandate/eNACH/UPI Autopay
+  - **Pay Monthly**: Donor pays each installment manually via Razorpay checkout
+- **Enroll API** (`/api/sudamaseva/enroll`) — Creates donor + manual subscription + Razorpay Order in one call
+- **Create-Order API** (`/api/sudamaseva/create-order`) — Creates Razorpay Order for subsequent installments
+- **Verify-Order API** (`/api/sudamaseva/verify-order`) — Verifies manual payments with `{order_id}|{payment_id}` HMAC format
+- **Donor Lookup** (`/sudamaseva/lookup`) — Search by phone or legacy ID → redirect to dashboard
+- **Donor Dashboard** (`/sudamaseva/dashboard`) — Shows subscription card, installment grid with Pay Now buttons, payment history
+- **Returning Donor CTA** — "View My Seva" link on signup page for existing donors
+- **Database Columns**:
+  - `sudamaseva_donors.legacy_id_no` — Links to old system's `tbl_users.id_no`
+  - `sudamaseva_subscriptions.collection_mode` — `'recurring'` or `'manual'`
+  - `sudamaseva_payments.payment_source` — `'subscription_charge'`, `'manual_order'`, `'migrated'`, `'admin_manual'`
+  - `sudamaseva_payments.billing_month` — Billing period for monthly aggregation
+- **Backfill Script** (`modules/Sudamaseva/migrations/005_backfill_legacy_ids.php`) — 302 legacy IDs populated from old `tbl_users` by phone match
+
+### Changed
+- Signup page (`modules/Sudamaseva/content/index.php`) — Added mode toggle UI with dynamic button/labels
+- Dashboard page — Installment grid now shows Pay Now buttons for unpaid installments on manual subscriptions
+
+---
+
 ## [2026-07-07] — RBAC Implementation (Phase 8)
 
 ### Added

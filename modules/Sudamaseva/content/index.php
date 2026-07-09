@@ -141,10 +141,21 @@ $defaultAmounts = $service->getDefaultAmounts();
       <!-- Right Column: Subscribe Form -->
       <div class="donate-form-sticky reveal">
         <div class="donate-form-card">
-          <h3><i class="fas fa-sync-alt"></i> Subscribe for Monthly Seva</h3>
+          <h3><i class="fas fa-sync-alt"></i> Join Sudamaseva</h3>
+
+          <!-- Mode Toggle: Auto Monthly vs Pay Manually -->
+          <div class="mode-toggle-row reveal" style="margin-bottom: var(--space-lg);">
+            <button type="button" class="mode-btn active" data-mode="recurring" onclick="switchCollectionMode('recurring')">
+              <i class="fas fa-sync-alt"></i> Auto Monthly
+            </button>
+            <button type="button" class="mode-btn" data-mode="manual" onclick="switchCollectionMode('manual')">
+              <i class="fas fa-hand-holding-heart"></i> Pay Monthly
+            </button>
+          </div>
 
           <form id="sudamasevaForm" autocomplete="on">
             <div class="form-fields">
+              <input type="hidden" id="collectionMode" name="collection_mode" value="recurring">
               <input type="hidden" id="selectedAmount" name="amount" value="5100">
               <input type="hidden" id="totalInstallments" name="total_installments" value="12">
 
@@ -152,7 +163,7 @@ $defaultAmounts = $service->getDefaultAmounts();
               <div class="form-group" style="text-align:center; margin-bottom:var(--space-lg);">
                 <label style="text-align:center; display:block;">Your Monthly Offering</label>
                 <div id="displayAmount" style="font-size:32px; font-weight:700; color:var(--maroon);">₹51</div>
-                <div style="font-size:11px; color:var(--text-light);">per month</div>
+                <div style="font-size:11px; color:var(--text-light);" id="perMonthLabel">per month</div>
               </div>
 
               <!-- Custom Amount Row -->
@@ -168,8 +179,8 @@ $defaultAmounts = $service->getDefaultAmounts();
                 </div>
               </div>
 
-              <!-- Subscription Duration -->
-              <div class="form-group">
+              <!-- Subscription Duration (shown for recurring mode) -->
+              <div class="form-group" id="durationGroup">
                 <label for="installments">Subscription Duration</label>
                 <select id="installments" name="total_installments" class="form-control" onchange="document.getElementById('totalInstallments').value=this.value">
                   <option value="6">6 Months</option>
@@ -225,12 +236,13 @@ $defaultAmounts = $service->getDefaultAmounts();
 
             <!-- Submit -->
             <button type="submit" class="btn btn-primary btn-lg donate-submit-btn" id="subscribeBtn" style="width:100%;">
-              <i class="fas fa-lock"></i> Subscribe — ₹<span id="payAmount">51</span>/month
+              <i class="fas fa-lock"></i> <span id="btnLabel">Subscribe</span> — ₹<span id="payAmount">51</span>/month
             </button>
 
+            <!-- Notice (changes based on mode) -->
             <div class="donate-monthly-notice" id="monthlyNotice">
               <i class="fas fa-info-circle"></i>
-              <span>You authorize automated monthly charges of <strong>₹<span id="monthlyAmountDisplay">51</span></strong> via secure eMandate, eNACH, or UPI Autopay.</span>
+              <span id="noticeText">You authorize automated monthly charges of <strong>₹<span id="monthlyAmountDisplay">51</span></strong> via secure eMandate, eNACH, or UPI Autopay.</span>
             </div>
 
             <div class="donate-secure">
@@ -238,12 +250,12 @@ $defaultAmounts = $service->getDefaultAmounts();
               <span>Secured by <strong>Razorpay</strong> — 128-bit SSL Encrypted</span>
             </div>
 
-            <div class="donate-methods">
+            <div class="donate-methods" id="paymentMethods">
               <span>We accept</span>
               <div class="payment-icons">
                 <span><i class="fas fa-credit-card"></i> Cards</span>
-                <span><i class="fas fa-mobile-alt"></i> UPI Autopay</span>
-                <span><i class="fas fa-university"></i> eMandate / eNACH</span>
+                <span><i class="fas fa-mobile-alt"></i> UPI</span>
+                <span><i class="fas fa-university"></i> Net Banking</span>
               </div>
             </div>
           </form>
@@ -251,7 +263,15 @@ $defaultAmounts = $service->getDefaultAmounts();
           <!-- Loading Overlay -->
           <div class="donate-loading" id="sudamasevaLoading">
             <div class="donate-loading-spinner"></div>
-            <p>Setting up your subscription...</p>
+            <p id="loadingText">Setting up your subscription...</p>
+          </div>
+
+          <!-- Returning Donor CTA -->
+          <div style="margin-top:var(--space-lg); padding-top:var(--space-lg); border-top:1px solid var(--border); text-align:center;">
+            <p style="font-size:13px; color:var(--text-light); margin-bottom:var(--space-sm);">Already enrolled in Sudamaseva?</p>
+            <a href="<?php echo BASE_URL; ?>sudamaseva/lookup" class="btn btn-outline-dark" style="font-size:13px; padding:8px 20px; text-decoration:none; display:inline-block;">
+              <i class="fas fa-search"></i> View My Seva
+            </a>
           </div>
         </div>
       </div>
@@ -274,8 +294,7 @@ $defaultAmounts = $service->getDefaultAmounts();
           <span>How does the monthly subscription work?</span>
           <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
         </button>
-        <div class="faq-answer">
-          <p>When you subscribe, you authorize Razorpay to charge your chosen amount on the same day each month. You'll receive a receipt and a 80G tax certificate for every payment. You can cancel or modify your subscription at any time by contacting us.</p>
+        <div class="faq-answer">            <p>When you subscribe, you authorize Razorpay to charge your chosen amount on the same day each month. You'll receive a receipt and a 80G tax certificate for every payment. You can cancel or modify your subscription at any time by contacting us. Alternatively, you can choose the <strong>Pay Monthly</strong> option to manually pay each month without setting up auto-debit.</p>
         </div>
       </div>
 
@@ -461,7 +480,52 @@ function toggleFaq(el) {
 }
 
 // ============================================================
-// Subscription Form Submission
+// Collection Mode Toggle
+// ============================================================
+window.collectionMode = 'recurring';
+
+function switchCollectionMode(mode) {
+  window.collectionMode = mode;
+  document.getElementById('collectionMode').value = mode;
+
+  // Toggle active class on buttons
+  document.querySelectorAll('.mode-btn').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-mode') === mode);
+  });
+
+  var durationGroup = document.getElementById('durationGroup');
+  var noticeEl = document.getElementById('monthlyNotice');
+  var noticeText = document.getElementById('noticeText');
+  var btnLabel = document.getElementById('btnLabel');
+  var payAmount = document.getElementById('payAmount');
+  var monthlyAmount = document.getElementById('monthlyAmountDisplay');
+  var subscribeBtn = document.getElementById('subscribeBtn');
+  var paymentMethods = document.getElementById('paymentMethods');
+  var loadingText = document.getElementById('loadingText');
+
+  if (mode === 'recurring') {
+    durationGroup.style.display = 'block';
+    noticeEl.style.display = 'flex';
+    document.getElementById('monthlyAmountDisplay').textContent = window.selectedAmount.toLocaleString('en-IN');
+    noticeText.innerHTML = 'You authorize automated monthly charges of <strong>₹' + window.selectedAmount.toLocaleString('en-IN') + '</strong> via secure eMandate, eNACH, or UPI Autopay.';
+    btnLabel.textContent = 'Subscribe';
+    subscribeBtn.innerHTML = '<i class="fas fa-lock"></i> Subscribe — ₹' + window.selectedAmount.toLocaleString('en-IN') + '/month';
+    paymentMethods.style.display = 'flex';
+    loadingText.textContent = 'Setting up your subscription...';
+  } else {
+    durationGroup.style.display = 'none';
+    noticeEl.style.display = 'flex';
+    document.getElementById('monthlyAmountDisplay').textContent = window.selectedAmount.toLocaleString('en-IN');
+    noticeText.innerHTML = 'You will be charged <strong>₹' + window.selectedAmount.toLocaleString('en-IN') + '</strong> now for the first month. Return each month to pay the next installment.';
+    btnLabel.textContent = 'Pay First Month';
+    subscribeBtn.innerHTML = '<i class="fas fa-lock"></i> Pay ₹' + window.selectedAmount.toLocaleString('en-IN') + ' Now';
+    paymentMethods.style.display = 'flex';
+    loadingText.textContent = 'Creating your enrollment...';
+  }
+}
+
+// ============================================================
+// Subscription / Enrollment Form Submission
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
   var form = document.getElementById('sudamasevaForm');
@@ -490,68 +554,178 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.disabled = true;
     loadingEl.style.display = 'flex';
 
-    // Build payload
-    var payload = {
-      donor_name: name,
-      donor_phone: phone,
-      donor_email: email,
-      pan_number: document.getElementById('panNumber').value.trim().toUpperCase(),
-      amount: window.selectedAmountPaise,
-      total_installments: parseInt(document.getElementById('totalInstallments').value),
-      area: document.getElementById('area').value.trim(),
-      city: document.getElementById('city').value.trim(),
-      state: document.getElementById('state').value.trim(),
-    };
+    var mode = window.collectionMode;
 
-    // Call create-subscription API
-    fetch('<?php echo BASE_URL; ?>api/sudamaseva/create-subscription', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.error) {
-        alert(data.error + (data.details ? ': ' + data.details : ''));
-        btn.disabled = false;
-        loadingEl.style.display = 'none';
-        return;
-      }
-
-      // Open Razorpay subscription checkout
-      var options = {
-        key: '<?php echo RAZORPAY_KEY_ID; ?>',
-        subscription_id: data.subscription_id,
-        name: 'ISKCON Palace Temple',
-        description: 'Sudamaseva Monthly: ₹' + window.selectedAmount.toLocaleString('en-IN'),
-        image: '<?php echo BASE_URL; ?>assets/images/iskcon_logo.svg',
-        currency: '<?php echo CURRENCY; ?>',
-        handler: function(response) {
-          // Redirect to verify endpoint
-          window.location.href = '<?php echo BASE_URL; ?>sudamaseva/success?subscription_id=' + encodeURIComponent(data.subscription_id)
-            + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
-            + '&signature=' + encodeURIComponent(response.razorpay_signature)
-            + '&amount=' + window.selectedAmountPaise;
-        },
-        modal: {
-          ondismiss: function() {
-            btn.disabled = false;
-            loadingEl.style.display = 'none';
-          }
-        }
+    if (mode === 'recurring') {
+      // ============================================================
+      // AUTO MONTHLY FLOW — Uses existing create-subscription API
+      // ============================================================
+      var payload = {
+        donor_name: name,
+        donor_phone: phone,
+        donor_email: email,
+        pan_number: document.getElementById('panNumber').value.trim().toUpperCase(),
+        amount: window.selectedAmountPaise,
+        total_installments: parseInt(document.getElementById('totalInstallments').value),
+        area: document.getElementById('area').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        state: document.getElementById('state').value.trim(),
       };
 
-      var rzp = new Razorpay(options);
-      rzp.open();
-    })
-    .catch(function(err) {
-      alert('Failed to create subscription. Please try again.');
-      console.error('Sudamaseva subscribe error:', err);
-      btn.disabled = false;
-      loadingEl.style.display = 'none';
-    });
+      fetch('<?php echo BASE_URL; ?>api/sudamaseva/create-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          alert(data.error + (data.details ? ': ' + data.details : ''));
+          btn.disabled = false;
+          loadingEl.style.display = 'none';
+          return;
+        }
+
+        // Open Razorpay subscription checkout
+        var options = {
+          key: '<?php echo RAZORPAY_KEY_ID; ?>',
+          subscription_id: data.subscription_id,
+          name: 'ISKCON Palace Temple',
+          description: 'Sudamaseva Monthly: ₹' + window.selectedAmount.toLocaleString('en-IN'),
+          image: '<?php echo BASE_URL; ?>assets/images/iskcon_logo.svg',
+          currency: '<?php echo CURRENCY; ?>',
+          handler: function(response) {
+            window.location.href = '<?php echo BASE_URL; ?>sudamaseva/success?subscription_id=' + encodeURIComponent(data.subscription_id)
+              + '&payment_id=' + encodeURIComponent(response.razorpay_payment_id)
+              + '&signature=' + encodeURIComponent(response.razorpay_signature)
+              + '&amount=' + window.selectedAmountPaise;
+          },
+          modal: {
+            ondismiss: function() {
+              btn.disabled = false;
+              loadingEl.style.display = 'none';
+            }
+          }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+      })
+      .catch(function(err) {
+        alert('Failed to create subscription. Please try again.');
+        console.error('Sudamaseva subscribe error:', err);
+        btn.disabled = false;
+        loadingEl.style.display = 'none';
+      });
+
+    } else {
+      // ============================================================
+      // PAY MONTHLY MANUALLY FLOW — Uses new enroll API
+      // ============================================================
+      var payload = {
+        donor_name: name,
+        donor_phone: phone,
+        donor_email: email,
+        pan_number: document.getElementById('panNumber').value.trim().toUpperCase(),
+        amount: window.selectedAmountPaise,
+        total_installments: parseInt(document.getElementById('totalInstallments').value),
+        area: document.getElementById('area').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        state: document.getElementById('state').value.trim(),
+      };
+
+      fetch('<?php echo BASE_URL; ?>api/sudamaseva/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          alert(data.error + (data.details ? ': ' + data.details : ''));
+          btn.disabled = false;
+          loadingEl.style.display = 'none';
+          return;
+        }
+
+        // Open Razorpay order checkout (not subscription)
+        var options = {
+          key: '<?php echo RAZORPAY_KEY_ID; ?>',
+          order_id: data.order_id,
+          name: 'ISKCON Palace Temple',
+          description: 'Sudamaseva First Month: ₹' + window.selectedAmount.toLocaleString('en-IN'),
+          image: '<?php echo BASE_URL; ?>assets/images/iskcon_logo.svg',
+          currency: '<?php echo CURRENCY; ?>',
+          handler: function(response) {
+            // Verify the order payment
+            verifyManualPayment(data.db_subscription_id, 1, window.selectedAmountPaise, response, data.donor_id);
+          },
+          modal: {
+            ondismiss: function() {
+              btn.disabled = false;
+              loadingEl.style.display = 'none';
+            }
+          }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+      })
+      .catch(function(err) {
+        alert('Failed to create enrollment. Please try again.');
+        console.error('Sudamaseva enroll error:', err);
+        btn.disabled = false;
+        loadingEl.style.display = 'none';
+      });
+    }
   });
 });
+
+// ============================================================
+// Verify manual payment after Razorpay checkout
+// ============================================================
+function verifyManualPayment(subscriptionId, installmentNumber, amount, response, donorId) {
+  var loadingEl = document.getElementById('sudamasevaLoading');
+  var btn = document.getElementById('subscribeBtn');
+  loadingEl.querySelector('p').textContent = 'Verifying payment...';
+
+  fetch('<?php echo BASE_URL; ?>api/sudamaseva/verify-order', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      razorpay_order_id: response.razorpay_order_id,
+      razorpay_payment_id: response.razorpay_payment_id,
+      razorpay_signature: response.razorpay_signature,
+      subscription_id: subscriptionId,
+      installment_number: installmentNumber,
+      amount: amount
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      // Redirect to dashboard with success
+      window.location.href = '<?php echo BASE_URL; ?>sudamaseva/dashboard?donor_id=' + donorId + '&payment=success';
+    } else {
+      alert('Payment verification failed: ' + (data.error || 'Unknown error'));
+      loadingEl.style.display = 'none';
+      btn.disabled = false;
+    }
+  })
+  .catch(function(err) {
+    alert('Payment verification failed. Please contact support.');
+    console.error('Verify error:', err);
+    loadingEl.style.display = 'none';
+    btn.disabled = false;
+  });
+}
+
+// ============================================================
+// FAQ Toggle
+// ============================================================
+function toggleFaq(el) {
+  el.classList.toggle('active');
+}
 </script>
 
 <?php include __DIR__ . '/../../Kernel/partials/footer.php'; ?>

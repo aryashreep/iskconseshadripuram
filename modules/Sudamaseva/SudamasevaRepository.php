@@ -70,6 +70,26 @@ class SudamasevaRepository
     }
 
     /**
+     * Find a donor by phone number OR legacy ID.
+     * Used for public donor lookup where the user can enter either.
+     */
+    public function findDonorByPhoneOrLegacyId(string $query): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT * FROM sudamaseva_donors
+                WHERE phone = ? OR legacy_id_no = ?
+                LIMIT 1
+            ");
+            $stmt->execute([$query, $query]);
+            return $stmt->fetch() ?: null;
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::findDonorByPhoneOrLegacyId error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Search/List donors with optional filters.
      *
      * @param string|null $status  Filter by status: 'active', 'inactive', 'paused', or null for all
@@ -568,6 +588,107 @@ class SudamasevaRepository
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             error_log('SudamasevaRepository::getPaymentsBySubscription error: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Get the set of paid installment numbers for a subscription.
+     * Returns an array of integers (e.g. [1, 2, 3]).
+     */
+    public function getPaidInstallmentNumbers(int $subscriptionId): array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT installment_number FROM sudamaseva_payments
+                WHERE subscription_id = ? AND payment_status = 'paid'
+                ORDER BY installment_number ASC
+            ");
+            $stmt->execute([$subscriptionId]);
+            return array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN));
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getPaidInstallmentNumbers error: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Get the next unpaid installment number for a subscription.
+     * Returns null if all installments are paid or subscription is completed.
+     */
+    public function getNextUnpaidInstallment(int $subscriptionId): ?int
+    {
+        try {
+            $paid = $this->getPaidInstallmentNumbers($subscriptionId);
+
+            $stmt = $this->db->prepare("SELECT total_installments FROM sudamaseva_subscriptions WHERE id = ?");
+            $stmt->execute([$subscriptionId]);
+            $row = $stmt->fetch();
+
+            if (!$row) {
+                return null;
+            }
+
+            $total = (int) ($row['total_installments'] ?? 0);
+            if ($total <= 0) {
+                // Open-ended: next unpaid is last paid + 1, or 1 if none paid
+                return empty($paid) ? 1 : max($paid) + 1;
+            }
+
+            for ($i = 1; $i <= $total; $i++) {
+                if (!in_array($i, $paid)) {
+                    return $i;
+                }
+            }
+
+            return null; // All paid
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getNextUnpaidInstallment error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get subscription with all its payments, donor info, and schedule details.
+     * Returns the subscription row with nested payments and computed fields.
+     */
+    public function getSubscriptionWithPayments(int $subscriptionId): ?array
+    {
+        try {
+            $sub = $this->getSubscriptionById($subscriptionId);
+            if (!$sub) {
+                return null;
+            }
+
+            $sub['payments'] = $this->getPaymentsBySubscription($subscriptionId);
+            $sub['paid_installments'] = $this->getPaidInstallmentNumbers($subscriptionId);
+            $sub['next_unpaid'] = $this->getNextUnpaidInstallment($subscriptionId);
+
+            return $sub;
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getSubscriptionWithPayments error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get all subscriptions (both recurring and manual) for a donor.
+     * Includes collection_mode for distinguishing payment method.
+     */
+    public function getSubscriptionsByDonorWithMode(int $donorId): array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT s.*, 
+                    (SELECT COUNT(*) FROM sudamaseva_payments p WHERE p.subscription_id = s.id AND p.payment_status = 'paid') as paid_count
+                FROM sudamaseva_subscriptions s
+                WHERE s.donor_id = ?
+                ORDER BY s.created_at DESC
+            ");
+            $stmt->execute([$donorId]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getSubscriptionsByDonorWithMode error: ' . $e->getMessage());
             return [];
         }
     }
