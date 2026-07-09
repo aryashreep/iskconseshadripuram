@@ -220,7 +220,9 @@ $totalMonthlyAmount = $subscriptionStats['total_monthly_amount'] ?? 0;
               <tr>
                 <td style="font-size:12px; color:var(--text-light); white-space:nowrap;"><?php echo $service->formatDate($p['payment_date'] ?? null); ?></td>
                 <td>
-                  <strong style="color:var(--dark);"><?php echo htmlspecialchars($p['donor_name'] ?? '—'); ?></strong>
+                  <a href="admin/sudamaseva-donor-detail?id=<?php echo htmlspecialchars($p['donor_id'] ?? ''); ?>" style="text-decoration:none; color:var(--primary); font-weight:600;">
+                    <?php echo htmlspecialchars($p['donor_name'] ?? '—'); ?>
+                  </a>
                   <div style="font-size:11px; color:var(--text-light);"><?php echo htmlspecialchars($p['phone'] ?? ''); ?></div>
                 </td>
                 <td style="font-weight:600; color:var(--maroon);"><?php echo $service->formatAmount((float) ($p['amount'] ?? 0)); ?></td>

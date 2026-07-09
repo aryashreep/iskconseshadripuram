@@ -198,16 +198,42 @@ $queryString = http_build_query($queryParams);
 </div>
 
 <!-- Pagination -->
+<link rel="stylesheet" href="<?= asset('assets/css/pages/admin/donations.css') ?>">
 <?php if ($pages > 1): ?>
   <div style="display:flex; justify-content:center; align-items:center; gap:6px; margin-top:var(--space-xl); margin-bottom:var(--space-2xl);">
     <?php if ($page > 1): ?>
-      <a href="admin/sudamaseva-subscriptions?page=<?php echo ($page - 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link"><i class="fas fa-chevron-left"></i> Prev</a>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-subscriptions?page=<?php echo ($page - 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link"><i class="fas fa-chevron-left" style="font-size:10px; margin-right:4px;"></i> Prev</a>
     <?php endif; ?>
-    <?php for ($i = 1; $i <= $pages; $i++): ?>
-      <a href="admin/sudamaseva-subscriptions?page=<?php echo $i; ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link<?php echo $i === $page ? ' active' : ''; ?>"><?php echo $i; ?></a>
+
+    <?php
+      $maxVisible = 10;
+      $startPage = max(1, $page - 5);
+      $endPage = min($pages, $startPage + $maxVisible - 1);
+      if ($endPage - $startPage + 1 < $maxVisible) {
+          $startPage = max(1, $endPage - $maxVisible + 1);
+      }
+      
+      if ($startPage > 1):
+    ?>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-subscriptions?page=1<?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link">1</a>
+      <?php if ($startPage > 2): ?>
+        <span style="color:var(--text-light); padding: 0 4px;">...</span>
+      <?php endif; ?>
+    <?php endif; ?>
+
+    <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-subscriptions?page=<?php echo $i; ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link<?php echo $i === $page ? ' active' : ''; ?>"><?php echo $i; ?></a>
     <?php endfor; ?>
+
+    <?php if ($endPage < $pages): ?>
+      <?php if ($endPage < $pages - 1): ?>
+        <span style="color:var(--text-light); padding: 0 4px;">...</span>
+      <?php endif; ?>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-subscriptions?page=<?php echo $pages; ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link"><?php echo $pages; ?></a>
+    <?php endif; ?>
+
     <?php if ($page < $pages): ?>
-      <a href="admin/sudamaseva-subscriptions?page=<?php echo ($page + 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link">Next <i class="fas fa-chevron-right"></i></a>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-subscriptions?page=<?php echo ($page + 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link">Next <i class="fas fa-chevron-right" style="font-size:10px; margin-left:4px;"></i></a>
     <?php endif; ?>
   </div>
 <?php endif; ?>

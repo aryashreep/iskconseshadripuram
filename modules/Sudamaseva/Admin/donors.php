@@ -185,8 +185,25 @@ $queryString = http_build_query($queryParams);
                   <span class="badge <?php echo $statusClass; ?>"><?php echo htmlspecialchars(ucfirst($d['status'] ?? 'unknown')); ?></span>
                 </td>
                 <td style="font-size:11px; color:var(--text-light);"><?php echo $service->formatDate($d['created_at'] ?? null, 'd M Y'); ?></td>
-                <td style="text-align:center; white-space:nowrap;">
-                  <a href="admin/sudamaseva-donor-detail?id=<?php echo $d['id']; ?>" class="btn-sm-action btn-edit" title="View Donor Profile"><i class="fas fa-user"></i></a>
+                <td style="text-align:center; white-space:nowrap; display:flex; gap:4px; justify-content:center; align-items:center;">
+                  <a href="admin/sudamaseva-donor-detail?id=<?php echo $d['id']; ?>" class="btn-sm-action btn-edit" title="View Donor Profile" style="padding: 6px 8px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; text-decoration:none;"><i class="fas fa-user"></i></a>
+                  <?php if (!empty($d['active_sub_id'])): ?>
+                    <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $d['active_sub_id']; ?>" class="btn-sm-action" title="Record Offline Payment" style="padding: 6px 8px; border-radius: 4px; background:#2e7d32; color:white; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; text-decoration:none;"><i class="fas fa-hand-holding-usd"></i></a>
+                  <?php else: 
+                    $nextCycle = max(1, (int)($d['max_cycle'] ?? 0) + 1);
+                    $enrollUrl = "admin/sudamaseva-donor-add?phone=" . urlencode($d['phone'] ?? '') 
+                      . "&donor_name=" . urlencode($d['donor_name'] ?? '')
+                      . "&email=" . urlencode($d['email'] ?? '')
+                      . "&pan=" . urlencode($d['pan'] ?? '')
+                      . "&area=" . urlencode($d['area'] ?? '')
+                      . "&city=" . urlencode($d['city'] ?? '')
+                      . "&state=" . urlencode($d['state'] ?? '')
+                      . "&cycle=" . $nextCycle;
+                  ?>
+                    <?php if (hasPermission('sudamaseva.edit')): ?>
+                      <a href="<?php echo $enrollUrl; ?>" class="btn-sm-action" title="Enroll / Renew Subscription (New Cycle)" style="padding: 6px 8px; border-radius: 4px; background:#0b5ed7; color:white; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; text-decoration:none;"><i class="fas fa-user-plus"></i></a>
+                    <?php endif; ?>
+                  <?php endif; ?>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -198,16 +215,42 @@ $queryString = http_build_query($queryParams);
 </div>
 
 <!-- Pagination -->
+<link rel="stylesheet" href="<?= asset('assets/css/pages/admin/donations.css') ?>">
 <?php if ($pages > 1): ?>
   <div style="display:flex; justify-content:center; align-items:center; gap:6px; margin-top:var(--space-xl); margin-bottom:var(--space-2xl);">
     <?php if ($page > 1): ?>
-      <a href="admin/sudamaseva-donors?page=<?php echo ($page - 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link"><i class="fas fa-chevron-left" style="font-size:10px; margin-right:4px;"></i> Prev</a>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-donors?page=<?php echo ($page - 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link"><i class="fas fa-chevron-left" style="font-size:10px; margin-right:4px;"></i> Prev</a>
     <?php endif; ?>
-    <?php for ($i = 1; $i <= $pages; $i++): ?>
-      <a href="admin/sudamaseva-donors?page=<?php echo $i; ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link<?php echo $i === $page ? ' active' : ''; ?>"><?php echo $i; ?></a>
+
+    <?php
+      $maxVisible = 10;
+      $startPage = max(1, $page - 5);
+      $endPage = min($pages, $startPage + $maxVisible - 1);
+      if ($endPage - $startPage + 1 < $maxVisible) {
+          $startPage = max(1, $endPage - $maxVisible + 1);
+      }
+      
+      if ($startPage > 1):
+    ?>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-donors?page=1<?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link">1</a>
+      <?php if ($startPage > 2): ?>
+        <span style="color:var(--text-light); padding: 0 4px;">...</span>
+      <?php endif; ?>
+    <?php endif; ?>
+
+    <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-donors?page=<?php echo $i; ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link<?php echo $i === $page ? ' active' : ''; ?>"><?php echo $i; ?></a>
     <?php endfor; ?>
+
+    <?php if ($endPage < $pages): ?>
+      <?php if ($endPage < $pages - 1): ?>
+        <span style="color:var(--text-light); padding: 0 4px;">...</span>
+      <?php endif; ?>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-donors?page=<?php echo $pages; ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link"><?php echo $pages; ?></a>
+    <?php endif; ?>
+
     <?php if ($page < $pages): ?>
-      <a href="admin/sudamaseva-donors?page=<?php echo ($page + 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link">Next <i class="fas fa-chevron-right" style="font-size:10px; margin-left:4px;"></i></a>
+      <a href="<?php echo BASE_URL; ?>admin/sudamaseva-donors?page=<?php echo ($page + 1); ?><?php echo !empty($queryString) ? '&' . $queryString : ''; ?>" class="page-link">Next <i class="fas fa-chevron-right" style="font-size:10px; margin-left:4px;"></i></a>
     <?php endif; ?>
   </div>
 <?php endif; ?>

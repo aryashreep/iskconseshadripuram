@@ -177,7 +177,7 @@ if (!isset($activePage)) {
         <?php endif; ?>
         <?php if (hasPermission('sudamaseva.view')): ?>
           <?php
-            $sudamasevaSubPages = ['sudamaseva-dashboard', 'sudamaseva-donors', 'sudamaseva-subscriptions', 'sudamaseva-payments', 'sudamaseva-receipts'];
+            $sudamasevaSubPages = ['sudamaseva-dashboard', 'sudamaseva-donors', 'sudamaseva-donor-add', 'sudamaseva-subscriptions', 'sudamaseva-payments', 'sudamaseva-receipts'];
             $sudamasevaActive = in_array($activePage, $sudamasevaSubPages);
           ?>
           <li class="admin-nav-group <?php echo $sudamasevaActive ? 'active' : ''; ?>">
@@ -196,6 +196,13 @@ if (!isset($activePage)) {
                   <i class="fas fa-users"></i> Donors
                 </a>
               </li>
+              <?php if (hasPermission('sudamaseva.edit')): ?>
+                <li class="admin-subnav-item <?php echo $activePage === 'sudamaseva-donor-add' ? 'active' : ''; ?>">
+                  <a href="admin/sudamaseva-donor-add">
+                    <i class="fas fa-user-plus"></i> Enroll New Donor
+                  </a>
+                </li>
+              <?php endif; ?>
               <li class="admin-subnav-item <?php echo $activePage === 'sudamaseva-subscriptions' ? 'active' : ''; ?>">
                 <a href="admin/sudamaseva-subscriptions">
                   <i class="fas fa-sync"></i> Subscriptions

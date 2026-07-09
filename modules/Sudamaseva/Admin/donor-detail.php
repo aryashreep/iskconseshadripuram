@@ -69,6 +69,29 @@ $totalPaid = $dashboard['total_paid'] ?? 0;
 $totalPaidFormatted = $dashboard['total_paid_formatted'] ?? '₹0';
 $fyTotal = $dashboard['current_fy_total'] ?? 0;
 $fyLabel = $service->getFinancialYearLabel();
+
+// Determine which subscription's schedule to display
+$selectedSubId = isset($_GET['sub_id']) ? (int) $_GET['sub_id'] : 0;
+$selectedSub = null;
+
+if ($selectedSubId > 0) {
+    foreach ($subscriptions as $sub) {
+        if ((int)$sub['id'] === $selectedSubId) {
+            $selectedSub = $sub;
+            break;
+        }
+    }
+}
+
+// Fallback to active subscription
+if (!$selectedSub) {
+    $selectedSub = $activeSub;
+}
+
+// Fallback to first subscription (most recent) if active is null
+if (!$selectedSub && !empty($subscriptions)) {
+    $selectedSub = $subscriptions[0];
+}
 ?>
 <div class="admin-page-header">
   <div class="admin-page-title">
@@ -216,8 +239,8 @@ $fyLabel = $service->getFinancialYearLabel();
 </div>
 
 <!-- Payment Schedule Grid (Full Width) -->
-<?php if ($activeSub): 
-  $schedule = $service->buildInstallmentSchedule($activeSub);
+<?php if ($selectedSub): 
+  $schedule = $service->buildInstallmentSchedule($selectedSub);
 ?>
 <style>
 .admin-inst-grid {
@@ -278,22 +301,22 @@ $fyLabel = $service->getFinancialYearLabel();
 
 <div class="admin-card" style="margin-bottom:var(--space-xl);">
   <div class="admin-card-header" style="background:var(--cream);">
-    <h2><i class="fas fa-calendar-alt" style="color:var(--primary);"></i> Payment Schedule</h2>
+    <h2><i class="fas fa-calendar-alt" style="color:var(--primary);"></i> Payment Schedule (Subscription #<?php echo $selectedSub['id']; ?>)</h2>
     <span style="font-size:12px; color:var(--text-light); font-weight:600;">
-      Showing <?php echo count($schedule); ?> months schedule
+      Status: <span class="badge <?php echo ($selectedSub['status'] === 'active') ? 'badge-success' : 'badge-secondary'; ?>" style="font-size: 10px; padding: 2px 6px; vertical-align: middle;"><?php echo htmlspecialchars(ucfirst($selectedSub['status'])); ?></span> &middot; Showing <?php echo count($schedule); ?> months
     </span>
   </div>
   <div class="admin-card-body" style="padding:var(--space-lg);">
     <div class="admin-inst-grid">
       <?php foreach ($schedule as $inst): ?>
-        <div class="admin-inst-card <?php echo $inst['is_paid'] ? 'inst-paid' : ($inst['is_next_unpaid'] ? 'inst-due' : 'inst-upcoming'); ?>">
+        <div class="admin-inst-card <?php echo $inst['is_paid'] ? 'inst-paid' : ($inst['is_next_unpaid'] && $selectedSub['status'] === 'active' ? 'inst-due' : 'inst-upcoming'); ?>">
           <div class="admin-inst-month"><?php echo $inst['month']; ?></div>
           <div class="admin-inst-number">#<?php echo $inst['number']; ?></div>
-          <div class="admin-inst-status <?php echo $inst['is_paid'] ? 'paid' : ($inst['is_next_unpaid'] ? 'due' : 'upcoming'); ?>">
+          <div class="admin-inst-status <?php echo $inst['is_paid'] ? 'paid' : ($inst['is_next_unpaid'] && $selectedSub['status'] === 'active' ? 'due' : 'upcoming'); ?>">
             <?php if ($inst['is_paid']): ?>
               ✓ Paid
-            <?php elseif ($inst['is_next_unpaid']): ?>
-              <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $activeSub['id']; ?>&installment_number=<?php echo $inst['number']; ?>" class="btn-record-pay" style="display:inline-block; font-size:10px; padding:2px 8px; border-radius:3px; background:var(--maroon); color:white; text-decoration:none; font-weight:700; margin-top:4px;" title="Record offline payment for this month">
+            <?php elseif ($inst['is_next_unpaid'] && $selectedSub['status'] === 'active'): ?>
+              <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $selectedSub['id']; ?>&installment_number=<?php echo $inst['number']; ?>" class="btn-record-pay" style="display:inline-block; font-size:10px; padding:2px 8px; border-radius:3px; background:var(--maroon); color:white; text-decoration:none; font-weight:700; margin-top:4px;" title="Record offline payment for this month">
                 Record Pay
               </a>
             <?php else: ?>
@@ -324,18 +347,20 @@ $fyLabel = $service->getFinancialYearLabel();
             <th>Installments</th>
             <th>Progress</th>
             <th>Source</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($subscriptions)): ?>
-            <tr><td colspan="7" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No subscriptions for this donor.</td></tr>
+            <tr><td colspan="8" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No subscriptions for this donor.</td></tr>
           <?php else: ?>
             <?php foreach ($subscriptions as $s):
               $progress = $service->calculateSubscriptionProgress($s);
               $totalInst = (int) ($s['total_installments'] ?? 0);
               $paidInst = (int) ($s['installments_paid'] ?? 0);
+              $isSelected = $selectedSub && (int)$selectedSub['id'] === (int)$s['id'];
             ?>
-              <tr>
+              <tr <?php echo $isSelected ? 'style="background-color: #fffde6; font-weight: 500;"' : ''; ?>>
                 <td style="font-family:monospace;">#<?php echo $s['id']; ?></td>
                 <td style="font-weight:600; color:var(--maroon);"><?php echo $service->formatAmount((float) ($s['amount'] ?? 0)); ?></td>
                 <td><?php echo $service->renderStatusBadge($s['status'] ?? 'unknown'); ?></td>
@@ -354,6 +379,15 @@ $fyLabel = $service->getFinancialYearLabel();
                   <?php endif; ?>
                 </td>
                 <td><span class="badge badge-info"><?php echo htmlspecialchars($s['source'] ?? '—'); ?></span></td>
+                <td>
+                  <?php if ($isSelected): ?>
+                    <span style="font-size:11px; font-weight:700; color:var(--primary);"><i class="fas fa-eye"></i> Selected</span>
+                  <?php else: ?>
+                    <a href="admin/sudamaseva-donor-detail?id=<?php echo $donorId; ?>&sub_id=<?php echo $s['id']; ?>" class="btn btn-outline-dark btn-xs" style="text-decoration:none; padding:4px 8px; font-size:11px; border:1px solid var(--border); border-radius:var(--radius-sm); font-weight:600;">
+                      View Schedule
+                    </a>
+                  <?php endif; ?>
+                </td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>

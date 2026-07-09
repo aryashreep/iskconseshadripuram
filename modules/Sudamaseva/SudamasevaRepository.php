@@ -132,10 +132,18 @@ class SudamasevaRepository
 
             // Fetch page
             $stmt = $this->db->prepare(
-                "SELECT * FROM sudamaseva_donors {$whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?"
+                "SELECT *, 
+                        (SELECT id FROM sudamaseva_subscriptions WHERE donor_id = sudamaseva_donors.id AND status = 'active' LIMIT 1) as active_sub_id,
+                        (SELECT MAX(cycle) FROM sudamaseva_subscriptions WHERE donor_id = sudamaseva_donors.id) as max_cycle
+                 FROM sudamaseva_donors {$whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?"
             );
-            $fetchParams = array_merge($params, [$perPage, $offset]);
-            $stmt->execute($fetchParams);
+            $paramIndex = 1;
+            foreach ($params as $pVal) {
+                $stmt->bindValue($paramIndex++, $pVal, PDO::PARAM_STR);
+            }
+            $stmt->bindValue($paramIndex++, $perPage, PDO::PARAM_INT);
+            $stmt->bindValue($paramIndex++, $offset, PDO::PARAM_INT);
+            $stmt->execute();
             $donors = $stmt->fetchAll();
 
             return [
@@ -369,8 +377,13 @@ class SudamasevaRepository
                 ORDER BY s.created_at DESC
                 LIMIT ? OFFSET ?
             ");
-            $fetchParams = array_merge($params, [$perPage, $offset]);
-            $stmt->execute($fetchParams);
+            $paramIndex = 1;
+            foreach ($params as $pVal) {
+                $stmt->bindValue($paramIndex++, $pVal, PDO::PARAM_STR);
+            }
+            $stmt->bindValue($paramIndex++, $perPage, PDO::PARAM_INT);
+            $stmt->bindValue($paramIndex++, $offset, PDO::PARAM_INT);
+            $stmt->execute();
 
             return [
                 'subscriptions' => $stmt->fetchAll(),
@@ -1051,8 +1064,13 @@ class SudamasevaRepository
                 ORDER BY r.receipt_date DESC
                 LIMIT ? OFFSET ?
             ");
-            $fetchParams = array_merge($params, [$perPage, $offset]);
-            $stmt->execute($fetchParams);
+            $paramIndex = 1;
+            foreach ($params as $pVal) {
+                $stmt->bindValue($paramIndex++, $pVal, PDO::PARAM_STR);
+            }
+            $stmt->bindValue($paramIndex++, $perPage, PDO::PARAM_INT);
+            $stmt->bindValue($paramIndex++, $offset, PDO::PARAM_INT);
+            $stmt->execute();
 
             return [
                 'receipts' => $stmt->fetchAll(),

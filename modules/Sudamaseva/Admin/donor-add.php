@@ -158,11 +158,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:var(--space-lg); margin-bottom:var(--space-md);">
         <div class="form-group">
           <label for="donor_name" style="font-weight:600;">Donor Name *</label>
-          <input type="text" id="donor_name" name="donor_name" class="form-control" placeholder="Full name of donor" required>
+          <input type="text" id="donor_name" name="donor_name" class="form-control" placeholder="Full name of donor" value="<?php echo htmlspecialchars($_GET['donor_name'] ?? ''); ?>" required>
         </div>
         <div class="form-group">
           <label for="phone" style="font-weight:600;">Phone Number *</label>
-          <input type="text" id="phone" name="phone" class="form-control" placeholder="10-digit mobile" required>
+          <input type="text" id="phone" name="phone" class="form-control" placeholder="10-digit mobile" value="<?php echo htmlspecialchars($_GET['phone'] ?? ''); ?>" required>
           <small style="font-size:10px; color:var(--text-light);">If the phone number exists, the subscription will link to their existing profile.</small>
         </div>
       </div>
@@ -170,11 +170,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:var(--space-lg); margin-bottom:var(--space-xl);">
         <div class="form-group">
           <label for="email" style="font-weight:600;">Email Address</label>
-          <input type="email" id="email" name="email" class="form-control" placeholder="name@domain.com">
+          <input type="email" id="email" name="email" class="form-control" placeholder="name@domain.com" value="<?php echo htmlspecialchars($_GET['email'] ?? ''); ?>">
         </div>
         <div class="form-group">
           <label for="pan" style="font-weight:600;">PAN Number (for 80G)</label>
-          <input type="text" id="pan" name="pan" class="form-control" style="text-transform:uppercase;" placeholder="ABCDE1234F" pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}" title="Standard PAN Format: 5 Letters, 4 Digits, 1 Letter">
+          <input type="text" id="pan" name="pan" class="form-control" style="text-transform:uppercase;" placeholder="ABCDE1234F" pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}" title="Standard PAN Format: 5 Letters, 4 Digits, 1 Letter" value="<?php echo htmlspecialchars($_GET['pan'] ?? ''); ?>">
         </div>
       </div>
 
@@ -183,15 +183,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
       <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:var(--space-lg); margin-bottom:var(--space-xl);">
         <div class="form-group">
           <label for="area" style="font-weight:600;">Area / Locality</label>
-          <input type="text" id="area" name="area" class="form-control" placeholder="e.g. Malleswaram">
+          <input type="text" id="area" name="area" class="form-control" placeholder="e.g. Malleswaram" value="<?php echo htmlspecialchars($_GET['area'] ?? ''); ?>">
         </div>
         <div class="form-group">
           <label for="city" style="font-weight:600;">City</label>
-          <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Bangalore">
+          <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Bangalore" value="<?php echo htmlspecialchars($_GET['city'] ?? ''); ?>">
         </div>
         <div class="form-group">
           <label for="state" style="font-weight:600;">State</label>
-          <input type="text" id="state" name="state" class="form-control" placeholder="e.g. Karnataka">
+          <input type="text" id="state" name="state" class="form-control" placeholder="e.g. Karnataka" value="<?php echo htmlspecialchars($_GET['state'] ?? ''); ?>">
         </div>
       </div>
 
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         </div>
         <div class="form-group">
           <label for="cycle" style="font-weight:600;">Subscription Cycle</label>
-          <input type="number" id="cycle" name="cycle" class="form-control" value="1" min="1" required>
+          <input type="number" id="cycle" name="cycle" class="form-control" value="<?php echo htmlspecialchars($_GET['cycle'] ?? '1'); ?>" min="1" required>
         </div>
         <div class="form-group">
           <label for="start_date" style="font-weight:600;">Start Date</label>
