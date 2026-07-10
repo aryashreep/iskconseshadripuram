@@ -30,19 +30,24 @@ $ekadashis = [
   ['title' => 'Saphala Ekadashi',              'slug' => 'saphala',    'month' => 'Pausha',     'paksha' => 'Krishna (Waning)', 'desc' => 'Makes all activities successful and helps the fallen soul achieve pure love of God.'],
 ];
 
+// Build a slug => image_url lookup from DB (so listing banners match detail page banners)
+$dbImages = [];
+$dbEkadashis = getDonationCauses('ekadashi', false);
+foreach ($dbEkadashis as $db) {
+    if (!empty($db['slug']) && !empty($db['image_url'])) {
+        $dbImages[$db['slug']] = $db['image_url'];
+    }
+}
+
 $listItems = [];
 foreach ($ekadashis as $e) {
-    $isShukla = strpos($e['paksha'], 'Shukla') !== false;
     $listItems[] = [
-        'title'    => $e['title'],
-        'desc'     => $e['desc'],
-        'slug'     => $e['slug'],
-        'link'     => 'festivals/detail.php?slug=' . $e['slug'],
+        'title'        => $e['title'],
+        'desc'         => $e['desc'] . ' Observed in ' . $e['month'] . ' month during ' . $e['paksha'] . '.',
+        'slug'         => $e['slug'],
+        'image'        => $dbImages[$e['slug']] ?? 'assets/images/banners/ekadashi/' . $e['slug'] . '.jpg',
+        'link'         => 'festivals/ekadashi/' . $e['slug'] . '/',
         'donationSlug' => 'ekadashi-general',
-        'month'    => $e['month'],
-        'paksha'   => $e['paksha'],
-        'cardIcon' => $isShukla ? 'fas fa-moon' : 'far fa-moon',
-        'cardColor'=> $isShukla ? 'var(--primary)' : 'var(--maroon)',
     ];
 }
 
@@ -51,13 +56,11 @@ $listConfig = [
     'title'            => 'Ekadashi',
     'icon'             => '🌙',
     'description'      => 'Ekadashi is the eleventh day of the lunar fortnight, dedicated to Lord Vishnu. Fasting on this day helps cleanse the body and elevate spiritual consciousness.',
-    'cardLayout'       => 'bordered_card',
+    'cardLayout'       => 'image_card',
     'showSearch'       => true,
-    'searchFields'     => ['title', 'month', 'paksha', 'desc'],
-    'searchPlaceholder'=> 'Search Ekadashis, fortnights, Vedic months, or benefits...',
+    'searchFields'     => ['title', 'desc'],
+    'searchPlaceholder'=> 'Search Ekadashis by name or benefits...',
     'emptyMessage'     => 'No matching Ekadashis found.',
-    'metadataKeys'     => ['paksha'],
-    'metadataLabels'   => ['month' => 'Month: '],
     'detailBtnLabel'   => 'Divine Glories',
     'donationBtnLabel' => 'Offer Ekadashi Seva',
     'infoBox'          => '<h4 style="margin-top:0;margin-bottom:var(--space-sm);color:var(--primary);font-family:var(--font-heading);font-weight:600;"><i class="fas fa-info-circle"></i> Fasting Guidelines</h4>Fasting starts at sunrise and ends the next morning during the Parana time. In general, grain, beans, and pulses must be avoided on Ekadashi. Devotees chant more rounds of the Hare Krishna maha-mantra and spend time in devotional reading and hearing. To see the scheduled Gregorian dates for the current year, please consult the active <a href="' . BASE_URL . 'festivals/vaishnava-calendar" style="color:var(--primary); font-weight:600; text-decoration:underline;">Vaishnava Calendar</a>.',

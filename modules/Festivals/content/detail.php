@@ -129,6 +129,9 @@ if ($festival) {
     ];
 }
 
+// Set canonical URL to SEO-friendly version (overrides default from header.php)
+$canonicalUrl = $eventUrl;
+
 include '../partials/header.php';
 ?>
 
@@ -151,8 +154,8 @@ include '../partials/header.php';
 <section class="page-content" style="background:var(--cream-light); padding:var(--space-3xl) 0;">
   <div class="container" style="max-width:850px; background:var(--white); padding:var(--space-2xl) var(--space-xl); border-radius:var(--radius-lg); box-shadow:var(--shadow-md); border:1px solid var(--border);">
     
-    <!-- Banner Image -->
-    <?php if ($festival['image_url']): ?>
+    <!-- Banner Image (only when content_body doesn't already contain an <img> tag) -->
+    <?php if (!str_contains($festival['content_body'] ?? '', $festival['image_url']) && !empty($festival['image_url'])): ?>
     <div style="margin-bottom:var(--space-xl); text-align:center; overflow:hidden; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); border:1px solid var(--border);">
       <img src="<?php echo BASE_URL . $festival['image_url']; ?>" alt="<?php echo htmlspecialchars($festival['title']); ?> Banner" style="width:100%; height:auto; display:block;">
     </div>

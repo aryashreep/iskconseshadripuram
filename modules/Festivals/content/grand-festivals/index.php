@@ -17,7 +17,7 @@ foreach ($festivals as $f) {
         'title'        => $f['short_title'] ?: $f['title'],
         'desc'         => $f['description'] ?? '',
         'image'        => $f['image_url'] ?: 'assets/images/banners/calendar.jpg',
-        'link'         => 'festivals/detail.php?slug=' . urlencode($f['slug']),
+        'link'         => 'festivals/grand-festivals/' . urlencode($f['slug']) . '/',
         'donationSlug' => $f['slug'],
     ];
 }

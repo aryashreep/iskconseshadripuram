@@ -4,7 +4,18 @@
 // SEO defaults — pages can override these before including header.php
 $metaDescription ??= SITE_NAME . ', ' . SITE_TAGLINE . ' — Official Website. Daily darshan, puja booking, festivals, and spiritual programs since 1998.';
 $metaKeywords ??= 'ISKCON, Jagannath Temple, Bangalore Temple, Seshadripuram, Hare Krishna, Hindu Temple Bangalore, Puja Booking, Vaishnavism';
-$canonicalUrl ??= BASE_URL . ltrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+// Auto-detect hardcoded festival .php pages and use SEO-friendly canonical URL
+// e.g. /festivals/grand-festivals/janmashtami.php → /festivals/grand-festivals/janmashtami/
+// Only applies if no custom canonical was already set by the page
+if (!isset($canonicalUrl)) {
+    $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $festivalPatterns = ['grand-festivals', 'ekadashi', 'appearance', 'disappearance', 'events'];
+    // Use a single alternation regex (cleaner than looping) and exclude index.php
+    if (preg_match('#^/festivals/(grand-festivals|ekadashi|appearance|disappearance|events)/([^/]+)\.php$#', $requestPath, $matches) && $matches[2] !== 'index') {
+        $canonicalUrl = BASE_URL . 'festivals/' . $matches[1] . '/' . $matches[2] . '/';
+    }
+    $canonicalUrl ??= BASE_URL . ltrim($requestPath, '/');
+}
 $ogImage ??= BASE_URL . 'assets/images/og-default.svg';
 $ogType ??= 'website';
 ?>

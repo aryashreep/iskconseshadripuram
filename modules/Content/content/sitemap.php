@@ -12,7 +12,7 @@
 error_reporting(0);
 
 // Bootstrap minimal context without full header/footer
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../../../config.php';
 
 // Set XML content type
 header('Content-Type: application/xml; charset=utf-8');

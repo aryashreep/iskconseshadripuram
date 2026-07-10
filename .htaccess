@@ -132,6 +132,31 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^sudamaseva/dashboard/?$ sudamaseva/dashboard.php [L,QSA]
 
 # ============================================
+# Festival Detail Pages (SEO-friendly URLs)
+# ============================================
+# /festivals/grand-festivals/janmashtami/ → detail.php?slug=janmashtami
+# Actual files (e.g. festivals/grand-festivals/janmashtami.php) take priority via !-f check
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/grand-festivals/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/ekadashi/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/appearance/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/disappearance/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/events/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+# ============================================
 # Generic Rewrite: /page → /page.php
 # ============================================
 RewriteCond %{REQUEST_FILENAME} !-d

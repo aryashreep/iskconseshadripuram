@@ -10,25 +10,31 @@ $typeLabels = ['avatar' => 'Divine Avatar', 'expansion' => 'Divine Expansion', '
 $appearances = [
   ['title' => 'Sri Advaita Acharya -- Appearance',           'slug' => 'sri-advaita-acharya-appearance',           'tithi' => 'Magha Shukla Saptami',           'type' => 'acharya',  'desc' => 'The incarnation of Maha-Vishnu and Sadashiva who descended to call down Lord Caitanya Mahaprabhu through heartfelt prayers and offerings of Ganges water and Tulasi leaves.'],
   ['title' => 'Srila Bhaktisiddhanta Saraswati Thakura -- Appearance', 'slug' => 'srila-bhaktisiddhanta-sarasvati-appearance', 'tithi' => 'Govinda Krishna Panchami', 'type' => 'acharya',  'desc' => 'The founder of the Gaudiya Math, brilliant astronomer, and spiritual master of Srila Prabhupada.'],
-  ['title' => 'Sri Srivasa Pandita -- Appearance',           'slug' => '', 'tithi' => 'Chaitra Krishna Dashami',      'type' => 'devotee',  'desc' => 'One of the Pancha-tattva, representing the pure devotee. His courtyard (Srivas Angan) in Mayapur was the birthplace of the congregational chanting of the holy names.'],
-  ['title' => 'Sri Gadadhara Pandita -- Appearance',          'slug' => '', 'tithi' => 'Chaitra Krishna Amavasya',     'type' => 'expansion', 'desc' => 'One of the members of the Pancha-tattva, representing the internal pleasure potency (Hladini-shakti) of Lord Sri Caitanya Mahaprabhu.'],
+  ['title' => 'Sri Srivasa Pandita -- Appearance',           'slug' => 'sri-srivasa-pandita-appearance', 'tithi' => 'Chaitra Krishna Dashami',      'type' => 'devotee',  'desc' => 'One of the Pancha-tattva, representing the pure devotee. His courtyard (Srivas Angan) in Mayapur was the birthplace of the congregational chanting of the holy names.'],
+  ['title' => 'Sri Gadadhara Pandita -- Appearance',          'slug' => 'sri-gadadhara-pandita-appearance', 'tithi' => 'Chaitra Krishna Amavasya',     'type' => 'expansion', 'desc' => 'One of the members of the Pancha-tattva, representing the internal pleasure potency (Hladini-shakti) of Lord Sri Caitanya Mahaprabhu.'],
   ['title' => 'Nandotsava & Srila Prabhupada -- Appearance',  'slug' => 'srila-prabhupada-appearance',              'tithi' => 'Bhadrapada Krishna Navami',     'type' => 'acharya',  'desc' => 'The appearance anniversary of His Divine Grace A.C. Bhaktivedanta Swami Prabhupada, the Founder-Acharya of ISKCON.'],
   ['title' => 'Srila Bhaktivinoda Thakura -- Appearance',     'slug' => 'srila-bhaktivinoda-thakura-appearance',    'tithi' => 'Bhadrapada Shukla Dashami',    'type' => 'acharya',  'desc' => 'The pioneer of modern Gaudiya Vaishnavism who revitalized the preaching of Lord Caitanya\'s teachings and rediscovered His birthplace in Sridham Mayapur.'],
 ];
 
+// Build a slug => image_url lookup from DB (so listing banners match detail page banners)
+$dbImages = [];
+$dbAppearances = getDonationCauses('appearance', false);
+foreach ($dbAppearances as $db) {
+    if (!empty($db['slug']) && !empty($db['image_url'])) {
+        $dbImages[$db['slug']] = $db['image_url'];
+    }
+}
+
 $listItems = [];
 foreach ($appearances as $a) {
-    $color = $typeColors[$a['type']] ?? 'var(--primary)';
+    $typeInfo = ($typeLabels[$a['type']] ?? '') . ($a['tithi'] ? ' — ' . $a['tithi'] : '');
     $item = [
-        'title'    => $a['title'],
-        'subtitle' => $typeLabels[$a['type']] ?? 'Festival',
-        'desc'     => $a['desc'],
-        'tithi'    => $a['tithi'],
-        'cardIcon' => 'fas ' . ($typeIcons[$a['type']] ?? 'fa-star'),
-        'cardColor'=> $color,
+        'title'        => $a['title'],
+        'desc'         => $a['desc'] . ($typeInfo ? ' (' . $typeInfo . ')' : ''),
+        'image'        => !empty($a['slug']) ? ($dbImages[$a['slug']] ?? 'assets/images/banners/appearance/' . $a['slug'] . '.jpg') : 'assets/images/banners/calendar.jpg',
     ];
     if (!empty($a['slug'])) {
-        $item['link'] = 'festivals/detail.php?slug=' . $a['slug'];
+        $item['link'] = 'festivals/appearance/' . $a['slug'] . '/';
         $item['donationSlug'] = $a['slug'];
     }
     $listItems[] = $item;
@@ -39,15 +45,14 @@ $listConfig = [
     'title'            => 'Appearance Days',
     'icon'             => '🪷',
     'description'      => 'Appearance days mark the descents of Lord Sri Krishna, His expansions, divine avatars, and the appearances of preeminent acharyas who guide us in the path of devotion.',
-    'cardLayout'       => 'vertical_card',
+    'cardLayout'       => 'image_card',
     'showSearch'       => true,
-    'searchFields'     => ['title', 'tithi', 'desc'],
-    'searchPlaceholder'=> 'Search appearance days or tithis...',
-    'emptyMessage'     => 'No matching appearance days or tithis found.',
-    'metadataKeys'     => ['subtitle'],
-    'metadataLabels'   => ['tithi' => 'Lunar Tithi: '],
+    'searchFields'     => ['title', 'desc'],
+    'searchPlaceholder'=> 'Search appearance days...',
+    'emptyMessage'     => 'No matching appearance days found.',
     'detailBtnLabel'   => 'Divine Pastimes',
     'donationBtnLabel' => 'Offer Seva',
+    'donationSlug'     => 'appearance-seva-fund',
     'infoBox'          => '<p style="margin:0;"><strong>Note on Dates:</strong> Vaishnava festivals and appearance days are observed according to the Vedic lunar calendar (tithis). Because these tithis correspond to different dates on the solar Gregorian calendar each year, specific solar dates are not listed here. To see the scheduled dates for the current year, please consult the active <a href="' . BASE_URL . 'festivals/vaishnava-calendar" style="color:var(--primary); font-weight:600; text-decoration:underline;">Vaishnava Calendar</a>.</p>',
 ];
 

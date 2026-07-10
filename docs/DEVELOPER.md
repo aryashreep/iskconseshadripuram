@@ -358,6 +358,28 @@ RewriteRule ^yatra/([^/]+)/?$ yatra/detail.php?slug=$1 [L,QSA]
 RewriteRule ^booking/puja/([a-z0-9\-]+)/?$ booking/puja/detail.php?slug=$1 [L,QSA]
 RewriteRule ^booking/yagya/([a-z0-9\-]+)/?$ booking/yagya/detail.php?slug=$1 [L,QSA]
 
+# Festival detail pages (SEO-friendly URLs)
+# Actual hardcoded .php files (e.g. festivals/grand-festivals/janmashtami.php) take priority via !-f check
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/grand-festivals/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/ekadashi/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/appearance/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/disappearance/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^festivals/events/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
 # Sudamaseva Module — Public Page Rewrites
 RewriteRule ^sudamaseva/?$ sudamaseva/index.php [L,QSA]
 RewriteRule ^sudamaseva/lookup/?$ sudamaseva/lookup.php [L,QSA]
@@ -379,6 +401,11 @@ RewriteRule ^sitemap\.xml$ sitemap.php [L]
 | `/blogs/{slug}` | `blogs/detail.php?slug={slug}` | `/blogs/my-post` |
 | `/yatra/{slug}` | `yatra/detail.php?slug={slug}` | `/yatra/vrindavan` |
 | `/booking/puja/{slug}` | `booking/puja/detail.php?slug={slug}` | `/booking/puja/laxmi-narayan-puja` |
+| `/festivals/grand-festivals/{slug}` | `festivals/detail.php?slug={slug}` (or hardcoded `.php` page if exists) | `/festivals/grand-festivals/janmashtami` |
+| `/festivals/ekadashi/{slug}` | `festivals/detail.php?slug={slug}` | `/festivals/ekadashi/putrada` |
+| `/festivals/appearance/{slug}` | `festivals/detail.php?slug={slug}` | `/festivals/appearance/sri-advaita-acharya-appearance` |
+| `/festivals/disappearance/{slug}` | `festivals/detail.php?slug={slug}` | `/festivals/disappearance/srila-prabhupada-disappearance` |
+| `/festivals/events/{slug}` | `festivals/detail.php?slug={slug}` | `/festivals/events/caturmasya` |
 | `/sudamaseva` | `sudamaseva/index.php` | Signup w/ mode toggle |
 | `/sudamaseva/lookup` | `sudamaseva/lookup.php` | Find existing donation |
 | `/sudamaseva/dashboard` | `sudamaseva/dashboard.php` | Donor dashboard (requires `?donor_id=X`) |

@@ -6,15 +6,15 @@ include '../../partials/header.php';
 // Slug mapping: event name fragment → detail page path
 $slug_map = [
   'Pushya Abhisheka'      => 'festivals/grand-festivals/pushya-abhisheka',
-  'Vasanta Panchami'      => '',
+  'Vasanta Panchami'      => 'festivals/grand-festivals/vasanta-panchami',
   'Advaita Acharya'       => 'festivals/appearance/sri-advaita-acharya',
   'Varaha Dwadasi'        => 'festivals/grand-festivals/varaha-dwadashi',
   'Nityananda Trayodasi'  => 'festivals/grand-festivals/nityananda-trayodashi',
   'Bhaktisiddhanta Saraswati Thakura -- Appearance' => 'festivals/appearance/srila-bhaktisiddhanta-sarasvati-thakura',
   'Gaura Purnima'         => 'festivals/grand-festivals/gaura-purnima',
-  'Srivasa Pandita'       => '',
+  'Srivasa Pandita'       => 'festivals/appearance/sri-srivasa-pandita-appearance',
   'Rama Navami'           => 'festivals/grand-festivals/rama-navami',
-  'Gadadhara Pandita'     => '',
+  'Gadadhara Pandita'     => 'festivals/appearance/sri-gadadhara-pandita-appearance',
   'Akshaya Trtiya'        => 'festivals/grand-festivals/akshaya-tritiya',
   'Narasimha Caturdasi'   => 'festivals/grand-festivals/narasimha-chaturdashi',
   'Panihati'              => 'festivals/grand-festivals/panihati',
