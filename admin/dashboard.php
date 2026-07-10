@@ -64,6 +64,10 @@ $activePage = 'dashboard';
 $db = getDB();
 $dbError = null;
 
+// Consolidated dashboard service (aggregates revenue across all modules)
+use Isjm\Services\AdminDashboardService;
+$adminDashService = new AdminDashboardService();
+
 // ==========================================
 // Toggle Booking Status Handler (Pujari only)
 // ==========================================
@@ -103,6 +107,11 @@ if (isset($_GET['toggle_status_id'])) {
   exit;
 }
 
+// Date range filter
+$filterFrom = trim($_GET['from'] ?? '');
+$filterTo = trim($_GET['to'] ?? '');
+$hasDateFilter = !empty($filterFrom) || !empty($filterTo);
+
 include 'partials/header.php';
 
 $roleString = $_SESSION['admin_role'] ?? 'editor';
@@ -112,136 +121,191 @@ $isTreasurer = in_array('treasurer', $userRoles);
 $isEditor = in_array('editor', $userRoles);
 $isPujari = in_array('pujari', $userRoles);
 
+// Financial year calculation
+$currentMonth = (int) date('n');
+$currentYear = (int) date('Y');
+$currentFY = ($currentMonth < 4) ? $currentYear - 1 : $currentYear;
+
 try {
   if ($isSuperAdmin || $isTreasurer) {
-    // 1. Stats Queries
-    // Total Revenue (Paid)
-    $stmt = $db->query("SELECT SUM(amount) as total FROM donation_transactions WHERE payment_status = 'paid'");
-    $totalRevenue = (float)$stmt->fetchColumn();
+    // CONSOLIDATED DASHBOARD — aggregate revenue across all modules
+    // Apply date filter if provided
+    $filterOpts = [
+        'from' => $filterFrom ?: null,
+        'to' => $filterTo ?: null,
+    ];
+    $overview = $adminDashService->getOverview([], $filterOpts['from'], $filterOpts['to']);
+    $moduleBreakdown = $adminDashService->getModuleBreakdown([], $filterOpts['from'], $filterOpts['to']);
+    $trendChart = $adminDashService->getMonthlyTrendChart(12, [], $filterOpts['from'], $filterOpts['to']);
+    $recentCollections = $adminDashService->getRecentCollections(10, [], $filterOpts['from'], $filterOpts['to']);
+    $recurringPipeline = $adminDashService->getRecurringPipeline();
+    $donationCategorySplit = $adminDashService->getDonationCategorySplit();
 
-    // Total Paid Count
-    $stmt = $db->query("SELECT COUNT(*) as total_count FROM donation_transactions WHERE payment_status = 'paid'");
-    $totalPaidCount = (int)$stmt->fetchColumn();
-
-    // Unique Donors Count
-    $stmt = $db->query("SELECT COUNT(DISTINCT donor_email) as donors FROM donation_transactions WHERE payment_status = 'paid'");
-    $uniqueDonors = (int)$stmt->fetchColumn();
-
-    // Active Monthly Subscriptions
-    $stmt = $db->query("SELECT COUNT(*) as active_subs FROM donation_subscriptions WHERE subscription_status = 'active'");
-    $activeSubs = (int)$stmt->fetchColumn();
-
-    // Donor Repeat Rate
-    $stmt = $db->query("
-            SELECT 
-              COUNT(*) as total_donors,
-              SUM(CASE WHEN donation_count > 1 THEN 1 ELSE 0 END) as repeat_donors
-            FROM (
-              SELECT donor_email, COUNT(*) as donation_count
-              FROM donation_transactions
-              WHERE payment_status = 'paid' AND donor_email IS NOT NULL AND donor_email != ''
-              GROUP BY donor_email
-            ) donor_counts
-        ");
-    $donorStats = $stmt->fetch();
-    $totalDonorEmails = (int)$donorStats['total_donors'];
-    $repeatDonors = (int)$donorStats['repeat_donors'];
-    $repeatRate = $totalDonorEmails > 0 ? round(($repeatDonors / $totalDonorEmails) * 100, 1) : 0;
-
-    // 2. Chart Queries
-    // Chart 1: Monthly Revenue Trend (Last 12 months)
-    $stmt = $db->query("
-            SELECT 
-                DATE_FORMAT(created_at, '%b %Y') as month_label, 
-                DATE_FORMAT(created_at, '%Y-%m') as month_key, 
-                SUM(amount) as total 
-            FROM donation_transactions 
-            WHERE payment_status = 'paid' 
-            GROUP BY DATE_FORMAT(created_at, '%Y-%m'), DATE_FORMAT(created_at, '%b %Y')
-            ORDER BY month_key ASC 
-            LIMIT 12
-        ");
-    $monthlyTrend = $stmt->fetchAll();
-
-    $trendLabels = [];
-    $trendData = [];
-    foreach ($monthlyTrend as $row) {
-      $trendLabels[] = $row['month_label'];
-      $trendData[] = (float)$row['total'];
-    }
-
-    // Chart 2: Revenue by Cause Category
-    $stmt = $db->query("
-            SELECT c.category, SUM(t.amount) as total 
-            FROM donation_transactions t
-            JOIN donation_causes c ON t.cause_id = c.id
-            WHERE t.payment_status = 'paid'
-            GROUP BY c.category
-            ORDER BY total DESC
-        ");
-    $categorySplit = $stmt->fetchAll();
-
+    // Donation category chart data
     $catLabels = [];
     $catData = [];
-    foreach ($categorySplit as $row) {
-      $catLabels[] = ucfirst($row['category']);
-      $catData[] = (float)$row['total'];
-    }
-
-    // Chart 3: Top 5 Performing Festivals/Causes
-    $stmt = $db->query("
-            SELECT c.title, SUM(t.amount) as total 
-            FROM donation_transactions t
-            JOIN donation_causes c ON t.cause_id = c.id
-            WHERE t.payment_status = 'paid'
-            GROUP BY t.cause_id, c.title
-            ORDER BY total DESC
-            LIMIT 5
-        ");
-    $topCauses = $stmt->fetchAll();
-
-    $causeLabels = [];
-    $causeData = [];
-    foreach ($topCauses as $row) {
-      $causeLabels[] = strlen($row['title']) > 20 ? substr($row['title'], 0, 17) . '...' : $row['title'];
-      $causeData[] = (float)$row['total'];
-    }
-
-    // 3. Payment Status Breakdown
-    $stmt = $db->query("
-            SELECT payment_status, COUNT(*) as count, SUM(amount) as total
-            FROM donation_transactions
-            GROUP BY payment_status
-            ORDER BY count DESC
-        ");
-    $statusBreakdown = $stmt->fetchAll();
-    $statusLabels = [];
-    $statusData = [];
-    $statusColors = [];
-    $colorMap = [
-      'paid' => '#2e7d32',
-      'failed' => '#c62828',
-      'created' => '#f9a825',
-      'attempted' => '#ef6c00',
-      'cancelled' => '#757575',
-      'refunded' => '#1565c0',
+    $categoryLabels = [
+        'festival' => 'Grand Festivals', 'ekadashi' => 'Ekadashi', 'appearance' => 'Appearance Days',
+        'disappearance' => 'Disappearance Days', 'event' => 'Events & Programs', 'service' => 'Seva & Services',
+        'construction' => 'Temple Construction', 'general' => 'General Donations',
     ];
-    foreach ($statusBreakdown as $row) {
-      $label = ucfirst($row['payment_status']);
-      $statusLabels[] = $label . ' (' . $row['count'] . ')';
-      $statusData[] = (float)$row['total'];
-      $statusColors[] = $colorMap[$row['payment_status']] ?? '#9e9e9e';
+    foreach ($donationCategorySplit as $row) {
+        $catLabels[] = $categoryLabels[$row['category']] ?? ucfirst($row['category']);
+        $catData[] = (float) ($row['total'] ?? 0);
     }
 
-    // 4. Recent Transactions Query
-    $stmt = $db->query("
-            SELECT t.*, c.title as cause_title
-            FROM donation_transactions t
-            LEFT JOIN donation_causes c ON t.cause_id = c.id
-            ORDER BY t.created_at DESC
-            LIMIT 5
-        ");
-    $recentDonations = $stmt->fetchAll();
+    // FY Comparison: Current FY vs Previous FY
+    $prevFY = $currentFY - 1;
+
+    $currFYFrom = "{$currentFY}-04-01";
+    $currFYTo = "" . ($currentFY + 1) . "-03-31";
+    $prevFYFrom = "{$prevFY}-04-01";
+    $prevFYTo = "" . ($prevFY + 1) . "-03-31";
+
+    $currFYData = $adminDashService->getOverview([], $currFYFrom, $currFYTo);
+    $prevFYData = $adminDashService->getOverview([], $prevFYFrom, $prevFYTo);
+    $currFYModuleBreakdown = $adminDashService->getModuleBreakdown([], $currFYFrom, $currFYTo);
+    $prevFYModuleBreakdown = $adminDashService->getModuleBreakdown([], $prevFYFrom, $prevFYTo);
+
+    // Calculate totals and % change
+    $currFYTotal = $currFYData['total_collections'];
+    $prevFYTotal = $prevFYData['total_collections'];
+    $fyChange = null;
+    $fyChangeLabel = '—';
+    $fyChangeClass = 'var(--text-light)';
+    $fyChangeIcon = '';
+    if ($prevFYTotal > 0) {
+        $fyPct = round((($currFYTotal - $prevFYTotal) / $prevFYTotal) * 100, 1);
+        if ($fyPct > 0) {
+            $fyChangeLabel = '+' . $fyPct . '%';
+            $fyChangeClass = '#2e7d32';
+            $fyChangeIcon = '<i class="fas fa-arrow-up" style="font-size:12px;"></i> ';
+        } elseif ($fyPct < 0) {
+            $fyChangeLabel = $fyPct . '%';
+            $fyChangeClass = '#c62828';
+            $fyChangeIcon = '<i class="fas fa-arrow-down" style="font-size:12px;"></i> ';
+        } else {
+            $fyChangeLabel = '0%';
+            $fyChangeIcon = '<i class="fas fa-minus" style="font-size:12px;"></i> ';
+        }
+        $fyChange = $fyPct;
+    }
+
+    // Build module-by-module comparison
+    $fyComparisonModules = [];
+    $allModules = ['donations', 'puja', 'yagya', 'panihati', 'sudamaseva'];
+    $moduleMeta = $adminDashService->getAllModuleMeta();
+
+    foreach ($allModules as $mod) {
+        $currVal = 0;
+        $prevVal = 0;
+        foreach ($currFYModuleBreakdown as $row) {
+            if ($row['module'] === $mod) {
+                $currVal = (float) ($row['total_amount'] ?? 0);
+                break;
+            }
+        }
+        foreach ($prevFYModuleBreakdown as $row) {
+            if ($row['module'] === $mod) {
+                $prevVal = (float) ($row['total_amount'] ?? 0);
+                break;
+            }
+        }
+
+        $modChange = null;
+        $modChangeLabel = '—';
+        $modChangeClass = 'var(--text-light)';
+        if ($prevVal > 0) {
+            $pct = round((($currVal - $prevVal) / $prevVal) * 100, 1);
+            $modChangeLabel = ($pct > 0 ? '+' : '') . $pct . '%';
+            $modChangeClass = $pct >= 0 ? '#2e7d32' : '#c62828';
+            $modChange = $pct;
+        }
+
+        $meta = $moduleMeta[$mod] ?? [];
+        $moduleLinks = [
+            'donations'  => 'admin/donations',
+            'puja'       => 'admin/bookings',
+            'yagya'      => 'admin/bookings',
+            'panihati'   => 'admin/panihati-yatra',
+            'sudamaseva' => 'admin/sudamaseva-dashboard',
+        ];
+
+        $fyComparisonModules[] = [
+            'module' => $mod,
+            'label' => $meta['label'] ?? ucfirst($mod),
+            'icon' => $meta['icon'] ?? 'fa-circle',
+            'color' => $meta['color'] ?? '#757575',
+            'link' => $moduleLinks[$mod] ?? null,
+            'curr_amount' => $currVal,
+            'curr_formatted' => $adminDashService->formatAmount($currVal),
+            'prev_amount' => $prevVal,
+            'prev_formatted' => $adminDashService->formatAmount($prevVal),
+            'change_label' => $modChangeLabel,
+            'change_class' => $modChangeClass,
+            'change' => $modChange,
+        ];
+    }
+
+    // Monthly comparison chart data: sum across all modules per month
+    $currFYMonthly = $adminDashService->getMonthlyTrendChart(12, [], $currFYFrom, $currFYTo);
+    $prevFYMonthly = $adminDashService->getMonthlyTrendChart(12, [], $prevFYFrom, $prevFYTo);
+
+    // Build FY monthly comparison datasets: sum all module data per month position
+    $fyChartLabels = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
+    $fyChartCurrData = [];
+    $fyChartPrevData = [];
+
+    // Current FY: sum all datasets per label index
+    if (!empty($currFYMonthly['labels'])) {
+        foreach ($currFYMonthly['labels'] as $li => $lb) {
+            $monthTotal = 0;
+            foreach ($currFYMonthly['datasets'] as $ds) {
+                $monthTotal += $ds['data'][$li] ?? 0;
+            }
+            $shortMonth = substr($lb, 0, 3);
+            $idx = array_search($shortMonth, $fyChartLabels);
+            if ($idx !== false) {
+                $fyChartCurrData[$idx] = ($fyChartCurrData[$idx] ?? 0) + $monthTotal;
+            }
+        }
+    }
+    for ($i = 0; $i < 12; $i++) {
+        $fyChartCurrData[$i] = $fyChartCurrData[$i] ?? 0;
+    }
+    ksort($fyChartCurrData);
+    $fyChartCurrData = array_values($fyChartCurrData);
+
+    // Previous FY: same approach
+    if (!empty($prevFYMonthly['labels'])) {
+        foreach ($prevFYMonthly['labels'] as $li => $lb) {
+            $monthTotal = 0;
+            foreach ($prevFYMonthly['datasets'] as $ds) {
+                $monthTotal += $ds['data'][$li] ?? 0;
+            }
+            $shortMonth = substr($lb, 0, 3);
+            $idx = array_search($shortMonth, $fyChartLabels);
+            if ($idx !== false) {
+                $fyChartPrevData[$idx] = ($fyChartPrevData[$idx] ?? 0) + $monthTotal;
+            }
+        }
+    }
+    for ($i = 0; $i < 12; $i++) {
+        $fyChartPrevData[$i] = $fyChartPrevData[$i] ?? 0;
+    }
+    ksort($fyChartPrevData);
+    $fyChartPrevData = array_values($fyChartPrevData);
+
+    $hasFYChartData = array_sum($fyChartCurrData) + array_sum($fyChartPrevData) > 0;
+
+    // Module colors for JS
+    $moduleColorsJson = json_encode([
+        'donations' => '#c86b1f',
+        'puja' => '#0b5ed7',
+        'yagya' => '#c62828',
+        'panihati' => '#2e7d32',
+        'sudamaseva' => '#d4af37',
+    ]);
   }
   if ($isEditor) {
     // Total blogs count
@@ -334,13 +398,19 @@ try {
 } catch (PDOException $e) {
   $dbError = 'A database error occurred. Please try again.';
   // Default placeholders
-  $totalRevenue = 0;
-  $totalPaidCount = 0;
-  $uniqueDonors = 0;
-  $activeSubs = 0;
-  $totalDonorEmails = 0;
-  $repeatDonors = 0;
-  $repeatRate = 0;
+  $overview = ['total_collections' => 0, 'this_month' => 0, 'today' => 0, 'total_entries' => 0];
+  $moduleBreakdown = [];
+  $trendChart = ['labels' => [], 'datasets' => []];
+  $recentCollections = [];
+  $recurringPipeline = ['total_subs_count' => 0, 'total_monthly' => 0];
+  $catLabels = $catData = [];
+  $moduleColorsJson = json_encode([]);
+  $hasFYChartData = false;
+  $currFYTotal = $prevFYTotal = 0;
+  $fyChange = null;
+  $fyChangeLabel = '—';
+  $fyChangeClass = 'var(--text-light)';
+  $fyChangeIcon = '';
   $totalBlogs = 0;
   $publishedBlogs = 0;
   $draftBlogs = 0;
@@ -349,8 +419,7 @@ try {
   $pendingBookings = 0;
   $completedBookings = 0;
   $upcomingBookings = 0;
-  $trendLabels = $trendData = $catLabels = $catData = $causeLabels = $causeData = $statusLabels = $statusData = $statusColors = [];
-  $recentDonations = $recentBlogs = $recentBookings = [];
+  $recentBlogs = $recentBookings = [];
 }
 ?>
 
@@ -392,171 +461,418 @@ try {
   </div>
 <?php endif; ?>
 
+<style>
+  .module-card-link { text-decoration: none; color: inherit; display: block; }
+  .module-card-link:hover .module-card-inner {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .module-card-link:focus-visible .module-card-inner {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+</style>
+
+<?php
+// Financial year quick-select options (currentFY already defined above)
+$fyOptions = [];
+for ($i = 0; $i <= 3; $i++) {
+    $fyStart = $currentFY - $i;
+    $fyEnd = $fyStart + 1;
+    $label = "FY {$fyStart}-{$fyEnd}";
+    $from = "{$fyStart}-04-01";
+    $to = "{$fyEnd}-03-31";
+    $fyOptions[] = [
+        'label' => $label,
+        'from' => $from,
+        'to' => $to,
+        'active' => ($filterFrom === $from && $filterTo === $to),
+    ];
+}
+?>
+
+<!-- Date Range Filter (shown only to finance users) -->
+<?php if ($isSuperAdmin || $isTreasurer): ?>
+  <div class="admin-card" style="margin-bottom:var(--space-xl);">
+    <div class="admin-card-body" style="padding:var(--space-md) var(--space-lg);">
+      <form action="admin/dashboard" method="GET" style="display:flex; flex-wrap:wrap; gap:var(--space-md); align-items:flex-end;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="from" style="font-size:12px;">From</label>
+          <input type="date" id="from" name="from" class="form-control" value="<?php echo htmlspecialchars($filterFrom); ?>">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="to" style="font-size:12px;">To</label>
+          <input type="date" id="to" name="to" class="form-control" value="<?php echo htmlspecialchars($filterTo); ?>">
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button type="submit" class="btn btn-primary" style="background:var(--primary); color:white; border:none; padding:6px 20px; border-radius:var(--radius-md); font-size:12px; font-weight:600; cursor:pointer;">
+            <i class="fas fa-filter"></i> Apply
+          </button>
+          <?php if ($hasDateFilter): ?>
+            <a href="admin/dashboard" class="btn btn-outline-dark" style="text-decoration:none; padding:6px 14px; border:1px solid var(--border); border-radius:var(--radius-md); font-size:12px; font-weight:600;">
+              <i class="fas fa-times"></i> Clear
+            </a>
+          <?php endif; ?>
+        </div>
+        <?php if ($hasDateFilter): ?>
+          <div style="font-size:12px; color:var(--text-light); display:flex; align-items:center; gap:4px;">
+            <i class="fas fa-calendar-alt"></i>
+            Showing data from <strong><?php echo htmlspecialchars($filterFrom ?: 'earliest'); ?></strong> to <strong><?php echo htmlspecialchars($filterTo ?: 'latest'); ?></strong>
+          </div>
+        <?php endif; ?>
+      </form>
+
+      <!-- Financial Year quick-select buttons -->
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:var(--space-sm); padding-top:var(--space-sm); border-top:1px solid var(--border);">
+        <span style="font-size:11px; color:var(--text-light); font-weight:600; display:flex; align-items:center; gap:4px; margin-right:4px;">
+          <i class="fas fa-calendar"></i> Quick Select:
+        </span>
+        <?php foreach ($fyOptions as $fy): ?>
+          <a href="admin/dashboard?from=<?php echo $fy['from']; ?>&to=<?php echo $fy['to']; ?>"
+             style="text-decoration:none; padding:4px 12px; border-radius:var(--radius-md); font-size:12px; font-weight:600; <?php echo $fy['active'] ? 'background:var(--primary); color:white;' : 'background:var(--light); color:var(--text); border:1px solid var(--border);'; ?>">
+            <?php echo $fy['label']; ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
+
 <!-- ========================================== -->
 <!-- 1. DASHBOARD FOR SUPER_ADMIN & TREASURER -->
 <!-- ========================================== -->
 <?php if ($isSuperAdmin || $isTreasurer): ?>
-  <!-- Stats Grid -->
+  <!-- YoY Growth KPI Card -->
+  <div class="admin-card" style="margin-bottom: var(--space-lg);">
+    <div class="admin-card-body" style="padding:var(--space-md) var(--space-lg); display:flex; align-items:center; gap:var(--space-lg); flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div style="width:48px; height:48px; border-radius:var(--radius-md); background:<?php echo $fyChange > 0 ? '#d4edda' : ($fyChange < 0 ? '#fce4e4' : 'var(--light)'); ?>; display:flex; align-items:center; justify-content:center;">
+          <i class="fas <?php echo $fyChange > 0 ? 'fa-arrow-up' : ($fyChange < 0 ? 'fa-arrow-down' : 'fa-minus'); ?>" style="font-size:20px; color:<?php echo $fyChangeClass; ?>;"></i>
+        </div>
+        <div>
+          <div style="font-size:11px; color:var(--text-light); font-weight:600; text-transform:uppercase; letter-spacing:0.3px;">Year-over-Year Growth</div>
+          <div style="display:flex; align-items:baseline; gap:10px;">
+            <span style="font-size:28px; font-weight:800; color:<?php echo $fyChangeClass; ?>;"><?php echo $fyChangeIcon; ?><?php echo $fyChangeLabel; ?></span>
+            <span style="font-size:13px; color:var(--text-light);">
+              <?php echo $adminDashService->formatAmount($prevFYTotal); ?> → <?php echo $adminDashService->formatAmount($currFYTotal); ?>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1; min-width:200px; height:2px; background:var(--border); border-radius:2px; position:relative;">
+        <div style="width:<?php echo $prevFYTotal > 0 ? round(($currFYTotal / $prevFYTotal) * 100) : 0; ?>%; max-width:100%; height:100%; background:<?php echo $fyChangeClass; ?>; border-radius:2px; transition:width 0.5s;"></div>
+      </div>
+      <div style="display:flex; gap:var(--space-lg); font-size:12px; color:var(--text-light);">
+        <div>
+          <div style="font-weight:600; color:var(--text);"><?php echo $adminDashService->formatAmount($prevFYTotal); ?></div>
+          <div><?php echo $prevFY; ?>-<?php echo $prevFY + 1; ?></div>
+        </div>
+        <div style="font-size:18px; color:var(--text-light);">→</div>
+        <div>
+          <div style="font-weight:600; color:var(--maroon);"><?php echo $adminDashService->formatAmount($currFYTotal); ?></div>
+          <div><?php echo $currentFY; ?>-<?php echo $currentFY + 1; ?> <span style="color:var(--primary); font-weight:600;">(Current)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Consolidated Stats Grid -->
   <div class="admin-stats-grid">
     <div class="admin-stat-card">
       <div class="admin-stat-info">
-        <h3>Total Revenue</h3>
-        <div class="admin-stat-value">₹<?php echo number_format($totalRevenue, 2); ?></div>
+        <h3>Total Collections</h3>
+        <div class="admin-stat-value"><?php echo $adminDashService->formatAmount($overview['total_collections']); ?></div>
+        <div style="font-size:11px; color:var(--text-light); margin-top:2px;">Across all modules</div>
       </div>
-      <div class="admin-stat-icon">
-        <i class="fas fa-indian-rupee-sign"></i>
-      </div>
+      <div class="admin-stat-icon"><i class="fas fa-indian-rupee-sign"></i></div>
     </div>
 
     <div class="admin-stat-card">
       <div class="admin-stat-info">
-        <h3>Donation Count</h3>
-        <div class="admin-stat-value"><?php echo $totalPaidCount; ?></div>
+        <h3>This Month</h3>
+        <div class="admin-stat-value"><?php echo $adminDashService->formatAmount($overview['this_month']); ?></div>
       </div>
-      <div class="admin-stat-icon">
-        <i class="fas fa-hand-holding-heart"></i>
-      </div>
+      <div class="admin-stat-icon" style="background-color: rgba(200,107,31,0.15); color: var(--primary-dark);"><i class="fas fa-calendar-alt"></i></div>
     </div>
 
     <div class="admin-stat-card">
       <div class="admin-stat-info">
-        <h3>Unique Donors</h3>
-        <div class="admin-stat-value"><?php echo $uniqueDonors; ?></div>
+        <h3>Today</h3>
+        <div class="admin-stat-value"><?php echo $adminDashService->formatAmount($overview['today']); ?></div>
       </div>
-      <div class="admin-stat-icon">
-        <i class="fas fa-users"></i>
-      </div>
+      <div class="admin-stat-icon" style="background-color: #d4edda; color: green;"><i class="fas fa-sun"></i></div>
     </div>
 
     <div class="admin-stat-card">
       <div class="admin-stat-info">
-        <h3>Active Monthly Subs</h3>
-        <div class="admin-stat-value"><?php echo $activeSubs; ?></div>
+        <h3>Total Entries</h3>
+        <div class="admin-stat-value"><?php echo number_format($overview['total_entries']); ?></div>
+        <div style="font-size:11px; color:var(--text-light); margin-top:2px;">Paid records across all modules</div>
       </div>
-      <div class="admin-stat-icon">
-        <i class="fas fa-calendar-check"></i>
-      </div>
+      <div class="admin-stat-icon"><i class="fas fa-receipt"></i></div>
     </div>
 
     <div class="admin-stat-card">
       <div class="admin-stat-info">
-        <h3>Donor Repeat Rate</h3>
-        <div class="admin-stat-value" style="color: <?php echo $repeatRate >= 30 ? 'green' : ($repeatRate >= 15 ? 'var(--primary-dark)' : 'var(--text-light)'); ?>;">
-          <?php echo $repeatRate; ?>%
-        </div>
+        <h3>Active Subscriptions</h3>
+        <div class="admin-stat-value"><?php echo $recurringPipeline['total_subs_count']; ?></div>
         <div style="font-size:11px; color:var(--text-light); margin-top:2px;">
-          <?php echo $repeatDonors; ?> of <?php echo $totalDonorEmails; ?> donors returned
+          Monthly: <?php echo $adminDashService->formatAmount($recurringPipeline['total_monthly']); ?>
         </div>
       </div>
-      <div class="admin-stat-icon" style="background-color: <?php echo $repeatRate >= 30 ? '#d4edda' : 'rgba(200,107,31,0.15)'; ?>; color: <?php echo $repeatRate >= 30 ? 'green' : 'var(--primary-dark)'; ?>;">
-        <i class="fas fa-user-check"></i>
+      <div class="admin-stat-icon" style="background-color: #f0f7ff; color: #0b5ed7;"><i class="fas fa-sync"></i></div>
+    </div>
+  </div>
+
+  <!-- FY Comparison Card: Current FY vs Previous FY -->
+  <div class="admin-card" style="margin-bottom: var(--space-xl);">
+    <div class="admin-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+      <h2><i class="fas fa-exchange-alt"></i> FY Comparison: <?php echo $currentFY; ?>-<?php echo $currentFY + 1; ?> vs <?php echo $prevFY; ?>-<?php echo $prevFY + 1; ?></h2>
+      <span style="font-size:11px; color:var(--text-light);"><i class="fas fa-info-circle"></i> Financial year (Apr–Mar)</span>
+    </div>
+    <div class="admin-card-body" style="padding:var(--space-lg);">
+      <div style="display:grid; grid-template-columns: 1fr auto 1fr; gap:var(--space-md); align-items:center; margin-bottom:var(--space-lg);">
+        <!-- Previous FY -->
+        <div style="text-align:right; padding:var(--space-lg); background:var(--light); border-radius:var(--radius-md);">
+          <div style="font-size:12px; color:var(--text-light); font-weight:600; text-transform:uppercase;"><?php echo $prevFY; ?>-<?php echo $prevFY + 1; ?></div>
+          <div style="font-size:28px; font-weight:700; color:var(--maroon); margin:8px 0;"><?php echo $adminDashService->formatAmount($prevFYTotal); ?></div>
+          <div style="font-size:11px; color:var(--text-light);"><?php echo number_format($prevFYData['total_entries']); ?> entries</div>
+        </div>
+
+        <!-- VS + Change indicator -->
+        <div style="text-align:center;">
+          <div style="font-size:24px; font-weight:700; color:var(--text-light);">VS</div>
+          <div style="font-size:20px; font-weight:700; margin-top:8px; color:<?php echo $fyChangeClass; ?>;">
+            <?php echo $fyChangeIcon; ?><?php echo $fyChangeLabel; ?>
+          </div>
+        </div>
+
+        <!-- Current FY -->
+        <div style="text-align:left; padding:var(--space-lg); background:var(--light); border-radius:var(--radius-md); border-left:4px solid var(--primary);">
+          <div style="font-size:12px; color:var(--primary-dark); font-weight:700; text-transform:uppercase;"><?php echo $currentFY; ?>-<?php echo $currentFY + 1; ?> <span style="color:var(--text-light); font-weight:400;">(Current)</span></div>
+          <div style="font-size:28px; font-weight:700; color:var(--maroon); margin:8px 0;"><?php echo $adminDashService->formatAmount($currFYTotal); ?></div>
+          <div style="font-size:11px; color:var(--text-light);"><?php echo number_format($currFYData['total_entries']); ?> entries</div>
+        </div>
       </div>
+
+      <!-- Module-by-module comparison table -->
+      <div style="overflow-x:auto;">
+        <table class="admin-table" style="margin:0; border:none;">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th style="text-align:right;"><?php echo $prevFY; ?>-<?php echo $prevFY + 1; ?></th>
+              <th style="text-align:right;"><?php echo $currentFY; ?>-<?php echo $currentFY + 1; ?></th>
+              <th style="text-align:right;">Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($fyComparisonModules as $fc): ?>
+              <tr>
+                <td>
+                  <i class="fas <?php echo $fc['icon']; ?>" style="color:<?php echo $fc['color']; ?>; width:18px;"></i>
+                  <?php if (!empty($fc['link'])): ?>
+                    <a href="<?php echo $fc['link']; ?>" style="text-decoration:none; color:var(--text); font-weight:600;">
+                      <?php echo htmlspecialchars($fc['label']); ?>
+                    </a>
+                  <?php else: ?>
+                    <strong><?php echo htmlspecialchars($fc['label']); ?></strong>
+                  <?php endif; ?>
+                </td>
+                <td style="text-align:right; color:var(--text-light);"><?php echo $fc['prev_formatted']; ?></td>
+                <td style="text-align:right; font-weight:600; color:var(--maroon);"><?php echo $fc['curr_formatted']; ?></td>
+                <td style="text-align:right; font-weight:600; color:<?php echo $fc['change_class']; ?>;">
+                  <?php echo $fc['change_label']; ?>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Monthly comparison chart -->
+      <?php if ($hasFYChartData): ?>
+      <div style="margin-top:var(--space-lg); padding-top:var(--space-lg); border-top:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-md);">
+          <h3 style="margin:0; font-size:14px; font-weight:600;"><i class="fas fa-chart-line"></i> Monthly Comparison: <?php echo $prevFY; ?> vs <?php echo $currentFY; ?></h3>
+        </div>
+        <div class="chart-container" style="height:220px;">
+          <canvas id="fyMonthlyChart"></canvas>
+        </div>
+      </div>
+      <?php endif; ?>
+    </div>
+  </div>
+
+  <!-- Module Breakup Cards -->
+  <div class="admin-card" style="margin-bottom: var(--space-xl);">
+    <div class="admin-card-header">
+      <h2><i class="fas fa-chart-pie"></i> Revenue by Module</h2>
+      <span style="font-size:11px; color:var(--text-light);"><i class="fas fa-info-circle"></i> Financial year-to-date</span>
+    </div>
+    <div class="admin-card-body" style="padding:var(--space-lg);">
+      <?php if (empty($moduleBreakdown)): ?>
+        <div style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No revenue data available yet.</div>
+      <?php else: ?>
+        <!-- Module cards grid -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-lg);">
+          <?php foreach ($moduleBreakdown as $mod):
+            $cardLink = $moduleLinks[$mod['module']] ?? null;
+          ?>
+            <?php if ($cardLink): ?>
+              <a href="<?php echo $cardLink; ?>" class="module-card-link" style="text-decoration:none; color:inherit; display:block;">
+            <?php endif; ?>
+            <div class="module-card-inner" style="background:var(--white); border:1px solid var(--border); border-radius:var(--radius-md); padding:var(--space-md); border-left:4px solid <?php echo $mod['color']; ?>; cursor:<?php echo $cardLink ? 'pointer' : 'default'; ?>; transition:transform 0.15s, box-shadow 0.15s;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <i class="fas <?php echo $mod['icon']; ?>" style="color:<?php echo $mod['color']; ?>; font-size:16px;"></i>
+                <strong style="font-size:13px;"><?php echo htmlspecialchars($mod['label']); ?></strong>
+                <span style="font-size:11px; color:var(--text-light); margin-left:auto;"><?php echo $mod['share_pct']; ?>%</span>
+              </div>
+              <div style="font-size:20px; font-weight:700; color:var(--maroon);"><?php echo $mod['total_formatted']; ?></div>
+              <div style="font-size:11px; color:var(--text-light); margin-top:4px;">
+                <?php echo number_format($mod['payment_count']); ?> entries &middot; <?php echo $mod['this_month_formatted']; ?> this month
+              </div>
+              <!-- Progress bar for share -->
+              <div style="width:100%; height:4px; background:var(--light); border-radius:3px; margin-top:8px; overflow:hidden;">
+                <div style="width:<?php echo $mod['share_pct']; ?>%; height:100%; background:<?php echo $mod['color']; ?>; border-radius:3px;"></div>
+              </div>
+            </div>
+            <?php if ($cardLink): ?>
+              </a>
+            <?php endif; ?>
+          <?php endforeach; ?>
+        </div>
+
+        <!-- Module breakdown table (compact) -->
+        <div style="overflow-x:auto;">
+          <table class="admin-table" style="margin:0; border:none;">
+            <thead>
+              <tr>
+                <th>Module</th>
+                <th style="text-align:right;">Total Revenue</th>
+                <th style="text-align:center;">Entries</th>
+                <th style="text-align:right;">This Month</th>
+                <th style="text-align:right;">Share</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($moduleBreakdown as $mod): ?>
+                <tr>
+                  <td>
+                    <i class="fas <?php echo $mod['icon']; ?>" style="color:<?php echo $mod['color']; ?>; width:18px;"></i>
+                    <strong><?php echo htmlspecialchars($mod['label']); ?></strong>
+                  </td>
+                  <td style="text-align:right; font-weight:600; color:var(--maroon);"><?php echo $mod['total_formatted']; ?></td>
+                  <td style="text-align:center; color:var(--text-light);"><?php echo number_format($mod['payment_count']); ?></td>
+                  <td style="text-align:right; color:var(--text);"><?php echo $mod['this_month_formatted']; ?></td>
+                  <td style="text-align:right;">
+                    <span style="font-size:12px; font-weight:600; color:var(--text);"><?php echo $mod['share_pct']; ?>%</span>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 
   <!-- Charts Grid -->
   <div class="admin-charts-grid">
-    <!-- Chart 1: Revenue Trend -->
+    <!-- Chart 1: Stacked Monthly Collections Trend -->
     <div class="admin-card">
       <div class="admin-card-header">
-        <h2>Revenue Trend</h2>
-        <span style="font-size:11px; color:var(--text-light);"><i class="fas fa-info-circle"></i> Month-over-Month</span>
+        <h2>Monthly Collections Trend</h2>
+        <span style="font-size:11px; color:var(--text-light);"><i class="fas fa-info-circle"></i> All modules, last 12 months</span>
       </div>
       <div class="admin-card-body">
         <div class="chart-container">
-          <?php if (empty($trendData)): ?>
+          <?php if (empty($trendChart['datasets'])): ?>
             <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);">No data available yet</div>
           <?php else: ?>
-            <canvas id="revenueTrendChart"></canvas>
+            <canvas id="stackedTrendChart"></canvas>
           <?php endif; ?>
         </div>
       </div>
     </div>
 
-    <!-- Chart 2: Category distribution -->
+    <!-- Chart 2: Revenue Share by Module -->
     <div class="admin-card">
       <div class="admin-card-header">
-        <h2>Revenue by Category</h2>
+        <h2>Revenue Share by Module</h2>
       </div>
       <div class="admin-card-body">
         <div class="chart-container">
-          <?php if (empty($catData)): ?>
+          <?php if (empty($moduleBreakdown)): ?>
             <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);">No data available yet</div>
           <?php else: ?>
-            <canvas id="categoryChart"></canvas>
+            <canvas id="moduleShareChart"></canvas>
           <?php endif; ?>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Extra row with top causes & recent table -->
-  <div class="admin-charts-grid" style="grid-template-columns: 1fr 1fr;">
-    <!-- Chart 3: Top Causes Comparison -->
-    <div class="admin-card">
-      <div class="admin-card-header">
-        <h2>Top 5 Festivals & Causes by Revenue</h2>
-      </div>
-      <div class="admin-card-body">
-        <div class="chart-container">
-          <?php if (empty($causeData)): ?>
-            <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);">No data available yet</div>
-          <?php else: ?>
-            <canvas id="topCausesChart"></canvas>
-          <?php endif; ?>
-        </div>
-      </div>
-    </div>
-
-    <!-- Chart 4: Payment Status Breakdown -->
-    <div class="admin-card">
-      <div class="admin-card-header">
-        <h2>Payment Status Breakdown</h2>
-      </div>
-      <div class="admin-card-body">
-        <div class="chart-container">
-          <?php if (empty($statusData)): ?>
-            <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);">No transactions yet</div>
-          <?php else: ?>
-            <canvas id="paymentStatusChart"></canvas>
-          <?php endif; ?>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Recent Transactions Table (full width, below charts) -->
+  <!-- Donation Category Split (existing chart, kept for detail) -->
   <div class="admin-card" style="margin-bottom: var(--space-xl);">
     <div class="admin-card-header">
-      <h2>Recent Successful Donations</h2>
-      <a href="admin/donations" style="font-size: 12px; color: var(--primary); text-decoration: none; font-weight:600;">View All</a>
+      <h2><i class="fas fa-tag"></i> Donations by Category</h2>
+      <span style="font-size:11px; color:var(--text-light);">General donations only (excludes bookings)</span>
+    </div>
+    <div class="admin-card-body" style="padding:var(--space-lg);">
+      <div class="chart-container" style="height:200px; max-width:400px; margin:0 auto;">
+        <?php if (empty($catData)): ?>
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);">No donation data yet</div>
+        <?php else: ?>
+          <canvas id="categoryChart"></canvas>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unified Recent Collections Table -->
+  <div class="admin-card" style="margin-bottom: var(--space-xl);">
+    <div class="admin-card-header">
+      <h2><i class="fas fa-clock"></i> Recent Collections</h2>
+      <span style="font-size:11px; color:var(--text-light);">Across all modules</span>
     </div>
     <div class="admin-card-body" style="padding:0;">
       <div class="admin-table-container" style="border:none; margin:0; border-radius:0;">
         <table class="admin-table">
           <thead>
             <tr>
-              <th>Donor</th>
-              <th>Cause / Festival</th>
-              <th>Amount</th>
               <th>Date</th>
+              <th>Module</th>
+              <th>Source</th>
+              <th>Donor</th>
+              <th style="text-align:right;">Amount</th>
             </tr>
           </thead>
           <tbody>
-            <?php if (empty($recentDonations)): ?>
+            <?php if (empty($recentCollections)): ?>
               <tr>
-                <td colspan="4" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No donations received yet.</td>
+                <td colspan="5" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No collections yet.</td>
               </tr>
             <?php else: ?>
-              <?php foreach ($recentDonations as $d): ?>
+              <?php foreach ($recentCollections as $c): ?>
                 <tr>
+                  <td style="font-size:12px; color:var(--text-light); white-space:nowrap;"><?php echo $c['date_formatted']; ?></td>
                   <td>
-                    <strong style="color:var(--dark);"><?php echo htmlspecialchars($d['donor_name']); ?></strong>
-                    <div style="font-size:11px;color:var(--text-light);"><?php echo htmlspecialchars($d['donor_email']); ?></div>
+                    <span style="display:inline-flex;align-items:center;gap:4px; font-size:12px; font-weight:600; color:<?php echo $c['module_color']; ?>;">
+                      <i class="fas <?php echo $c['module_icon']; ?>"></i>
+                      <?php echo htmlspecialchars($c['module_label']); ?>
+                    </span>
                   </td>
-                  <td><?php echo htmlspecialchars($d['cause_title'] ?: 'General Donation'); ?></td>
-                  <td style="font-weight:600; color:var(--maroon);">₹<?php echo number_format($d['amount'], 2); ?></td>
-                  <td style="font-size:12px; color:var(--text-light);"><?php echo date('M d, Y H:i', strtotime($d['created_at'])); ?></td>
+                  <td style="font-size:12px; color:var(--text-light);"><?php echo htmlspecialchars($c['source_label'] ?? ''); ?></td>
+                  <td>
+                    <strong style="font-size:13px;"><?php echo htmlspecialchars($c['donor_name'] ?? '—'); ?></strong>
+                    <?php if (!empty($c['donor_phone'])): ?>
+                      <div style="font-size:11px; color:var(--text-light);"><?php echo htmlspecialchars($c['donor_phone']); ?></div>
+                    <?php endif; ?>
+                  </td>
+                  <td style="text-align:right; font-weight:700; color:var(--maroon); font-size:15px;">
+                    <?php echo $c['amount_formatted']; ?>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             <?php endif; ?>
@@ -571,64 +887,60 @@ try {
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const primaryColor = '#c86b1f';
-      const primaryLight = 'rgba(200, 107, 31, 0.2)';
-      const accentColor = '#d4af37';
-      const maroonColor = '#7b1e1e';
-      const darkColor = '#2c1b12';
+      const moduleColors = <?php echo $moduleColorsJson; ?>;
 
-      // 1. Monthly Revenue Trend Line Chart
-      <?php if (!empty($trendData)): ?>
-        const ctxTrend = document.getElementById('revenueTrendChart').getContext('2d');
-        new Chart(ctxTrend, {
-          type: 'line',
+      // 1. Stacked Monthly Trend Chart
+      <?php if (!empty($trendChart['datasets'])): ?>
+        new Chart(document.getElementById('stackedTrendChart'), {
+          type: 'bar',
           data: {
-            labels: <?php echo json_encode($trendLabels); ?>,
-            datasets: [{
-              label: 'Donation Volume (₹)',
-              data: <?php echo json_encode($trendData); ?>,
-              borderColor: primaryColor,
-              backgroundColor: primaryLight,
-              borderWidth: 3,
-              fill: true,
-              tension: 0.3,
-              pointBackgroundColor: primaryColor,
-              pointBorderColor: '#fff',
-              pointHoverRadius: 7
-            }]
+            labels: <?php echo json_encode($trendChart['labels']); ?>,
+            datasets: <?php echo json_encode(array_map(function($ds) {
+              return [
+                'label' => $ds['label'],
+                'data' => $ds['data'],
+                'backgroundColor' => $ds['backgroundColor'],
+                'borderColor' => $ds['color'],
+                'borderWidth' => 1,
+                'borderRadius' => 2,
+              ];
+            }, $trendChart['datasets'])); ?>
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: false
+              legend: { position: 'top', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } },
+              tooltip: {
+                mode: 'index',
+                callbacks: {
+                  label: function(ctx) {
+                    return ctx.dataset.label + ': ' + '₹' + ctx.parsed.y.toLocaleString('en-IN');
+                  }
+                }
               }
             },
             scales: {
+              x: { stacked: true },
               y: {
+                stacked: true,
                 beginAtZero: true,
-                ticks: {
-                  callback: function(value) {
-                    return '₹' + value.toLocaleString();
-                  }
-                }
+                ticks: { callback: function(v) { return '₹' + v.toLocaleString('en-IN'); } }
               }
             }
           }
         });
       <?php endif; ?>
 
-      // 2. Revenue by Category Doughnut Chart
-      <?php if (!empty($catData)): ?>
-        const ctxCategory = document.getElementById('categoryChart').getContext('2d');
-        new Chart(ctxCategory, {
+      // 2. Revenue Share by Module Doughnut
+      <?php if (!empty($moduleBreakdown)): ?>
+        new Chart(document.getElementById('moduleShareChart'), {
           type: 'doughnut',
           data: {
-            labels: <?php echo json_encode($catLabels); ?>,
+            labels: <?php echo json_encode(array_column($moduleBreakdown, 'label')); ?>,
             datasets: [{
-              data: <?php echo json_encode($catData); ?>,
-              backgroundColor: [primaryColor, accentColor, maroonColor, darkColor, '#8a7a6a', '#e8ddd0'],
+              data: <?php echo json_encode(array_column($moduleBreakdown, 'total_amount')); ?>,
+              backgroundColor: <?php echo json_encode(array_column($moduleBreakdown, 'color')); ?>,
               borderWidth: 2,
               borderColor: '#fff'
             }]
@@ -637,10 +949,14 @@ try {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                position: 'right',
-                labels: {
-                  boxWidth: 12
+              legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                    const pct = total > 0 ? ((ctx.parsed / total) * 100).toFixed(1) : 0;
+                    return ctx.label + ': ' + '₹' + ctx.parsed.toLocaleString('en-IN') + ' (' + pct + '%)';
+                  }
                 }
               }
             },
@@ -649,53 +965,73 @@ try {
         });
       <?php endif; ?>
 
-      // 3. Top 5 Performing Causes Bar Chart
-      <?php if (!empty($causeData)): ?>
-        const ctxCauses = document.getElementById('topCausesChart').getContext('2d');
-        new Chart(ctxCauses, {
-          type: 'bar',
+      // 3. FY Monthly Comparison Line Chart
+      <?php if (!empty($fyChartLabels) && array_sum($fyChartCurrData) + array_sum($fyChartPrevData) > 0): ?>
+        new Chart(document.getElementById('fyMonthlyChart'), {
+          type: 'line',
           data: {
-            labels: <?php echo json_encode($causeLabels); ?>,
+            labels: <?php echo json_encode($fyChartLabels); ?>,
             datasets: [{
-              label: 'Revenue (₹)',
-              data: <?php echo json_encode($causeData); ?>,
-              backgroundColor: [primaryColor, accentColor, maroonColor, darkColor, '#8a7a6a'],
-              borderRadius: 6,
-              maxBarThickness: 35
+              label: '<?php echo $prevFY; ?>-<?php echo $prevFY + 1; ?>',
+              data: <?php echo json_encode($fyChartPrevData); ?>,
+              borderColor: '#8a7a6a',
+              backgroundColor: 'rgba(138,122,106,0.08)',
+              borderWidth: 2,
+              borderDash: [5, 4],
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+              pointBackgroundColor: '#8a7a6a',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2
+            }, {
+              label: '<?php echo $currentFY; ?>-<?php echo $currentFY + 1; ?>',
+              data: <?php echo json_encode($fyChartCurrData); ?>,
+              borderColor: '#c86b1f',
+              backgroundColor: 'rgba(200,107,31,0.12)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.3,
+              pointRadius: 5,
+              pointBackgroundColor: '#c86b1f',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2,
+              pointHoverRadius: 8
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: false
+              legend: { position: 'top', labels: { boxWidth: 14, padding: 14, font: { size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    return ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN');
+                  }
+                }
               }
             },
             scales: {
               y: {
                 beginAtZero: true,
-                ticks: {
-                  callback: function(value) {
-                    return '₹' + value.toLocaleString();
-                  }
-                }
+                ticks: { callback: function(v) { return '₹' + v.toLocaleString('en-IN'); } }
               }
             }
           }
         });
       <?php endif; ?>
 
-      // 4. Payment Status Breakdown Doughnut Chart
-      <?php if (!empty($statusData)): ?>
-        const ctxStatus = document.getElementById('paymentStatusChart').getContext('2d');
-        new Chart(ctxStatus, {
+      // 4. Donations by Category Doughnut (kept for detail)
+      <?php if (!empty($catData)): ?>
+        const catColors = ['#c86b1f','#d4af37','#7b1e1e','#2c1b12','#8a7a6a','#e8ddd0','#4a7c59','#1565c0'];
+        new Chart(document.getElementById('categoryChart'), {
           type: 'doughnut',
           data: {
-            labels: <?php echo json_encode($statusLabels); ?>,
+            labels: <?php echo json_encode($catLabels); ?>,
             datasets: [{
-              data: <?php echo json_encode($statusData); ?>,
-              backgroundColor: <?php echo json_encode($statusColors); ?>,
+              data: <?php echo json_encode($catData); ?>,
+              backgroundColor: catColors.slice(0, <?php echo count($catData); ?>),
               borderWidth: 2,
               borderColor: '#fff'
             }]
@@ -704,23 +1040,7 @@ try {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                position: 'right',
-                labels: {
-                  boxWidth: 12,
-                  padding: 14
-                }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(ctx) {
-                    const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                    const value = ctx.parsed;
-                    const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                    return ctx.label.split(' (')[0] + ': ₹' + value.toLocaleString('en-IN') + ' (' + pct + '%)';
-                  }
-                }
-              }
+              legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 }, padding: 6 } }
             },
             cutout: '60%'
           }

@@ -20,5 +20,12 @@ Thumbs.db
 *.swp
 *.swo
 
+# Log files
+/logs/
+*.log
+
 # Test results
 /test-results/
+
+# PHPUnit cache
+/.phpunit.cache/

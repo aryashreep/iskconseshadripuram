@@ -735,3 +735,216 @@ Stack trace:
 #0 Command line code(1): PDO->query('SELECT p.id, p....')
 #1 {main}
   thrown in Command line code on line 1
+[10-Jul-2026 00:13:48 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OR "%donation%" OR "%booking%" OR "%subscription%" OR "%panihati%" OR "%sudamase' at line 1 in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SHOW TABLES LIK...')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-10 00:13:48] Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OR "%donation%" OR "%booking%" OR "%subscription%" OR "%panihati%" OR "%sudamase' at line 1 in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->query('SHOW TABLES LIK...')
+#1 {main}
+  thrown in Command line code on line 1
+[10-Jul-2026 00:13:52 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::fetch_row() in Command line code:1
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 1
+[2026-07-10 00:13:52] Uncaught Error: Call to undefined method PDOStatement::fetch_row() in Command line code:1
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 1
+[10-Jul-2026 00:21:54 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[10-Jul-2026 00:23:03 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:23:17 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:39:54 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:39:58 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:22 UTC] PHP Warning:  Undefined variable $currentMonth in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:22 UTC] PHP Warning:  Undefined variable $currentYear in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:22 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:24 UTC] PHP Warning:  Undefined variable $currentMonth in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:24 UTC] PHP Warning:  Undefined variable $currentYear in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:24 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:25 UTC] PHP Warning:  Undefined variable $currentMonth in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:25 UTC] PHP Warning:  Undefined variable $currentYear in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:25 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:27 UTC] PHP Warning:  Undefined variable $currentMonth in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:27 UTC] PHP Warning:  Undefined variable $currentYear in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-2-04-01 00:00:00'
+[10-Jul-2026 00:40:27 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:43:59 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:43:59 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:43:59 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 155
+[10-Jul-2026 00:43:59 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 156
+[10-Jul-2026 00:43:59 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:43:59 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:43:59 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:43:59 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:43:59 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:43:59 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:45:52 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:45:52 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:45:52 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 155
+[10-Jul-2026 00:45:52 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 156
+[10-Jul-2026 00:45:52 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:45:52 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:45:52 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:45:52 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:45:52 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:45:52 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:46:19 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:46:19 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:46:19 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 155
+[10-Jul-2026 00:46:19 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 156
+[10-Jul-2026 00:46:19 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:46:19 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:46:19 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:46:19 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:46:19 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:46:19 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:48:45 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:48:45 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:48:45 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 155
+[10-Jul-2026 00:48:45 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 156
+[10-Jul-2026 00:48:45 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:48:45 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:48:45 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:48:45 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:48:45 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:48:45 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:48:53 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:48:53 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 153
+[10-Jul-2026 00:48:53 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 155
+[10-Jul-2026 00:48:53 UTC] PHP Warning:  Undefined variable $currentFY in C:\laragon\www\isjm\admin\dashboard.php on line 156
+[10-Jul-2026 00:48:53 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:48:53 UTC] AdminDashboardRepository::getOverview error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:48:53 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-04-01 00:00:00'
+[10-Jul-2026 00:48:53 UTC] AdminDashboardRepository::getModuleBreakdown error: SQLSTATE[HY000]: General error: 1525 Incorrect DATETIME value: '-1-04-01 00:00:00'
+[10-Jul-2026 00:48:53 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:48:53 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:51:00 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:51:00 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:51:00 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:52:34 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:52:34 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:52:34 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:59:37 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:59:37 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 00:59:37 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month,
+                    DATE_FORMAT(revenue.paid_at, '%b %Y') AS month_l' at line 2
+[10-Jul-2026 01:00:51 UTC] PHP Warning:  Undefined variable $db in C:\laragon\www\isjm\test_trend_debug.php on line 8
+[10-Jul-2026 01:00:51 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(24): test('A. donations on...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 8
+[2026-07-10 01:00:51] Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:8
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(24): test('A. donations on...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 8
+[10-Jul-2026 01:03:10 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month, DATE_FORMAT(t.created_at, '%b %Y') AS month_label, 'donations' AS mo' at line 1
+[10-Jul-2026 01:03:10 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month, DATE_FORMAT(t.created_at, '%b %Y') AS month_label, 'donations' AS mo' at line 1
+[10-Jul-2026 01:03:10 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month, DATE_FORMAT(t.created_at, '%b %Y') AS month_label, 'donations' AS mo' at line 1
+[10-Jul-2026 01:04:21 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month, DATE_FORMAT(t.created_at, '%b %Y') AS month_label, 'donations' AS mo' at line 1
+[10-Jul-2026 01:05:24 UTC] PHP Warning:  Undefined variable $db in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[10-Jul-2026 01:05:24 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:9
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(20): test('1. Simple donat...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[2026-07-10 01:05:24] Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:9
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(20): test('1. Simple donat...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[10-Jul-2026 01:05:35 UTC] PHP Warning:  Undefined variable $db in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[10-Jul-2026 01:05:35 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:9
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(20): test('1. Simple donat...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[2026-07-10 01:05:35] Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:9
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(20): test('1. Simple donat...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[10-Jul-2026 01:05:38 UTC] PHP Warning:  Undefined variable $db in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[10-Jul-2026 01:05:38 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:9
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(20): test('1. Simple donat...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[2026-07-10 01:05:38] Uncaught Error: Call to a member function query() on null in C:\laragon\www\isjm\test_trend_debug.php:9
+Stack trace:
+#0 C:\laragon\www\isjm\test_trend_debug.php(20): test('1. Simple donat...', 'SELECT DATE_FOR...')
+#1 {main}
+  thrown in C:\laragon\www\isjm\test_trend_debug.php on line 9
+[10-Jul-2026 01:05:49 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month, DATE_FORMAT(t.created_at, '%b %Y') AS month_label, 'donations' AS mo' at line 1
+[10-Jul-2026 01:07:52 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1055 Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'iskcop35_iskconseshadripuram.t.created_at' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+[10-Jul-2026 01:08:52 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1055 Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'iskcop35_iskconseshadripuram.t.created_at' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
