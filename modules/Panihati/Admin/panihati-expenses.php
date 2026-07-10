@@ -305,17 +305,49 @@ foreach ($offlineRegistrations as $off) {
 
 $surplusDeficit = $totalIncome - $totalExpenses;
 
+// Compute income sources for summary table
+$incomeSources = [];
+
+// 1. Online Registrations
+$onlineTotal = 0;
+$onlineCount = 0;
+foreach ($calculatedIncome as $inc) {
+    $onlineTotal += floatval($inc['amount']);
+    $onlineCount += intval($inc['no']);
+}
+$incomeSources['Online Registration'] = ['count' => $onlineCount, 'amount' => $onlineTotal];
+
+// 2. Offline Registrations
+$offlineTotal = 0;
+$offlineCount = 0;
+foreach ($offlineRegistrations as $off) {
+    $offlineTotal += floatval($off['total_amount']);
+    $offlineCount += intval($off['adults']) + intval($off['kids']);
+}
+$incomeSources['Offline Registration'] = ['count' => $offlineCount, 'amount' => $offlineTotal];
+
+// 3. Other Collections / Counter Cash
+$manualIncomeTotal = 0;
+foreach ($manualIncomes as $inc) {
+    $manualIncomeTotal += floatval($inc['amount']);
+}
+$incomeSources['Other Collections / Counter'] = ['count' => count($manualIncomes), 'amount' => $manualIncomeTotal];
+
 // Calculate category totals for charts
 $categoryTotals = [];
+$categoryCounts = [];
 foreach ($categories as $cat) {
     $categoryTotals[$cat] = 0;
+    $categoryCounts[$cat] = 0;
 }
 foreach ($manualExpenses as $exp) {
     $cat = $exp['category'] ?: 'Miscellaneous';
     if (!isset($categoryTotals[$cat])) {
         $categoryTotals[$cat] = 0;
+        $categoryCounts[$cat] = 0;
     }
     $categoryTotals[$cat] += floatval($exp['amount']);
+    $categoryCounts[$cat]++;
 }
 
 function getCategoryStyle($cat) {
@@ -435,6 +467,134 @@ function getCategoryStyle($cat) {
       </div>
     </div>
   </div>
+</div>
+
+<!-- Category-wise Expense Summary -->
+<div style="background:var(--white); border-radius:var(--radius-lg); border:1px solid var(--border); box-shadow:var(--shadow-sm); overflow:hidden; padding:var(--space-xl); margin-bottom:var(--space-2xl);">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-lg); border-bottom:2px solid var(--maroon); padding-bottom:10px;">
+    <h3 style="font-family:var(--font-heading); color:var(--text-dark); margin:0; text-transform:uppercase; font-size:14px; letter-spacing:0.5px;">
+      <i class="fas fa-chart-pie"></i> Expense Summary by Category
+    </h3>
+    <span style="font-size:12px; color:var(--text-light); font-weight:500;">Total: ₹<?php echo number_format($totalExpenses, 2); ?></span>
+  </div>
+  <table style="width:100%; border-collapse:collapse; font-size:12px;">
+    <thead>
+      <tr style="border-bottom:2px solid var(--border); color:var(--text-dark); font-weight:600;">
+        <th style="padding:10px 12px; text-align:left; width:30%;">Category</th>
+        <th style="padding:10px 12px; text-align:center; width:12%;">Entries</th>
+        <th style="padding:10px 12px; text-align:right; width:22%;">Total Amount</th>
+        <th style="padding:10px 12px; text-align:right; width:20%;">% Share</th>
+        <th style="padding:10px 12px; width:16%;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $sortedCats = $categoryTotals;
+      arsort($sortedCats);
+      $rowIndex = 0;
+      foreach ($sortedCats as $cat => $amt):
+        if ($amt <= 0) continue;
+        $count = $categoryCounts[$cat] ?? 0;
+        $pct = $totalExpenses > 0 ? round(($amt / $totalExpenses) * 100, 1) : 0;
+        $barWidth = $totalExpenses > 0 ? max(2, round(($amt / $totalExpenses) * 100)) : 0;
+        $rowIndex++;
+      ?>
+        <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--cream-light)'" onmouseout="this.style.background='none'">
+          <td style="padding:12px 12px; vertical-align:middle;">
+            <span class="badge" style="<?php echo getCategoryStyle($cat); ?> font-size:10px; padding:3px 8px; border-radius:4px; font-weight:600;"><?php echo htmlspecialchars($cat); ?></span>
+          </td>
+          <td style="padding:12px 12px; text-align:center; vertical-align:middle; color:var(--text-dark); font-weight:500;">
+            <?php echo $count; ?>
+          </td>
+          <td style="padding:12px 12px; text-align:right; vertical-align:middle; font-weight:700; color:var(--text-dark);">
+            ₹<?php echo number_format($amt, 2); ?>
+          </td>
+          <td style="padding:12px 12px; text-align:right; vertical-align:middle; font-weight:600; color:var(--text-light);">
+            <?php echo $pct; ?>%
+          </td>
+          <td style="padding:12px 12px; vertical-align:middle;">
+            <div style="height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden;">
+              <div style="height:100%; width:<?php echo $barWidth; ?>%; background:<?php echo $rowIndex === 1 ? '#1e88e5' : ($rowIndex === 2 ? '#4caf50' : ($rowIndex === 3 ? '#9c27b0' : '#78909c')); ?>; border-radius:4px; transition:width 0.3s ease;"></div>
+            </div>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+      <tr style="border-top:2px solid var(--border); font-weight:700; background:var(--cream-light);">
+        <td style="padding:12px 12px;">Total</td>
+        <td style="padding:12px 12px; text-align:center;"><?php echo array_sum($categoryCounts); ?></td>
+        <td style="padding:12px 12px; text-align:right; color:var(--maroon);">₹<?php echo number_format($totalExpenses, 2); ?></td>
+        <td style="padding:12px 12px; text-align:right; color:var(--maroon);">100%</td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<!-- Income Summary by Source -->
+<div style="background:var(--white); border-radius:var(--radius-lg); border:1px solid var(--border); box-shadow:var(--shadow-sm); overflow:hidden; padding:var(--space-xl); margin-bottom:var(--space-2xl);">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-lg); border-bottom:2px solid #2e7d32; padding-bottom:10px;">
+    <h3 style="font-family:var(--font-heading); color:var(--text-dark); margin:0; text-transform:uppercase; font-size:14px; letter-spacing:0.5px;">
+      <i class="fas fa-coins"></i> Income Summary by Source
+    </h3>
+    <span style="font-size:12px; color:var(--text-light); font-weight:500;">Total: ₹<?php echo number_format($totalIncome, 2); ?></span>
+  </div>
+  <table style="width:100%; border-collapse:collapse; font-size:12px;">
+    <thead>
+      <tr style="border-bottom:2px solid var(--border); color:var(--text-dark); font-weight:600;">
+        <th style="padding:10px 12px; text-align:left; width:30%;">Source</th>
+        <th style="padding:10px 12px; text-align:center; width:12%;">Count</th>
+        <th style="padding:10px 12px; text-align:right; width:22%;">Total Amount</th>
+        <th style="padding:10px 12px; text-align:right; width:20%;">% Share</th>
+        <th style="padding:10px 12px; width:16%;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $sortedIncome = $incomeSources;
+      uasort($sortedIncome, function($a, $b) { return $b['amount'] <=> $a['amount']; });
+      $rowIndex = 0;
+      foreach ($sortedIncome as $source => $data):
+        if ($data['amount'] <= 0) continue;
+        $pct = $totalIncome > 0 ? round(($data['amount'] / $totalIncome) * 100, 1) : 0;
+        $barWidth = $totalIncome > 0 ? max(2, round(($data['amount'] / $totalIncome) * 100)) : 0;
+        $rowIndex++;
+      ?>
+        <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--cream-light)'" onmouseout="this.style.background='none'">
+          <td style="padding:12px 12px; vertical-align:middle;">
+            <span style="background:<?php echo $rowIndex === 1 ? '#e8f5e9' : ($rowIndex === 2 ? '#e3f2fd' : '#fff3e0'); ?>; color:<?php echo $rowIndex === 1 ? '#2e7d32' : ($rowIndex === 2 ? '#1565c0' : '#e65100'); ?>; border:1px solid <?php echo $rowIndex === 1 ? '#c8e6c9' : ($rowIndex === 2 ? '#bbdefb' : '#ffe0b2'); ?>; font-size:10px; padding:3px 8px; border-radius:4px; font-weight:600;">
+              <i class="fas <?php echo $source === 'Online Registration' ? 'fa-globe' : ($source === 'Offline Registration' ? 'fa-users' : 'fa-hand-holding-usd'); ?>"></i>
+              <?php echo htmlspecialchars($source); ?>
+            </span>
+          </td>
+          <td style="padding:12px 12px; text-align:center; vertical-align:middle; color:var(--text-dark); font-weight:500;">
+            <?php echo $data['count']; ?>
+          </td>
+          <td style="padding:12px 12px; text-align:right; vertical-align:middle; font-weight:700; color:var(--text-dark);">
+            ₹<?php echo number_format($data['amount'], 2); ?>
+          </td>
+          <td style="padding:12px 12px; text-align:right; vertical-align:middle; font-weight:600; color:var(--text-light);">
+            <?php echo $pct; ?>%
+          </td>
+          <td style="padding:12px 12px; vertical-align:middle;">
+            <div style="height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden;">
+              <div style="height:100%; width:<?php echo $barWidth; ?>%; background:<?php echo $rowIndex === 1 ? '#43a047' : ($rowIndex === 2 ? '#1e88e5' : '#fb8c00'); ?>; border-radius:4px; transition:width 0.3s ease;"></div>
+            </div>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+      <tr style="border-top:2px solid var(--border); font-weight:700; background:var(--cream-light);">
+        <td style="padding:12px 12px;">Total</td>
+        <td style="padding:12px 12px; text-align:center;"><?php echo array_sum(array_column($incomeSources, 'count')); ?></td>
+        <td style="padding:12px 12px; text-align:right; color:#2e7d32;">₹<?php echo number_format($totalIncome, 2); ?></td>
+        <td style="padding:12px 12px; text-align:right; color:#2e7d32;">100%</td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
 
 <!-- Side-by-Side Account Table -->

@@ -948,3 +948,19 @@ Stack trace:
 [10-Jul-2026 01:05:49 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year_month, DATE_FORMAT(t.created_at, '%b %Y') AS month_label, 'donations' AS mo' at line 1
 [10-Jul-2026 01:07:52 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1055 Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'iskcop35_iskconseshadripuram.t.created_at' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 [10-Jul-2026 01:08:52 UTC] AdminDashboardRepository::getMonthlyTrend error: SQLSTATE[42000]: Syntax error or access violation: 1055 Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'iskcop35_iskconseshadripuram.t.created_at' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+[10-Jul-2026 01:53:32 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "n" in Command line code:1
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 1
+[2026-07-10 01:53:32] Uncaught Error: Undefined constant "n" in Command line code:1
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 1
+[10-Jul-2026 01:53:38 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "n" in Command line code:1
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 1
+[2026-07-10 01:53:38] Uncaught Error: Undefined constant "n" in Command line code:1
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 1
