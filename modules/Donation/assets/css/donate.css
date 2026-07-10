@@ -1294,6 +1294,7 @@
 .bank-details-section {
   background: var(--cream);
   padding: var(--space-4xl) 0;
+  text-align: center;
 }
 
 .bank-details-card {

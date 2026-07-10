@@ -1030,3 +1030,4 @@ Stack trace:
 #0 C:\laragon\www\isjm\services\index.php(8): require_once()
 #1 {main}
   thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
+[10-Jul-2026 18:01:39 UTC] DEPRECATED: Cause #10 is using old donation_cause_sevas table.

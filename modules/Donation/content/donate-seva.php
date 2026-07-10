@@ -434,7 +434,7 @@ $sourceUrl = $_SERVER['HTTP_REFERER'] ?? '';
           <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-answer">
-          <p>Absolutely! You can make a direct bank transfer using the account details provided in the Bank Transfer section below. Please send your transaction details to <strong>seva@iskconvrindavan.org</strong> so we can acknowledge your donation.</p>
+          <p>Absolutely! You can make a direct bank transfer using the account details provided in the Bank Transfer section below. Please send your transaction details to <strong>info@iskconseshadripuram.org</strong> so we can acknowledge your donation.</p>
         </div>
       </div>
 
@@ -505,7 +505,7 @@ $sourceUrl = $_SERVER['HTTP_REFERER'] ?? '';
         </div>
         <div class="bank-note">
           <i class="fas fa-info-circle"></i> After making a bank transfer, please send your transaction details 
-          to <strong>seva@iskconvrindavan.org</strong> so we can acknowledge your donation.
+          to <strong>info@iskconseshadripuram.org</strong> so we can acknowledge your donation.
         </div>
       </div>
     </div>
