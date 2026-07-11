@@ -767,4 +767,19 @@ class SudamasevaService
     {
         return $this->repo->getPaymentsForExport($from, $to);
     }
+
+    public function hasPaidPayments(int $donorId): bool
+    {
+        return $this->repo->hasPaidPayments($donorId);
+    }
+
+    public function deleteDonor(int $id): bool
+    {
+        return $this->repo->deleteDonor($id);
+    }
+
+    public function deletePayment(int $id): bool
+    {
+        return $this->repo->deletePayment($id);
+    }
 }

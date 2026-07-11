@@ -7,15 +7,40 @@
 require_once __DIR__ . '/../../../admin/auth-check.php';
 requirePermission('sudamaseva.view');
 
-$pageTitle = 'Sudamaseva Payments';
-$activePage = 'sudamaseva-payments';
-include 'partials/header.php';
-
 use Isjm\Modules\Sudamaseva\SudamasevaService;
 
 $service = new SudamasevaService();
 $repo = new \Isjm\Modules\Sudamaseva\SudamasevaRepository();
 $error = '';
+$message = '';
+
+// Handle delete action (must be executed before any HTML output for redirect to work)
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+    if (!hash_equals($_SESSION['csrf_token'] ?? '', $_GET['csrf_token'] ?? '')) {
+        $error = 'CSRF validation failed. Unauthorized request.';
+    } elseif (!hasPermission('sudamaseva.delete')) {
+        $error = 'You do not have permission to delete payments.';
+    } else {
+        $deleteId = intval($_GET['id']);
+        try {
+            if ($service->deletePayment($deleteId)) {
+                $message = 'Payment deleted successfully.';
+                header('Location: ' . BASE_URL . 'admin/sudamaseva-payments?message=' . urlencode($message));
+                exit;
+            } else {
+                $error = 'Failed to delete payment. Please try again.';
+            }
+        } catch (Exception $e) {
+            $error = 'Error deleting payment: ' . $e->getMessage();
+        }
+    }
+}
+
+$message = trim($_GET['message'] ?? '');
+
+$pageTitle = 'Sudamaseva Payments';
+$activePage = 'sudamaseva-payments';
+include 'partials/header.php';
 
 $status = trim($_GET['status'] ?? '');
 $from = trim($_GET['from'] ?? '');
@@ -127,6 +152,12 @@ $queryString = http_build_query($queryParams);
   </div>
 <?php endif; ?>
 
+<?php if ($message): ?>
+  <div class="alert alert-success">
+    <i class="fas fa-check-circle" style="margin-right: 6px;"></i> <?php echo htmlspecialchars($message); ?>
+  </div>
+<?php endif; ?>
+
 <!-- Summary Cards -->
 <div style="display:flex; gap: var(--space-md); margin-bottom: var(--space-lg); flex-wrap:wrap;">
   <div style="background:var(--white); border:1px solid var(--border); padding:var(--space-md); border-radius:var(--radius-md); display:flex; align-items:center; gap:var(--space-md); min-width:200px; box-shadow:var(--shadow-sm);">
@@ -209,12 +240,15 @@ $queryString = http_build_query($queryParams);
             <th>Status</th>
             <th>Receipt</th>
             <th>Payment ID</th>
+            <?php if (hasPermission('sudamaseva.delete')): ?>
+              <th style="text-align:center;">Actions</th>
+            <?php endif; ?>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($payments)): ?>
             <tr>
-              <td colspan="8" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No payments found matching the filters.</td>
+              <td colspan="<?php echo hasPermission('sudamaseva.delete') ? 9 : 8; ?>" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No payments found matching the filters.</td>
             </tr>
           <?php else: ?>
             <?php foreach ($payments as $p): ?>
@@ -248,6 +282,17 @@ $queryString = http_build_query($queryParams);
                 <td style="font-size:10px; font-family:monospace; color:var(--text-light); max-width:120px; overflow:hidden; text-overflow:ellipsis;" title="<?php echo htmlspecialchars($p['razorpay_payment_id'] ?? ''); ?>">
                   <?php echo htmlspecialchars($p['razorpay_payment_id'] ?: '—'); ?>
                 </td>
+                <?php if (hasPermission('sudamaseva.delete')): ?>
+                  <td style="text-align:center;">
+                    <a href="admin/sudamaseva-payments?action=delete&id=<?php echo $p['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token'] ?? ''; ?>" 
+                       class="btn-sm-action btn-delete" 
+                       title="Delete Payment" 
+                       onclick="return confirm('Are you sure you want to delete this payment record? This will also delete any generated tax receipts and update the subscription installment count if applicable.');" 
+                       style="padding: 6px 8px; border-radius: 4px; background:#dc3545; color:white; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; text-decoration:none;">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </td>
+                <?php endif; ?>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>

@@ -73,6 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
         }
+
+        // Fix: If self-editing and currently a super admin, force keep the super admin role
+        if ($isEditMode && $id === (int)$_SESSION['admin_id'] && in_array('super_admin', array_map('trim', explode(',', $role)))) {
+            $hasSuperAdminInRbac = true;
+            foreach ($availableRoles as $ar) {
+                if ($ar['slug'] === 'super_admin' && !in_array($ar['id'], $rbacRoleIdsSanitized)) {
+                    $rbacRoleIdsSanitized[] = $ar['id'];
+                    break;
+                }
+            }
+        }
+
         $roleInput = $hasSuperAdminInRbac ? 'super_admin' : 'editor';
 
         if (!$isEditMode) {

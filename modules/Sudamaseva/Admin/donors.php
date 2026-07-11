@@ -7,14 +7,43 @@
 require_once __DIR__ . '/../../../admin/auth-check.php';
 requirePermission('sudamaseva.view');
 
-$pageTitle = 'Sudamaseva Donors';
-$activePage = 'sudamaseva-donors';
-include 'partials/header.php';
-
 use Isjm\Modules\Sudamaseva\SudamasevaService;
 
 $service = new SudamasevaService();
 $error = '';
+$message = '';
+
+// Handle delete action (must be executed before any HTML output for redirect to work)
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+    if (!hash_equals($_SESSION['csrf_token'] ?? '', $_GET['csrf_token'] ?? '')) {
+        $error = 'CSRF validation failed. Unauthorized request.';
+    } elseif (!hasPermission('sudamaseva.delete')) {
+        $error = 'You do not have permission to delete donors.';
+    } else {
+        $deleteId = intval($_GET['id']);
+        try {
+            if ($service->hasPaidPayments($deleteId)) {
+                $error = 'Cannot delete donor because they have successful donation records. Donors with successful payments cannot be deleted to preserve financial audit integrity.';
+            } else {
+                if ($service->deleteDonor($deleteId)) {
+                    $message = 'Donor deleted successfully.';
+                    header('Location: ' . BASE_URL . 'admin/sudamaseva-donors?message=' . urlencode($message));
+                    exit;
+                } else {
+                    $error = 'Failed to delete donor. Please try again.';
+                }
+            }
+        } catch (Exception $e) {
+            $error = 'Error deleting donor: ' . $e->getMessage();
+        }
+    }
+}
+
+$message = trim($_GET['message'] ?? '');
+
+$pageTitle = 'Sudamaseva Donors';
+$activePage = 'sudamaseva-donors';
+include 'partials/header.php';
 
 // Read filters
 $search = trim($_GET['search'] ?? '');
@@ -60,6 +89,12 @@ $queryString = http_build_query($queryParams);
 <?php if ($error): ?>
   <div class="alert alert-danger">
     <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i> <?php echo htmlspecialchars($error); ?>
+  </div>
+<?php endif; ?>
+
+<?php if ($message): ?>
+  <div class="alert alert-success">
+    <i class="fas fa-check-circle" style="margin-right: 6px;"></i> <?php echo htmlspecialchars($message); ?>
   </div>
 <?php endif; ?>
 
@@ -203,6 +238,15 @@ $queryString = http_build_query($queryParams);
                     <?php if (hasPermission('sudamaseva.edit')): ?>
                       <a href="<?php echo $enrollUrl; ?>" class="btn-sm-action" title="Enroll / Renew Subscription (New Cycle)" style="padding: 6px 8px; border-radius: 4px; background:#0b5ed7; color:white; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; text-decoration:none;"><i class="fas fa-user-plus"></i></a>
                     <?php endif; ?>
+                  <?php endif; ?>
+                  <?php if (hasPermission('sudamaseva.delete')): ?>
+                    <a href="admin/sudamaseva-donors?action=delete&id=<?php echo $d['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token'] ?? ''; ?>" 
+                       class="btn-sm-action btn-delete" 
+                       title="Delete Donor" 
+                       onclick="return confirm('Are you sure you want to delete this donor? This will remove the donor and associated incomplete subscriptions/payments.');" 
+                       style="padding: 6px 8px; border-radius: 4px; background:#dc3545; color:white; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; text-decoration:none;">
+                      <i class="fas fa-trash"></i>
+                    </a>
                   <?php endif; ?>
                 </td>
               </tr>

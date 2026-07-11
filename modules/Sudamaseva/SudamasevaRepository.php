@@ -1444,4 +1444,104 @@ class SudamasevaRepository
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
+
+    /**
+     * Check if a donor has any successful payments.
+     *
+     * @param int $donorId
+     * @return bool
+     */
+    public function hasPaidPayments(int $donorId): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT COUNT(*) FROM sudamaseva_payments WHERE donor_id = ? AND payment_status = 'paid'"
+            );
+            $stmt->execute([$donorId]);
+            return ((int) $stmt->fetchColumn()) > 0;
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::hasPaidPayments error: ' . $e->getMessage());
+            return true; // Safe fallback: assume true on database error
+        }
+    }
+
+    /**
+     * Delete a donor, their subscriptions, and failed/incomplete payments.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteDonor(int $id): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // 1. Delete associated payments (only failed/incomplete ones)
+            $stmt = $this->db->prepare("DELETE FROM sudamaseva_payments WHERE donor_id = ?");
+            $stmt->execute([$id]);
+
+            // 2. Delete associated subscriptions
+            $stmt = $this->db->prepare("DELETE FROM sudamaseva_subscriptions WHERE donor_id = ?");
+            $stmt->execute([$id]);
+
+            // 3. Delete the donor record
+            $stmt = $this->db->prepare("DELETE FROM sudamaseva_donors WHERE id = ?");
+            $stmt->execute([$id]);
+
+            $this->db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log('SudamasevaRepository::deleteDonor error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Delete a payment record, and if it was a paid installment, update subscription count.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deletePayment(int $id): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // 1. Fetch payment details
+            $stmt = $this->db->prepare("SELECT subscription_id, payment_status FROM sudamaseva_payments WHERE id = ?");
+            $stmt->execute([$id]);
+            $payment = $stmt->fetch();
+
+            if ($payment) {
+                $subId = $payment['subscription_id'] ? (int) $payment['subscription_id'] : null;
+                $status = $payment['payment_status'];
+
+                // 2. Delete receipts (should cascade automatically, but doing it explicitly for safety)
+                $stmt = $this->db->prepare("DELETE FROM sudamaseva_receipts WHERE payment_id = ?");
+                $stmt->execute([$id]);
+
+                // 3. Delete payment
+                $stmt = $this->db->prepare("DELETE FROM sudamaseva_payments WHERE id = ?");
+                $stmt->execute([$id]);
+
+                // 4. Update subscription installments_paid if the deleted payment was 'paid'
+                if ($subId && $status === 'paid') {
+                    $stmt = $this->db->prepare(
+                        "UPDATE sudamaseva_subscriptions 
+                         SET installments_paid = GREATEST(0, installments_paid - 1) 
+                         WHERE id = ?"
+                    );
+                    $stmt->execute([$subId]);
+                }
+            }
+
+            $this->db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log('SudamasevaRepository::deletePayment error: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

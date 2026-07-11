@@ -16,10 +16,6 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-$pageTitle = 'Donor Profile';
-$activePage = 'sudamaseva-donors';
-include 'partials/header.php';
-
 use Isjm\Modules\Sudamaseva\SudamasevaService;
 use Isjm\Modules\Sudamaseva\SudamasevaRepository;
 
@@ -30,7 +26,32 @@ $success = '';
 
 $donorId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
+// Handle delete payment action (must be executed before any HTML output for redirect to work)
+if (isset($_GET['action']) && $_GET['action'] === 'delete_payment' && isset($_GET['payment_id'])) {
+    if (!hash_equals($_SESSION['csrf_token'] ?? '', $_GET['csrf_token'] ?? '')) {
+        $error = 'CSRF validation failed. Unauthorized request.';
+    } elseif (!hasPermission('sudamaseva.delete')) {
+        $error = 'You do not have permission to delete payments.';
+    } else {
+        $deletePaymentId = intval($_GET['payment_id']);
+        try {
+            if ($service->deletePayment($deletePaymentId)) {
+                header('Location: ' . BASE_URL . 'admin/sudamaseva-donor-detail?id=' . $donorId . '&success=delete_payment');
+                exit;
+            } else {
+                $error = 'Failed to delete payment. Please try again.';
+            }
+        } catch (Exception $e) {
+            $error = 'Error deleting payment: ' . $e->getMessage();
+        }
+    }
+}
+
+$pageTitle = 'Donor Profile';
+$activePage = 'sudamaseva-donors';
+
 if ($donorId <= 0) {
+    include 'partials/header.php';
     echo '<div class="admin-page-header"><div class="admin-page-title"><h1>Invalid Request</h1></div></div>';
     echo '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> Donor ID is required.</div>';
     echo '<a href="admin/sudamaseva-donors" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">&larr; Back to Donors</a>';
@@ -38,11 +59,15 @@ if ($donorId <= 0) {
     exit;
 }
 
+include 'partials/header.php';
+
 if (isset($_GET['success'])) {
     if ($_GET['success'] === 'enroll') {
         $success = 'Donor registered and subscription cycle initialized successfully!';
     } elseif ($_GET['success'] === 'edit') {
         $success = 'Donor profile updated successfully!';
+    } elseif ($_GET['success'] === 'delete_payment') {
+        $success = 'Payment record deleted successfully!';
     }
 }
 
@@ -414,11 +439,14 @@ if (!$selectedSub && !empty($subscriptions)) {
             <th>Status</th>
             <th>Receipt</th>
             <th>Payment ID</th>
+            <?php if (hasPermission('sudamaseva.delete')): ?>
+              <th style="text-align:center;">Actions</th>
+            <?php endif; ?>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($recentPayments)): ?>
-            <tr><td colspan="6" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No payments recorded yet.</td></tr>
+            <tr><td colspan="<?php echo hasPermission('sudamaseva.delete') ? 7 : 6; ?>" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No payments recorded yet.</td></tr>
           <?php else: ?>
             <?php foreach ($recentPayments as $p): ?>
               <tr>
@@ -430,6 +458,17 @@ if (!$selectedSub && !empty($subscriptions)) {
                 <td style="font-size:10px; font-family:monospace; color:var(--text-light); max-width:100px; overflow:hidden; text-overflow:ellipsis;" title="<?php echo htmlspecialchars($p['razorpay_payment_id'] ?? ''); ?>">
                   <?php echo htmlspecialchars($p['razorpay_payment_id'] ?: '—'); ?>
                 </td>
+                <?php if (hasPermission('sudamaseva.delete')): ?>
+                  <td style="text-align:center;">
+                    <a href="admin/sudamaseva-donor-detail?id=<?php echo $donorId; ?>&action=delete_payment&payment_id=<?php echo $p['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token'] ?? ''; ?>" 
+                       class="btn-sm-action btn-delete" 
+                       title="Delete Payment" 
+                       onclick="return confirm('Are you sure you want to delete this payment record? This will also delete any generated tax receipts and update the subscription installment count if applicable.');" 
+                       style="padding: 6px 8px; border-radius: 4px; background:#dc3545; color:white; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; text-decoration:none;">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </td>
+                <?php endif; ?>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>
