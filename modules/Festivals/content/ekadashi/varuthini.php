@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Varuthini Ekadasi';
 $metaDescription = 'Learn the glories of Varuthini Ekadasi at ISKCON Seshadripuram, Bangalore. Protects the devotee, removes all sins, and turns charity into eternal spiritual assets.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

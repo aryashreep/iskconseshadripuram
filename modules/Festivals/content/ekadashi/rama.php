@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Rama Ekadasi';
 $metaDescription = 'Learn the glories of Rama Ekadasi at ISKCON Seshadripuram, Bangalore. Beloved of Srimati Radharani, this Ekadashi frees even the most fallen from all sinful reactions.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

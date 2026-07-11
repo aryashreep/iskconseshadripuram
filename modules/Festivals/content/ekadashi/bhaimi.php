@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Bhaimi (Jaya) Ekadasi';
 $metaDescription = 'Learn the glories of Bhaimi Ekadasi at ISKCON Seshadripuram, Bangalore. This Ekadashi eradicates the heaviest sins and frees one from ghostly existences.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

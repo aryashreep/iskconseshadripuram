@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Corporate Programs';
 $metaDescription = 'ISKCON corporate training programs in Bangalore — stress management, leadership, ethics, and work-life balance workshops for professionals and organizations. Transform workplace consciousness.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

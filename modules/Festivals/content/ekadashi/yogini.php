@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Yogini Ekadasi';
 $metaDescription = 'Learn the glories of Yogini Ekadasi at ISKCON Seshadripuram, Bangalore. Equivalent to feeding 88,000 brahmanas, purging diseases and nullifying severe curses.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Our Philosophy';
+$pageType = 'about';
 include '../partials/header.php';
 ?>
 

@@ -14,6 +14,7 @@ require_once __DIR__ . '/../../Kernel/includes/bootstrap.php';
 
 $pageTitle = 'Subscription Successful — Sudamaseva';
 $metaDescription = 'Your monthly subscription donation to ISKCON The Palace Temple of Lord Jagannath has been set up successfully.';
+$pageType = 'default';
 include __DIR__ . '/../../Kernel/partials/header.php';
 
 // Get parameters from URL (passed from Razorpay handler)

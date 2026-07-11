@@ -161,6 +161,42 @@ PHP queries aggregate `donation_transactions` → `donation_causes` → `master_
 
 ---
 
+## Related Documentation
+
+| Document | Link |
+|----------|------|
+| Security policy & OWASP Top 10 | [`SECURITY.md`](SECURITY.md) |
+| Coding standards & conventions | [`CODING_STANDARDS.md`](CODING_STANDARDS.md) |
+| Business workflows | [`WORKFLOWS.md`](WORKFLOWS.md) |
+| Module index & quick reference | [`MODULE_INDEX.md`](MODULE_INDEX.md) |
+| Documentation policy | [`DOCUMENTATION_POLICY.md`](DOCUMENTATION_POLICY.md) |
+| API endpoints reference | [`docs/API.md`](docs/API.md) |
+| Database schema details | [`docs/DATABASE.md`](docs/DATABASE.md) |
+| Admin panel reference | [`docs/ADMIN.md`](docs/ADMIN.md) |
+
+---
+
+## Security Architecture
+
+See [`SECURITY.md`](SECURITY.md) for comprehensive security documentation covering:
+- OWASP Top 10 mapping with current controls and gaps
+- Authentication and authorization flows
+- CSRF, XSS, SQL injection prevention
+- Webhook and payment security
+- Session management
+- Audit logging
+- Environment secrets management
+
+### Key Security Patterns
+
+1. **PDO Prepared Statements** — Every SQL query uses `prepare()` + `execute()` with positional or named parameters. No string concatenation of user input.
+2. **CSRF Tokens** — Every form and destructive GET action includes a token validated with `hash_equals()`.
+3. **XSS Prevention** — All user-generated content escaped with `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')`.
+4. **RBAC Enforcement** — Every admin page calls `requirePermission('module.action')` or provides UI visibility via `hasPermission()`.
+5. **Server-Side Amount Verification** — Donation amounts verified against the catalog — never trust client-sent amounts.
+6. **HMAC Signatures** — All Razorpay callbacks verify HMAC-SHA256 signatures before processing.
+7. **Rate-Limited Login** — 5 failed attempts per 15-minute window per IP (stored in `login_attempts` table).
+
 ## Technology Decisions
 
 | Decision | Choice | Why |

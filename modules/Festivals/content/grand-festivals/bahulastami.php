@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Bahulastami – The Appearance of Radha-kunda';
 $metaDescription = 'Learn about Bahulastami at ISKCON Seshadripuram, Bangalore. The appearance day of Radha-kunda and Syama-kunda, the most sacred ponds in Vrindavan.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

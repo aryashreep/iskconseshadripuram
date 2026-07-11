@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'ISKCON New Rajapur Jagannatha Dham';
 $metaDescription = 'ISKCON New Rajapur Jagannatha Dham, Magadi Road Bangalore — a branch of ISKCON Seshadripuram with daily darshan, Sunday feast, Bhakti Vriksha, and children\'s classes.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

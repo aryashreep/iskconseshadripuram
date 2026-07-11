@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Govinda's Prasadam & Catering Service";
 $metaDescription = "Govinda's Prasadam at ISKCON Bangalore — karma-free pure vegetarian food prepared with devotion and offered to Lord Krishna. Dine in or catering services for events.";
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

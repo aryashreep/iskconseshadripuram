@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Teacher Training Course (TTC)';
 $metaDescription = 'ISKCON Teacher Training Course (TTC) at BIHE — develop speaking, teaching, and presentation skills for sharing Krishna consciousness. 10 sessions with certification.';
+$pageType = 'course';
 include '../partials/header.php';
 ?>
 

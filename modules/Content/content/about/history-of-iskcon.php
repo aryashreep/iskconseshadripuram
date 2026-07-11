@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'History of ISKCON';
+$pageType = 'about';
 include '../partials/header.php';
 ?>
 

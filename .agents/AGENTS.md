@@ -6,6 +6,63 @@ All original file paths are preserved as backward-compatible wrappers that deleg
 
 ---
 
+## 📚 Documentation Index
+
+This project maintains comprehensive documentation. Key files for AI assistants:
+
+| Document | Purpose |
+|----------|---------|
+| [`README.md`](../README.md) | Project overview, features, quick start |
+| [`ARCHITECTURE.md`](../ARCHITECTURE.md) | System design, module layout, patterns |
+| [`SECURITY.md`](../SECURITY.md) | **OWASP Top 10**, auth, CSRF, XSS, SQL injection, webhooks |
+| [`CODING_STANDARDS.md`](../CODING_STANDARDS.md) | PHP/SQL/HTML/CSS/JS conventions, patterns |
+| [`WORKFLOWS.md`](../WORKFLOWS.md) | All business workflows (donation, booking, admin) |
+| [`MODULE_INDEX.md`](../MODULE_INDEX.md) | All modules with tables, endpoints, dependency chain |
+| [`DOCUMENTATION_POLICY.md`](../DOCUMENTATION_POLICY.md) | When to update which docs |
+| [`DEVELOPMENT_WORKFLOW.md`](../DEVELOPMENT_WORKFLOW.md) | Development process for common tasks |
+| [`CHANGELOG.md`](../CHANGELOG.md) | Change history |
+
+### Module Documentation
+| Module | Documentation Files |
+|--------|-------------------|
+| **Kernel** | [`README.md`](../modules/Kernel/README.md), [`DECISIONS.md`](../modules/Kernel/DECISIONS.md) |
+| **Donation** | [`README.md`](../modules/Donation/README.md), [`API.md`](../modules/Donation/API.md), [`DATABASE.md`](../modules/Donation/DATABASE.md), [`DECISIONS.md`](../modules/Donation/DECISIONS.md), [`TASKS.md`](../modules/Donation/TASKS.md), [`TESTING.md`](../modules/Donation/TESTING.md) |
+| **Sudamaseva** | [`README.md`](../modules/Sudamaseva/README.md), [`API.md`](../modules/Sudamaseva/API.md), [`DATABASE.md`](../modules/Sudamaseva/DATABASE.md), [`DECISIONS.md`](../modules/Sudamaseva/DECISIONS.md), [`TESTING.md`](../modules/Sudamaseva/TESTING.md) |
+| **Panihati** | [`README.md`](../modules/Panihati/README.md), [`DECISIONS.md`](../modules/Panihati/DECISIONS.md), [`TESTING.md`](../modules/Panihati/TESTING.md) |
+| **Booking** | [`README.md`](../modules/Booking/README.md), [`DECISIONS.md`](../modules/Booking/DECISIONS.md) |
+| **Festivals** | [`README.md`](../modules/Festivals/README.md), [`DECISIONS.md`](../modules/Festivals/DECISIONS.md) |
+| **Blogs** | [`README.md`](../modules/Blogs/README.md), [`DECISIONS.md`](../modules/Blogs/DECISIONS.md) |
+| **Content** | [`README.md`](../modules/Content/README.md), [`DECISIONS.md`](../modules/Content/DECISIONS.md) |
+| **RBAC** | [`README.md`](../modules/RBAC/README.md), [`DECISIONS.md`](../modules/RBAC/DECISIONS.md) |
+
+### Reference Docs (`docs/`)
+| Document | Purpose |
+|----------|---------|
+| [`docs/API.md`](../docs/API.md) | All API endpoints with request/response schemas |
+| [`docs/DATABASE.md`](../docs/DATABASE.md) | Complete table inventory with module ownership |
+| [`docs/ADMIN.md`](../docs/ADMIN.md) | Admin panel navigation, RBAC roles, permission API |
+| [`docs/DEVELOPER.md`](../docs/DEVELOPER.md) | Fresher's guide (setup, architecture, tasks) |
+| [`docs/DEPLOYMENT.md`](../docs/DEPLOYMENT.md) | Production deployment checklist |
+| [`docs/TESTING.md`](../docs/TESTING.md) | Testing guide (E2E + PHPUnit patterns) |
+| [`docs/DONATIONS.md`](../docs/DONATIONS.md) | Donation system details |
+| [`docs/AUTHORIZATION_MATRIX.md`](../docs/AUTHORIZATION_MATRIX.md) | Page → Permission mapping |
+| [`docs/AUDIT_LOGGING.md`](../docs/AUDIT_LOGGING.md) | Audit logging current state + recommended schema |
+| [`docs/FILE_UPLOADS.md`](../docs/FILE_UPLOADS.md) | File upload security standards |
+| [`docs/SECURITY_CHECKLIST.md`](../docs/SECURITY_CHECKLIST.md) | Pre-deployment security checklist |
+| [`docs/INCIDENT_RESPONSE.md`](../docs/INCIDENT_RESPONSE.md) | Incident response procedures |
+| [`docs/RELEASE_CHECKLIST.md`](../docs/RELEASE_CHECKLIST.md) | Full release checklist |
+| [`docs/DOCUMENTATION_TEMPLATE.md`](../docs/DOCUMENTATION_TEMPLATE.md) | Templates for consistent docs |
+
+### Historical Specs (Reference Only — Current State Differs)
+| Document | Notes |
+|----------|-------|
+| [`modularization-spec.md`](../modularization-spec.md) | Architecture migration guide — all phases complete |
+| [`rbac-spec.md`](../rbac-spec.md) | RBAC design doc — implemented; refer to module docs for current state |
+| [`sudamaseva-spec.md`](../sudamaseva-spec.md) | Sudamaseva spec — implemented with additions |
+| [`sudamaseva-spec-review.md`](../sudamaseva-spec-review.md) | Spec review — most recommendations implemented |
+
+---
+
 ## Quick Commands
 
 | Task | Command |
@@ -33,8 +90,11 @@ modules/
 ├── Blogs/        (Phase 5 — Blog posts & admin)
 ├── Content/      (Phase 6 — Static content pages)
 ├── RBAC/         (Phase 8 — Role-based access control)
+├── Sudamaseva/   (— Recurring/manual subscription donations)
 └── Kernel/       (Phase 7 — Shared infrastructure)
 ```
+
+**📖 See [`MODULE_INDEX.md`](../MODULE_INDEX.md)** for a complete module reference with responsibilities, owned tables, entry points, and dependency chains.
 
 ### Full Module Tree
 
@@ -286,33 +346,36 @@ admin/blog-edit.php
 - **Credentials**: env vars `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
 - **Connection**: `getDB()` returns a PDO singleton
 
+**📖 See [`docs/DATABASE.md`](../docs/DATABASE.md)** for the complete table inventory with module ownership, active/legacy status, and relationships.
+
 ### Key Tables
 
-| Table | Purpose |
-|-------|---------|
-| `donation_causes` | Activities/festivals (74 rows, has `category` field) |
-| `donation_transactions` | Payment records (cause_id, seva_id, master_seva_id) |
-| `master_seva_categories` | 10 top-level seva categories |
-| `master_sevas` | Single source of truth for all seva offerings |
-| `donation_cause_master_sevas` | Pivot: links causes to sevas with override support |
-| `donation_cause_sevas` | Legacy per-cause seva table (backward compatible) |
-| `booking_pujas` | Puja/yagya bookings |
-| `panihati_yatra_registrations` | Yatra registrations |
-| `rbac_roles` | RBAC role definitions (11 roles, data-driven via UI) |
-| `rbac_permissions` | RBAC permission definitions (55 across 13 modules) |
-| `rbac_role_permissions` | Role ↔ Permission assignments (many-to-many) |
-| `rbac_user_roles` | Admin ↔ Role assignments (replaces `admins.role` column) |
-| `admins` | Admin users — RBAC roles now managed via `rbac_user_roles` table |
+| Table | Purpose | Module |
+|-------|---------|--------|
+| `donation_causes` | Activities/festivals (74 rows, has `category` field) | Donation |
+| `donation_transactions` | Payment records — **NEVER TRUNCATE** | Donation |
+| `master_seva_categories` | 10 top-level seva categories | Donation |
+| `master_sevas` | 363+ deduplicated seva offerings | Donation |
+| `donation_cause_master_sevas` | Pivot: cause ↔ seva links | Donation |
+| `booking_pujas` | Puja/yagya bookings | Booking |
+| `panihati_yatra_registrations` | Yatra registrations — **NEVER TRUNCATE** | Panihati |
+| `sudamaseva_donors` | Donor profiles (302 migrated + new) | Sudamaseva |
+| `sudamaseva_subscriptions` | Subscription plans (recurring/manual) | Sudamaseva |
+| `sudamaseva_payments` | Installment payments (3,278 migrated + new) | Sudamaseva |
+| `sudamaseva_receipts` | 80G tax receipts | Sudamaseva |
+| `rbac_roles` | 11 role definitions, managed via UI | RBAC |
+| `rbac_permissions` | 55 permission definitions across 13 modules | RBAC |
+| `rbac_role_permissions` | Role ↔ Permission M:N | RBAC |
+| `rbac_user_roles` | Admin ↔ Role M:N (replaces `admins.role`) | RBAC |
+| `admins` | Admin users — `role` column deprecated | Kernel |
 
 ### Donation Reporting Hierarchy
 
 ```
-Category (donation_causes.category)
-    → Activity (donation_causes.title)
-        → Seva (master_sevas.name)
+Category (donation_causes.category: festival, ekadashi, etc.)
+    → Activity (donation_causes.title: Rath Yatra, Janmashtami, etc.)
+        → Seva (master_sevas.name via donation_cause_master_sevas pivot)
 ```
-
-Reports aggregate `donation_transactions` joined through this chain.
 
 ---
 

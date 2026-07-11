@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Grand Festivals';
 $metaDescription = 'Explore grand Vaishnava festivals at the official ISKCON temple in Seshadripuram, Bangalore. Janmashtami, Rath Yatra, Gaura Purnima, Diwali, and more celebrations with kirtan and prasadam.';
+$pageType = 'festival';
 include '../../partials/header.php';
 
 // Fetch festivals from DB

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Caturmasya Vrata';
 $metaDescription = 'Learn about Caturmasya Vrata at ISKCON Seshadripuram, Bangalore. The four-month spiritual vow of fasting and austerity observed by Vaishnavas during the rainy season.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

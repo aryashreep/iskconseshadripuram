@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'All Services';
 $metaDescription = 'Explore all services at ISKCON The Palace Temple of Lord Jagannath in Bangalore — Siksha Bhakti Steps, Harinam Sankirtana, corporate programs, Govinda\'s Prasadam, function hall, and Food For Life.';
+$pageType = 'service';
 include '../partials/header.php';
 require_once __DIR__ . '/../../config.php';
 ?>

@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Checkout - ISKCON The Palace Temple of Lord Jagannath';
+$pageType = 'default';
 include '../partials/header.php';
 require_once '../config.php';
 ?>

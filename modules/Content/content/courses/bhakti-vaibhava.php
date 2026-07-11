@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Bhakti Vaibhava Course';
 $metaDescription = 'Bhakti Vaibhava course at ISKCON Seshadripuram — advanced study of Srimad Bhagavatam Cantos 1-6. Prerequisite: Bhakti Shastri degree. Deepen your scriptural knowledge.';
+$pageType = 'course';
 include '../partials/header.php';
 ?>
 

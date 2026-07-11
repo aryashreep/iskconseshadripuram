@@ -70,38 +70,31 @@ secure storage) with no benefit since there's no API-first consumer.
 
 ---
 
-## [2026-07-05] Role-Based Access Control (RBAC)
+## [2026-07-07] RBAC Upgrade — Permission-Based Access Control
 
 ### Decision
-Implement RBAC with 5 roles: super_admin, treasurer, editor, pujari, travel_agent.
-Super_admin has implicit access to everything.
+The initial 5-role system (Jul 5) was upgraded to a full data-driven RBAC system with:
+- 11 data-driven roles (managed via admin UI)
+- 55 permissions across 13 modules (`module.action` format)
+- Permission matrix UI for role management
+- Multi-role assignment on admin user edit
+- Super Admin has implicit permission bypass
 
 ### Context
-Different temple staff need access to different parts of the admin panel:
-- Finance team (treasurer): donation reports, transaction logs
-- Content team (editor): blogs, festivals, seva catalogue
-- Pujaris: booking management
-- Travel agents: Panihati Yatra management
-- Temple leads (super_admin): everything
+As the admin panel grew to 34+ pages across 9+ modules, the 5-role system became too coarse. A treasurer needed view-only access without export, an editor needed only blog access without festival access. The permission-based system provides the necessary granularity.
 
-### Options Considered
-- **Flat admin access**: Everyone sees everything — too permissive
-- **Role-based (current)**: 5 roles with granular permissions
-- **Permission-based**: Each action has a permission flag — over-engineered for 5 roles
-
-### Rationale
-The 5-role system maps directly to the temple's organizational structure.
-`requireRole(['treasurer', 'super_admin'])` is simple, explicit, and easy to audit.
-Super_admin bypasses all checks, which is important for emergencies.
-
-### Trade-offs
-- **Role granularity**: Adding a new role requires code changes
-- **No permission inheritance**: Each role's access is specified independently
-- **Role explosion risk**: Could lead to many roles if not managed
+### Migration
+- Old `admins.role` column is now DEPRECATED but kept for backward compatibility
+- New `rbac_*` tables in `modules/RBAC/` hold roles, permissions, and assignments
+- Migration scripts in `modules/RBAC/database/migrations/`
+- All admin pages now use `requirePermission('module.action')` instead of `requireRole()`
 
 ### Related Files
-- `src/Helpers/SessionGuard.php` — `hasRole()`, `requireRole()` implementation
-- `admin/partials/header.php` — Sidebar navigation with role checks
+- `modules/RBAC/RbacService.php` — Core RBAC logic
+- `modules/RBAC/PermissionRegistry.php` — 55 permission definitions
+- `modules/RBAC/Admin/` — Role management UI
+- `src/Helpers/SessionGuard.php` — `hasPermission()`, `requirePermission()` methods
+- `Admin/auth-check.php` — Permission loading into session
 
 ---
 

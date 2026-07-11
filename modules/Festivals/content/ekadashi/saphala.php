@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Saphala Ekadasi';
 $metaDescription = 'Learn the glories of Saphala Ekadasi at ISKCON Seshadripuram, Bangalore. Makes all endeavors successful and helps the fallen soul achieve pure love of God.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Govardhan Puja – Worshipping the King of Mountains';
 $metaDescription = 'Learn about Govardhan Puja at ISKCON Seshadripuram, Bangalore. The Annakuta festival celebrating Lord Krishna\'s lifting of Govardhan Hill to protect the residents of Vrindavan.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

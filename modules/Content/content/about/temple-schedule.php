@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Temple Schedule';
+$pageType = 'about';
 include '../partials/header.php';
 require_once '../config.php';
 ?>

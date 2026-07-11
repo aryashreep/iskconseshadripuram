@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sri Nityananda Trayodashi – Appearance of Lord Nityananda';
 $metaDescription = 'Celebrate Nityananda Trayodashi at ISKCON Seshadripuram, Bangalore. The appearance day of Lord Nityananda Prabhu, the most merciful incarnation of Lord Balarama.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

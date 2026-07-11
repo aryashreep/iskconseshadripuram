@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sraddhavan - Level 1';
 $metaDescription = 'Sraddhavan — Siksha Level 1 at ISKCON Seshadripuram. The first step of the Bhakti Steps program for beginners. Chant 1 round daily and begin your journey in Krishna consciousness.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

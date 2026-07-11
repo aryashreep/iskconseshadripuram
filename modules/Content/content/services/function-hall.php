@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Function Hall';
 $metaDescription = 'Host weddings, receptions, ceremonies, and family events at ISKCON The Palace Temple of Lord Jagannath in Bangalore. Multipurpose halls with catering, rooms, and sacred ambiance.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

@@ -1,5 +1,9 @@
 # ADMIN.md — Admin Panel
 
+> **Last updated:** 2026-07-11
+> **Canonical owner:** Development Team
+> **Related:** [`SECURITY.md`](../SECURITY.md) (authentication, authorization), [`MODULE_INDEX.md`](../MODULE_INDEX.md) (module entry points), [`docs/AUTHORIZATION_MATRIX.md`](AUTHORIZATION_MATRIX.md) (permission mapping), [`modules/RBAC/README.md`](../modules/RBAC/README.md), [`CODING_STANDARDS.md`](../CODING_STANDARDS.md) (admin page patterns)
+
 ## Access
 
 - URL: `/admin/`

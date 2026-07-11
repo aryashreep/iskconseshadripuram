@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sri Krishna Janmashtami – Contests, Seva & Celebrations';
 $metaDescription = 'Celebrate Janmashtami 2026 at ISKCON Seshadripuram, Bangalore. Participate in kids contests (Dress to be Blessed, Shlokanjali, Quiz), offer seva, and join grand celebrations.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 

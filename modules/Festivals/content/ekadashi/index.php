@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Ekadashi';
 $metaDescription = 'Explore all 24 Ekadashi fasting days of the year at ISKCON Seshadripuram, Bangalore. Learn glories, fasting rules, Vedic month names, and spiritual benefits of each Ekadashi.';
+$pageType = 'festival';
 include '../../partials/header.php';
 
 $ekadashis = [

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Mohini Ekadasi';
 $metaDescription = 'Learn the glories of Mohini Ekadasi at ISKCON Seshadripuram, Bangalore. Dedicated to Lord Vishnu\'s beautiful Mohini incarnation to defeat illusion and cross the material ocean.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

@@ -14,6 +14,7 @@ if (!empty($causeSlug)) {
 }
 
 $pageTitle = 'Payment Failed - ISKCON The Palace Temple of Lord Jagannath';
+$pageType = 'default';
 include '../partials/header.php';
 ?>
 

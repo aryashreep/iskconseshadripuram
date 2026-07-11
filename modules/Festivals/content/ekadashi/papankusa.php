@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Papankusa Ekadasi';
 $metaDescription = 'Learn the glories of Papankusha Ekadasi at ISKCON Seshadripuram, Bangalore. Acts as a goad to control sins, fulfills all desires, and awards ultimate liberation.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

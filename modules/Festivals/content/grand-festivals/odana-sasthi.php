@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Odana Sasthi – Welcoming the Winter Season';
 $metaDescription = 'Learn about Odana Sasthi at ISKCON Seshadripuram, Bangalore. The sacred festival of offering new grains to the Supreme Lord and welcoming the winter season.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

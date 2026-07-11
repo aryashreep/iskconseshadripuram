@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Krishna Upasaka - Level 4';
 $metaDescription = 'Krishna Upasaka — Siksha Level 4 at ISKCON Seshadripuram. Advanced sadhakas chanting 12-16 rounds daily with established home worship practice and deity worship.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

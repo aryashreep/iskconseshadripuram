@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Golden Temple';
+$pageType = 'about';
 include '../partials/header.php';
 ?>
 

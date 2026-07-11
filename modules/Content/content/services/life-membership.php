@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Life Membership';
 $metaDescription = 'ISKCON Life Membership — become a life patron with benefits including temple stays worldwide, book sets, japa mala, and tax-exempt donation under Section 80G. Join 1 million+ members.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

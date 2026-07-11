@@ -1,5 +1,9 @@
 # Module: Donation
 
+> **Last updated:** 2026-07-11
+> **Canonical owner:** Development Team
+> **Related:** [`SECURITY.md`](../../SECURITY.md) (payment security), [`WORKFLOWS.md`](../../WORKFLOWS.md) (donation flow), [`MODULE_INDEX.md`](../../MODULE_INDEX.md), [`CODING_STANDARDS.md`](../../CODING_STANDARDS.md) (patterns), [`docs/DONATIONS.md`](../../docs/DONATIONS.md) (donation system details), [`docs/API.md`](../../docs/API.md) (API reference)
+
 ## Purpose
 Handles all donation-related functionality: donation causes, seva offerings, Razorpay payment processing, transaction tracking, donation reporting, and checkout cart management.
 

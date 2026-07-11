@@ -9,22 +9,21 @@ No feature logic lives in this module. Its classes are used by all other modules
 
 | Component | File | Purpose |
 |-----------|------|---------|
+| **Configuration** | `config.php` | Site config, env vars, constants, Razorpay keys |
 | **Database** | `includes/db.php` | PDO singleton (`getDB()`) — all DB queries go through this |
-| **Database** | `includes/db.php` | PDO singleton (`getDB()`) — all DB queries go through this |
-| **Auth Guard** | `SessionGuard.php` *(TODO: move from src/Helpers/)* | Login check, role-based access control (RBAC), CSRF tokens |
-| **Auth Gate** | `admin/auth-check.php` *(TODO: move to Kernel)* | Admin page authentication gate, provides `hasRole()` and `requireRole()` |
-| **Bootstrap** | `includes/bootstrap.php` *(TODO: move to Kernel)* | Config loading, session start, CSRF token generation |
-| **Assets** | `includes/asset-helper.php` *(TODO: move to Kernel)* | Cache-busted asset URLs via `asset()` and `assetPath()` helpers |
-| **Layout** | `partials/header.php` etc. *(TODO: move to Kernel/templates/)* | Shared HTML partials: site header, footer, admin header, admin footer |
-| **Routing** | `Router.php` (planned, not yet created) | URL matching and controller dispatch (future) |
-| **CSRF** | `CsrfService.php` (planned, not yet created) | CSRF token generation and validation (handled in SessionGuard for now) |
+| **Auth Guard** | `src/Helpers/SessionGuard.php` | Login check, RBAC permission checking, CSRF tokens |
+| **Auth Gate** | `Admin/auth-check.php` | Admin page authentication gate, provides `hasPermission()` and `requirePermission()` |
+| **Bootstrap** | `includes/bootstrap.php` | Config loading, session start, CSRF token generation |
+| **Assets** | `includes/asset-helper.php` | Cache-busted asset URLs via `asset()` and `assetPath()` helpers |
+| **Layout (Public)** | `partials/header.php`, `partials/footer.php` | Public site header and footer |
+| **Layout (Admin)** | `Admin/partials/header.php`, `Admin/partials/footer.php` | Admin sidebar, header, footer |
 
 ## Dependencies
 - **None** — Kernel is at the bottom of the dependency chain
 - All other modules depend on Kernel
 
 ## Owned Database Tables
-- `admins` — Admin users with roles (super_admin, editor, pujari, treasurer, travel_agent)
+- `admins` — Admin users with roles (legacy `role` column deprecated — use `rbac_user_roles`)
 - `login_attempts` — Login attempt tracking for brute-force protection
 
 ## Public Interface
@@ -34,23 +33,30 @@ No feature logic lives in this module. Its classes are used by all other modules
 function getDB(): PDO
 
 // Auth (used by admin pages and auth-check.php)
-// File: src/Helpers/SessionGuard.php (TODO: move to modules/Kernel/SessionGuard.php)
-Isjm\Helpers\SessionGuard  →  TODO: move to Isjm\Modules\Kernel\
-    ->init(): void
-    ->requireLogin(): void
-    ->requireRole(array $roles): void
-    ->hasRole(array $roles): bool
-    ->getRole(): string
-    ->getAdminId(): ?int
+// File: src/Helpers/SessionGuard.php
+class SessionGuard {
+    public static function init(): void;
+    public static function requireLogin(): void;
+    public static function requireRole(array $roles): void;
+    public static function hasRole(array $roles): bool;
+    public static function getRole(): string;
+    public static function getAdminId(): ?int;
+}
+
+// Permission checking (global helpers from auth-check.php)
+function hasPermission(string $slug): bool;
+function requirePermission(string $slug): void;
+function hasAnyPermission(array $slugs): bool;
+function requireAnyPermission(array $slugs): void;
 
 // Asset loading (used by all pages)
 // File: includes/asset-helper.php
-function asset(string $path): string       // Cache-busted URL
-function assetPath(string $path): string   // Cache-busted filesystem path
+function asset(string $path): string;       // Cache-busted URL
+function assetPath(string $path): string;   // Cache-busted filesystem path
 
 // Bootstrap (used by all entry points)
 // File: includes/bootstrap.php
-//   → session_start() + CSRF token generation
+//   → require config.php + session_start() + CSRF token generation
 ```
 
 ## Entry Points
@@ -60,37 +66,58 @@ The Kernel module has no public-facing pages. It is loaded by every other module
 |------|------|---------|
 | Bootstrap | `includes/bootstrap.php` | Every entry point |
 | Database | `includes/db.php` | Every module |
-| Auth Gate | `admin/auth-check.php` | Every admin page |
+| Auth Gate | `Admin/auth-check.php` | Every admin page |
 | Assets | `includes/asset-helper.php` | Every page |
-| Layout | `partials/header.php` | Public pages |
-| Layout | `partials/footer.php` | Public pages |
-| Layout | `admin/partials/header.php` | Admin pages |
-| Layout | `admin/partials/footer.php` | Admin pages |
+| Layout (public) | `partials/header.php` | Public pages |
+| Layout (public) | `partials/footer.php` | Public pages |
+| Layout (admin) | `Admin/partials/header.php` | Admin pages |
+| Layout (admin) | `Admin/partials/footer.php` | Admin pages |
+| Config | `config.php` | Wrapper at root → actual here |
 
-## Target Directory Structure (after migration)
+## Directory Structure
 ```
 modules/Kernel/
-├── SessionGuard.php           # Auth class — TODO: move from src/Helpers/
-├── Router.php                 # Route dispatcher (planned, not yet created)
-├── CsrfService.php            # CSRF protection (planned, not yet created)
-├── LayoutRenderer.php         # Layout rendering (planned, not yet created)
-├── templates/                 # Shared layout partials — TODO: move from partials/
-│   ├── header.php             # Site header (nav, preloader, meta tags)
-│   ├── footer.php             # Site footer (scripts, close tags)
-│   ├── admin-header.php       # Admin sidebar + header
-│   └── admin-footer.php       # Admin footer + closing tags
-├── README.md                  # This file
-└── DECISIONS.md               # Architecture decisions
+├── config.php                   # Site configuration
+├── includes/
+│   ├── db.php                   # PDO singleton (getDB())
+│   ├── bootstrap.php            # Config + session + CSRF
+│   ├── asset-helper.php         # Cache-busted asset URLs
+│   └── donation-helpers.php     # Donation facade (backward compatible)
+├── partials/
+│   ├── header.php               # Public site header
+│   ├── footer.php               # Public site footer
+│   └── home-*.php               # Homepage partials (hero, grid, etc.)
+├── Admin/
+│   ├── auth-check.php           # Admin auth gate + permission loading
+│   └── partials/
+│       ├── header.php           # Admin sidebar + header
+│       └── footer.php           # Admin footer + scripts
+├── src/
+│   ├── Donations/               # Repository, Service, Renderer classes
+│   │   ├── DonationRepository.php
+│   │   ├── DonationService.php
+│   │   └── DonationRenderer.php
+│   └── Helpers/
+│       └── SessionGuard.php     # Auth guard class
+├── content/
+│   └── index.php                # Homepage
+├── README.md                    # This file
+└── DECISIONS.md                 # Architecture decisions
 ```
 
-## Current State (Phase 1)
-Most Kernel infrastructure still lives in the original locations. These will be moved in Phase 7:
-- `src/Helpers/SessionGuard.php` → `modules/Kernel/SessionGuard.php`
-- `partials/header.php` → `modules/Kernel/templates/header.php`
-- `partials/footer.php` → `modules/Kernel/templates/footer.php`
-- `admin/partials/header.php` → `modules/Kernel/templates/admin-header.php`
-- `admin/partials/footer.php` → `modules/Kernel/templates/admin-footer.php`
-- `admin/auth-check.php` → `modules/Kernel/AuthGate.php`
-- `includes/bootstrap.php` → `modules/Kernel/Bootstrap.php`
-- `includes/asset-helper.php` → `modules/Kernel/AssetHelper.php`
-- `includes/db.php` → `modules/Kernel/Database.php`
+## Security Responsibilities
+- Session management (start, validate, regenerate, destroy)
+- CSRF token generation and validation
+- Global permission helpers (`hasPermission()`, `requirePermission()`)
+- Login rate limiting
+- Admin authentication gate
+- Output escaping via `htmlspecialchars()` (enforced in coding standards)
+- Prepared statements via PDO (enforced in coding standards)
+
+See [`SECURITY.md`](../../SECURITY.md) for full security policy.
+
+## Related Documentation
+- [`SECURITY.md`](../../SECURITY.md) — Security policy with OWASP Top 10
+- [`CODING_STANDARDS.md`](../../CODING_STANDARDS.md) — Coding conventions
+- [`MODULE_INDEX.md`](../../MODULE_INDEX.md) — Module index
+- [`docs/ADMIN.md`](../../docs/ADMIN.md) — Admin panel reference

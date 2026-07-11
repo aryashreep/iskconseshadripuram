@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Gaura Purnima – Appearance of Sri Chaitanya Mahaprabhu';
 $metaDescription = 'Celebrate Gaura Purnima at ISKCON Seshadripuram, Bangalore. The appearance day of Sri Chaitanya Mahaprabhu who inaugurated the Sankirtana movement.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

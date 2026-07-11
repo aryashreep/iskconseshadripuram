@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Panihati – The Chida-Dahi Festival';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

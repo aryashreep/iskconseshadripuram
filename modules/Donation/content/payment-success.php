@@ -21,6 +21,7 @@ if (!empty($causeSlug)) {
 }
 
 $pageTitle = 'Payment Successful - ISKCON The Palace Temple of Lord Jagannath';
+$pageType = 'default';
 include '../partials/header.php'; ?>
 
 <!-- Google Analytics: Purchase Conversion -->

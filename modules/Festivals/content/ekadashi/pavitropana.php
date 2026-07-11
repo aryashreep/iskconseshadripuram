@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Pavitropana Ekadasi';
 $metaDescription = 'Learn the glories of Pavitropana Ekadasi at ISKCON Seshadripuram, Bangalore. Grants a noble heir and removes past offenses against cows.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

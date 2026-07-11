@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Sayana Ekadasi';
 $metaDescription = 'Learn the glories of Sayana Ekadasi at ISKCON Seshadripuram, Bangalore. Marks the start of Chaturmasya when Lord Vishnu enters His four-month cosmic slumber.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

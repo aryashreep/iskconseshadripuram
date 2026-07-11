@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Bhakti Shastri Course';
 $metaDescription = 'Bhakti Shastri course at ISKCON Seshadripuram — in-depth study of Bhagavad Gita, Sri Isopanishad, Nectar of Devotion, and Nectar of Instruction. 2-year program with certification.';
+$pageType = 'course';
 include '../partials/header.php';
 ?>
 

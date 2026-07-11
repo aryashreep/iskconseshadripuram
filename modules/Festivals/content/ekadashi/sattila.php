@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Sat-tila Ekadasi';
 $metaDescription = 'Learn the glories of Sat-tila Ekadasi at ISKCON Seshadripuram, Bangalore. Purifies the soul through six uses of sesame seeds and provides liberation from poverty and sin.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

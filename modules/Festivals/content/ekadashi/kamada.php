@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Kamada Ekadasi';
 $metaDescription = 'Learn the glories of Kamada Ekadasi at ISKCON Seshadripuram, Bangalore. This Ekadashi fulfills all righteous desires and counteracts curses of demoniac nature.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

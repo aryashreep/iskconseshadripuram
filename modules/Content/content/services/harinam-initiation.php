@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Harinam Initiation';
 $metaDescription = 'Harinam initiation at ISKCON Seshadripuram — formal entrance into disciplined Krishna consciousness. Learn about eligibility, required books, and the ISKCON Disciples Course (IDC).';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

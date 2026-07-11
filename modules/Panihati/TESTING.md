@@ -1,5 +1,8 @@
 # Testing — Panihati Yatra Module
 
+> **Last updated:** 2026-07-11
+> **Related:** [`docs/TESTING.md`](../../docs/TESTING.md) (project-wide testing guide), [`MODULE_INDEX.md`](../../MODULE_INDEX.md)
+
 ## Overview
 
 Tests for the Panihati module are E2E browser tests using Playwright. They verify the public registration form, admin management pages, and the Razorpay payment flow.

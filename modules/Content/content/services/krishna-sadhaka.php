@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Krishna Sadhaka - Level 3';
 $metaDescription = 'Krishna Sadhaka — Siksha Level 3 at ISKCON Seshadripuram. For committed sadhakas chanting 8 rounds daily. Study Raja Vidya, Bhagavad Gita, and deepen your devotional practice.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

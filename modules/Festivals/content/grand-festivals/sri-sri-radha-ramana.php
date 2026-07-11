@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Appearance Day of Sri Sri Radha-Ramana Devji';
 $metaDescription = 'Celebrate the appearance day of Sri Sri Radha-Ramana Devji at ISKCON Seshadripuram, Bangalore. The self-manifested deity of Gopala Krishna worshipped by the Gaudiya Vaishnavas.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Appearance Day of Srila Bhaktisiddhanta Sarasvati Thakura';
 $metaDescription = 'Celebrate the appearance day of Srila Bhaktisiddhanta Sarasvati Thakura at ISKCON Seshadripuram, Bangalore. Founder of the Gaudiya Math and spiritual master of Srila Prabhupada.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Annada (Aja) Ekadasi';
 $metaDescription = 'Learn the glories of Annada Ekadasi at ISKCON Seshadripuram, Bangalore. This Ekadashi removes all sins and restores lost kingdoms as observed by King Harishchandra.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

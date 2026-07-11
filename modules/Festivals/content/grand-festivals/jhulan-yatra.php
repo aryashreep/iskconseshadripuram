@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Jhulan Yatra – The Swing Festival';
 $metaDescription = 'Learn about Jhulan Yatra at ISKCON Seshadripuram, Bangalore. The swing festival celebrating Radha and Krishna\'s loving pastimes during the rainy season in Vrindavan.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

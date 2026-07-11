@@ -1,5 +1,13 @@
 # Modular Monolith — Specification Document
 
+> **📜 HISTORICAL DOCUMENT** — This specification guided the architecture migration (Phases 1-7) which has been completed.
+> **Current state:** All 8 phases are complete (~201 files migrated across 9 modules).
+> **Canonical sources:** [`ARCHITECTURE.md`](ARCHITECTURE.md) (current architecture), [`MODULE_INDEX.md`](MODULE_INDEX.md) (module structure), [`CODING_STANDARDS.md`](CODING_STANDARDS.md) (conventions)
+> **Parts still authoritative:** Section 2 (Module Conventions), Section 5 (Code Patterns & Conventions)
+> **Parts superseded:** Section 3 (Migration Plan) — all phases complete; Section 1.2 (Target Directory Structure) — actual structure differs
+
+---
+
 > **Date**: July 5, 2026
 > **Architecture**: Modular Monolith
 > **Hosting**: cPanel shared hosting (Apache + PHP 8.x + MySQL)

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sri Balarama Purnima – The Appearance Day of Lord Balarama';
 $metaDescription = 'Celebrate Balarama Purnima at ISKCON Seshadripuram, Bangalore. The appearance day of Lord Balarama, the eternal brother and expansion of Lord Krishna.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

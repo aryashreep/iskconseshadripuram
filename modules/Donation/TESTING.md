@@ -1,5 +1,8 @@
 # Testing — Donation Module
 
+> **Last updated:** 2026-07-11
+> **Related:** [`docs/TESTING.md`](../../docs/TESTING.md) (project-wide testing guide)
+
 ## Overview
 
 Tests for the Donation module are part of the project-wide E2E test suite using Playwright. They live in `tests/` at the project root rather than inside the module directory, because they test the full stack through browser interaction (wrappers → module code → database → Razorpay sandbox).

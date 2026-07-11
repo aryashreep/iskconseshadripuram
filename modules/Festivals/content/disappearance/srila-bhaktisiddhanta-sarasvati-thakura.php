@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Disappearance Day of Srila Bhaktisiddhanta Sarasvati Thakura';
 $metaDescription = 'Honor the disappearance day of Srila Bhaktisiddhanta Sarasvati Thakura at ISKCON Seshadripuram, Bangalore. The brilliant preacher and spiritual master who established 64 Gaudiya Math branches.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

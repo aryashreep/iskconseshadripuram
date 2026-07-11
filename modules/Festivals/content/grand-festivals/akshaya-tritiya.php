@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Akshaya Tritiya – The Day of Eternal Benefits';
 $metaDescription = 'Learn about Akshaya Tritiya at ISKCON Seshadripuram, Bangalore. The day of never-diminishing blessings, charity, and auspicious beginnings in the Vaishnava calendar.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

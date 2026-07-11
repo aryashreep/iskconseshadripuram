@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Food For Life';
 $metaDescription = 'Food For Life at ISKCON Seshadripuram — the world\'s largest vegetarian food relief program. Serving sanctified meals to school children, old age homes, and workers in Bangalore.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Ratha Yatra – The Festival of Chariots';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

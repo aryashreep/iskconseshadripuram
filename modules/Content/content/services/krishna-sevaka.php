@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Krishna Sevaka - Level 2';
 $metaDescription = 'Krishna Sevaka — Siksha Level 2 at ISKCON Seshadripuram. Active devotees chanting 4 rounds daily. Study Beyond Birth & Death and engage in festival service.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

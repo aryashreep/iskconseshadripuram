@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Shiksha Ceremony';
 $metaDescription = 'Learn about the Shiksha Ceremony at ISKCON Seshadripuram, Bangalore. The formal initiation ceremony marking commitment to Krishna consciousness with five progressive levels.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

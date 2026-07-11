@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Varaha Dwadashi – Appearance of Lord Varahadeva';
 $metaDescription = 'Celebrate Varaha Dwadashi at ISKCON Seshadripuram, Bangalore. The appearance day of Lord Varahadeva, the boar incarnation who rescued the earth from the depths of the ocean.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Appearance Days';
 $metaDescription = 'View Vaishnava appearance days at the official ISKCON temple in Seshadripuram, Bangalore. Honoring the descents of Lord Krishna, His expansions, and the appearances of great acharyas.';
+$pageType = 'festival';
 include '../../partials/header.php';
 
 $typeColors = ['avatar' => 'var(--maroon)', 'expansion' => 'var(--primary)', 'acharya' => 'var(--accent)', 'deity' => 'var(--primary-dark)', 'devotee' => 'var(--maroon-dark)'];

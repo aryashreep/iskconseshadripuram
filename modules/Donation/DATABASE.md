@@ -1,5 +1,8 @@
 # Donation Module — Database Schema
 
+> **Last updated:** 2026-07-11
+> **Related:** [`docs/DATABASE.md`](../../docs/DATABASE.md) (project-wide schema), [`MODULE_INDEX.md`](../../MODULE_INDEX.md)
+
 ## Owned Tables
 
 ### donation_causes

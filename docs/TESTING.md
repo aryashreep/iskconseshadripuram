@@ -1,5 +1,9 @@
 # TESTING.md — Testing Guide
 
+> **Last updated:** 2026-07-11
+> **Canonical owner:** Development Team
+> **Related:** [`CODING_STANDARDS.md`](../CODING_STANDARDS.md) (testing standards), [`SECURITY.md`](../SECURITY.md) (security testing), [`DEVELOPMENT_WORKFLOW.md`](../DEVELOPMENT_WORKFLOW.md) (testing before commit)
+
 ## Overview
 
 This project uses two testing frameworks:
@@ -188,6 +192,76 @@ const startTime = Date.now();
 await page.goto('/', { waitUntil: 'domcontentloaded' });
 expect(Date.now() - startTime).toBeLessThan(5000);
 ```
+
+#### 11. Schema.org structured data verification
+
+All ~125+ public pages now set `$pageType` before including the header, which activates schema.org JSON-LD output from `schema.php` (included via `footer.php`). E2E tests can verify:
+- A `<script type="application/ld+json">` tag exists
+- The correct schema type(s) are present (e.g., `HinduTemple`, `BreadcrumbList`, `Event`, `Article`, `FAQPage`, `ImageGallery`)
+- Specific properties like `name`, `description`, `openingHours` are populated
+
+```js
+// Place this helper at the top of your test file, before test.describe blocks
+async function getJsonLd(page) {
+  return await page.evaluate(() => {
+    const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+    return Array.from(scripts).map(s => JSON.parse(s.textContent));
+  });
+}
+
+// Example: verify homepage has HinduTemple + BreadcrumbList + WebSite schemas
+test('homepage has expected schema.org types', async ({ page }) => {
+  await page.goto('/');
+  const schemas = await getJsonLd(page);
+
+  const types = schemas.map(s => s['@type']);
+  expect(types).toContain('HinduTemple');
+  expect(types).toContain('WebSite');
+  expect(types).toContain('BreadcrumbList');
+
+  // Verify specific properties
+  const temple = schemas.find(s => s['@type'] === 'HinduTemple');
+  expect(temple.name).toContain('ISKCON');
+  expect(temple.openingHours).toBeDefined();
+});
+
+// Example: verify festival page has Event schema
+// Note: Event schema only appears on pages that set $eventData.
+// Hardcoded grand-festival PHP pages don't set it — use dynamic
+// festival detail URLs (e.g. Ekadashi pages routed through
+// festivals/detail.php) when DB is seeded.
+test('festival page includes Event schema with dates', async ({ page }) => {
+  await page.goto('/festivals/ekadashi/putrada');  // DB-backed, renders via detail.php
+  const schemas = await getJsonLd(page);
+
+  const event = schemas.find(s => s['@type'] === 'Event');
+  expect(event).toBeDefined();
+  expect(event.startDate).toBeDefined();
+  expect(event.name).toBeTruthy();
+});
+
+// Example: verify breadcrumb items exist for any page
+test('page has breadcrumb with at least 2 items', async ({ page }) => {
+  await page.goto('/about/our-mission');
+  const schemas = await getJsonLd(page);
+
+  const breadcrumb = schemas.find(s => s['@type'] === 'BreadcrumbList');
+  expect(breadcrumb).toBeDefined();
+  expect(breadcrumb.itemListElement.length).toBeGreaterThanOrEqual(2);
+  expect(breadcrumb.itemListElement[0].item.name).toBe('Home');
+});
+```
+
+**Key schema types by `$pageType`:**
+
+| `$pageType` | Expected Schema(s) | Test Pages |
+|-------------|-------------------|------------|
+| `'home'` | `HinduTemple`, `WebSite` (with search), `BreadcrumbList` | `/` |
+| `'festival'` | `HinduTemple`, `BreadcrumbList`, `Event` (if `$eventData` set) | `/festivals/grand-festivals/janmashtami` |
+| `'blog'` | `HinduTemple`, `BreadcrumbList`, `Article` (if `$articleData` set) | `/blogs/{some-blog}` |
+| `'donate'` | `HinduTemple`, `BreadcrumbList`, `FAQPage` (if `$faqItems` set) | `/donate` |
+| `'gallery'` | `HinduTemple`, `BreadcrumbList`, `ImageGallery` (if `$galleryImages` set) | `/darshan` |
+| `'about'`, `'service'`, `'course'`, `'booking'`, `'yatra'`, `'sudamaseva'`, `'contact'`, `'default'` | `HinduTemple`, `BreadcrumbList` | `/about`, `/services/sunday-feast`, `/booking/puja`, `/yatra`, `/sudamaseva` |
 
 ### Running Specific Tests
 
@@ -526,6 +600,7 @@ Total: **244 tests** (170 E2E + 74 PHPUnit)
 - [ ] Add `timeout: 15000` for slow-loading pages
 - [ ] Add to the appropriate `test.describe` block or create a new one
 - [ ] Run it in isolation first: `npx playwright test your-file.spec.js`
+- [ ] **For schema.org tests**: use the `getJsonLd()` helper pattern and verify expected `@type` values against the page's `$pageType` (see [SEO docs](SEO.md) for the type reference)
 
 ### Adding a PHPUnit Test
 

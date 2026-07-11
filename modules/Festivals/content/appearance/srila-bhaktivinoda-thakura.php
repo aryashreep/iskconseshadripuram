@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Appearance Day of Srila Bhaktivinoda Thakura';
 $metaDescription = 'Celebrate the appearance day of Srila Bhaktivinoda Thakura at ISKCON Seshadripuram, Bangalore. The pioneer of modern Gaudiya Vaishnavism who rediscovered Lord Chaitanya\'s birthplace.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

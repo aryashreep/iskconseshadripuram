@@ -1,5 +1,12 @@
 # Sudamaseva Spec Review — Refinements & Missing Details
 
+> **📜 HISTORICAL DOCUMENT** — This review document provided refinements during the Sudamaseva module implementation.
+> **Status:** Most recommendations implemented (see notes below)
+> **Current canonical source:** [`modules/Sudamaseva/README.md`](modules/Sudamaseva/README.md)
+> **Key outcomes from this review:** Wrappers placed at root level (not yatra/), treasurer role used instead of new role, dedicated `sudamaseva_*` tables created, 5 migration scripts created, full API contracts documented in `docs/API.md`, security considerations added
+
+---
+
 ## ✅ What's Good
 
 - Comprehensive analysis of the old app structure, DB schema, and data profile

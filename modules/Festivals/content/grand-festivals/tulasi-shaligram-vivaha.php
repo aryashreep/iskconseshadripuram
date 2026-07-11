@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Tulasi-Shaligram Vivaha – A Divine Marriage Ceremony';
 $metaDescription = 'Learn about Tulasi-Saligrama Vivaha at ISKCON Seshadripuram, Bangalore. The sacred marriage ceremony of Tulasi Devi and Lord Vishnu in the form of Saligrama.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

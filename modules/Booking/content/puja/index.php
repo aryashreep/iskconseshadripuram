@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Devotional Puja Offerings';
 $metaDescription = 'Sponsor sacred puja offerings at ISKCON Seshadripuram, Bangalore. Offer archanas, garlands, and prayers to Sri Sri Radha Madhav, Gaura Nitai, Giriraja Sila, and Srila Prabhupada online.';
+$pageType = 'booking';
 include '../../partials/header.php';
 require_once '../../config.php';
 

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Pilgrimage Tours - Yatra';
 $metaDescription = 'Join sacred pilgrimage yatra tours from ISKCON Seshadripuram, Bangalore. Explore Chardham, Mathura-Vrindavan, Jagannath Puri, Ahobilam, Pandharpur, Ayodhya, and more holy destinations.';
+$pageType = 'yatra';
 include '../partials/header.php';
 
 // Pagination

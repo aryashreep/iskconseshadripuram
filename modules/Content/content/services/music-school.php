@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Nilachal School of Music';
 $metaDescription = 'Nilachal School of Music at ISKCON Bangalore — learn harmonium, mridangam, kartal, djembe, bhajan vocal, and kirtan leadership from expert teachers.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

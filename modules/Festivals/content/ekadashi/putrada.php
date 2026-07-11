@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Glories of Putrada Ekadasi';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

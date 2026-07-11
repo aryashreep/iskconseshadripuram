@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Forums';
 $metaDescription = 'Join spiritual communities at ISKCON Seshadripuram, Bangalore — ISKCON Youth Forum, Vaishnavi Forum, Krishna Fun School for kids, and Nilachal School of Music. Connect with like-minded devotees.';
+$pageType = 'default';
 include 'partials/header.php';
 ?>
 

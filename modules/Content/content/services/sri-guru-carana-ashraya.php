@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sri Guru Carana Ashraya';
 $metaDescription = 'Sri Guru Carana Ashraya — Siksha Level 6 at ISKCON Seshadripuram. Preparing for diksha initiation by selecting an authorized spiritual master. Study Bhagavad Gita, Srimad Bhagavatam and more.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

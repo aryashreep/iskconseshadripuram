@@ -73,6 +73,7 @@ if (!array_key_exists($slug, $pujaOptions)) {
 
 $puja = $pujaOptions[$slug];
 $pageTitle = $puja['name'] . ' - ISKCON Booking';
+$pageType = 'booking';
 include '../../partials/header.php';
 
 // Define the detailed offerings grid

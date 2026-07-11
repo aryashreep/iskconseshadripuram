@@ -1263,6 +1263,7 @@ if (!$yatra):
 endif;
 
 $pageTitle = $yatra['name'] . ' - Yatra';
+$pageType = 'yatra';
 include '../partials/header.php';
 
 // Determine banner style

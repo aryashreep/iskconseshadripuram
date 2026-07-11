@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Bhakti Sadan';
 $metaDescription = 'Bhakti Sadan brings the temple to your neighbourhood — weekly Sunday programs at local centres across Bangalore. Join community worship, kirtan, and spiritual discussions near you.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

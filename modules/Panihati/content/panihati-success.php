@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Registration Success - Panihati Yatra';
+$pageType = 'default';
 require_once '../config.php';
 include '../partials/header.php';
 

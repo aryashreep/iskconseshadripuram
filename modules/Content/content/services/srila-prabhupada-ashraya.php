@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Srila Prabhupada Asraya - Level 5';
 $metaDescription = 'Srila Prabhupada Asraya — Siksha Level 5 at ISKCON Seshadripuram. Committing to 16 rounds daily and 4 regulative principles. Deepen your shelter of Srila Prabhupada\'s teachings.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

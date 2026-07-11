@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Snana Yatra – A Sacred Bathing Festival';
 $metaDescription = 'Learn about Snana Yatra at ISKCON Seshadripuram, Bangalore. The grand bathing festival of Lord Jagannatha before the Ratha Yatra chariot procession.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

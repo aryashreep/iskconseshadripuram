@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Kamika Ekadasi';
 $metaDescription = 'Learn the glories of Kamika Ekadasi at ISKCON Seshadripuram, Bangalore. This Ekadashi is highly pleasing to Lord Hari and awards merit equal to performing a horse sacrifice.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

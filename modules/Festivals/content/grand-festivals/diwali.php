@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Diwali – The Festival of Lights';
 $metaDescription = 'Celebrate Diwali at the official ISKCON temple in Seshadripuram, Bangalore. Learn about the festival of lights, Lakshmi-Ganesha puja, and Damodara pastimes.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

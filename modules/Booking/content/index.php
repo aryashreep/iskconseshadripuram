@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Devotional Bookings & Services';
 $metaDescription = 'Book puja, yagya, guest house stay, and pilgrimage yatras at the official ISKCON temple in Seshadripuram, Bangalore. Sponsor sacred offerings and fire sacrifices online.';
+$pageType = 'booking';
 include '../partials/header.php';
 require_once '../config.php';
 ?>

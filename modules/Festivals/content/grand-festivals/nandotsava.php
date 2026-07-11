@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Nandotsava – The Birth Ceremony of Lord Sri Krishna';
 $metaDescription = 'Celebrate Nandotsava at ISKCON Seshadripuram, Bangalore. The festival commemorating Nanda Maharaja\'s joyful celebration of Lord Krishna\'s birth in Gokula.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

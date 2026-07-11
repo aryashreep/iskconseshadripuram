@@ -17,6 +17,7 @@ require_once __DIR__ . '/../../Kernel/includes/bootstrap.php';
 
 $pageTitle = 'Sudamaseva — My Seva Dashboard';
 $metaDescription = 'View your Sudamaseva donation history and manage monthly contributions.';
+$pageType = 'default';
 include __DIR__ . '/../../Kernel/partials/header.php';
 
 $donorId = isset($_GET['donor_id']) ? (int) $_GET['donor_id'] : 0;

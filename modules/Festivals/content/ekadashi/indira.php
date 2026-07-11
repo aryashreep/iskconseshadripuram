@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Indira Ekadasi';
 $metaDescription = 'Learn the glories of Indira Ekadasi at ISKCON Seshadripuram, Bangalore. Fasting on this day delivers deceased ancestors from hellish planets and promotes them to Vaikuntha.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

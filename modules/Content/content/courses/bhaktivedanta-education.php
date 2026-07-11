@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Bhaktivedanta Institute of Higher Education (BIHE)';
 $metaDescription = 'Bhaktivedanta Institute of Higher Education (BIHE) at ISKCON — offering Bhakti Shastri, Bhakti Vaibhava, IDC, and Teacher Training courses for systematic spiritual education.';
+$pageType = 'course';
 include '../partials/header.php';
 ?>
 

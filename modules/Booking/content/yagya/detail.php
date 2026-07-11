@@ -195,6 +195,7 @@ if (!array_key_exists($slug, $yagyaOptions)) {
 
 $yagya = $yagyaOptions[$slug];
 $pageTitle = $yagya['name'] . ' - ISKCON Booking';
+$pageType = 'booking';
 include '../../partials/header.php';
 
 // Define Yagya Sponsoring Tiers

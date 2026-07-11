@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Bhakti Vriksha';
 $metaDescription = 'Bhakti Vriksha is a weekly congregational meeting program at ISKCON Seshadripuram — nurturing spiritual growth through kirtan, japa, interactive discussions, and prasadam in a home setting.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

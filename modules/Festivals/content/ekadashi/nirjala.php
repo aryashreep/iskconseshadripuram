@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Pandava Nirjala Ekadasi';
 $metaDescription = 'Learn the glories of Pandava Nirjala Ekadasi at ISKCON Seshadripuram, Bangalore. The most powerful Ekadashi fast without water, yielding the merit of all 24 Ekadashis.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

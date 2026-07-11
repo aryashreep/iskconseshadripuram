@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Appearance Day of Srila Prabhupada (Vyasa-Puja)';
 $metaDescription = 'Celebrate Srila Prabhupada\'s appearance day (Vyasa-Puja) at ISKCON Seshadripuram, Bangalore. Honoring the Founder-Acharya of ISKCON who spread Krishna consciousness worldwide.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

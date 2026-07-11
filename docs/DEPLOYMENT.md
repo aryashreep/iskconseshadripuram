@@ -1,5 +1,9 @@
 # DEPLOYMENT.md — Production Checklist
 
+> **Last updated:** 2026-07-11
+> **Canonical owner:** Development Team
+> **Related:** [`SECURITY.md`](../SECURITY.md) (security checks), [`docs/SECURITY_CHECKLIST.md`](SECURITY_CHECKLIST.md) (security checklist), [`WORKFLOWS.md`](../WORKFLOWS.md) (deployment flow)
+
 ## Pre-Deployment
 
 1. **Backup database** — export via phpMyAdmin or CLI

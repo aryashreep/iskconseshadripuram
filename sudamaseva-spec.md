@@ -1,6 +1,14 @@
 # Sudamaseva Module — Migration Specification
 
-> **Status:** Draft — approved architecture decisions  
+> **📜 HISTORICAL DOCUMENT** — This specification guided the Sudamaseva module implementation. The module is now fully implemented and live.
+> **Status:** Implemented ✅ (with additions beyond original spec — see §12)
+> **Current canonical source:** [`modules/Sudamaseva/README.md`](modules/Sudamaseva/README.md)
+> **Parts still authoritative:** Sections 2 (Old System Analysis), 3.2 (Database Tables), 4 (Design Decisions)
+> **Parts superseded:** Section 7.1 (Landing Page — actual implementation has mode toggle); Section 8a/8b (API Contracts — actual API has additional endpoints: enroll, create-order, verify-order, lookup)
+
+---
+
+> **Status:** Implemented ✅
 > **Target Project:** ISKCON Sri Jagannath Mandir, Seshadripuram (Bangalore)  
 > **Old Application:** `C:\laragon\www\sudamaseva` (DB: `iskcosf7_sudamasava`)  
 > **Created:** July 6, 2026

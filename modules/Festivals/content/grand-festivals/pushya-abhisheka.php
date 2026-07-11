@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sri Krishna Pushya Abhisheka';
 $metaDescription = 'Learn about Pushya Abhisheka at ISKCON Seshadripuram, Bangalore. The auspicious bathing festival of Lord Krishna during the Pushya nakshatra for blessings and prosperity.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

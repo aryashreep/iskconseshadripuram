@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sacred Yagya Services';
 $metaDescription = 'Sponsor sacred Vedic fire sacrifices (yagya and homa) at the official ISKCON temple in Seshadripuram, Bangalore. Sudarshan Narasimha, Vastu, Dhanvantari, Navagraha, and Ayushya yagyas available.';
+$pageType = 'booking';
 include '../../partials/header.php';
 require_once '../../config.php';
 

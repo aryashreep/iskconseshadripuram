@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Design, Development & Maintenance - ISKCON The Palace Temple of Lord Jagannath';
 $metaDescription = 'Website design, development, and maintenance credits for ISKCON The Palace Temple of Lord Jagannath, Seshadripuram, Bangalore.';
+$pageType = 'default';
 include 'partials/header.php';
 ?>
 

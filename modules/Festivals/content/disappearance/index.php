@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Disappearance Days';
 $metaDescription = 'Honor the disappearance days of Vaishnava acharyas at the official ISKCON temple in Seshadripuram, Bangalore. Remembering Srila Prabhupada, Bhaktivinoda Thakura, and other great souls.';
+$pageType = 'festival';
 include '../../partials/header.php';
 
 $disappearances = [

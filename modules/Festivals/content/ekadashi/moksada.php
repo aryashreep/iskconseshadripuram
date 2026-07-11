@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Moksada (Vaikuntha) Ekadasi';
 $metaDescription = 'Learn the glories of Mokshada Ekadasi at ISKCON Seshadripuram, Bangalore. Also known as Gita Jayanti, the day Lord Krishna spoke the Bhagavad-gita, granting liberation.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

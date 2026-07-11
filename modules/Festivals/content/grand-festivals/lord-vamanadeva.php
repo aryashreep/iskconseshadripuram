@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Sri Vamana Dwadashi - Appearance of Lord Vamanadeva';
 $metaDescription = 'Celebrate Lord Vamanadeva appearance day at ISKCON Seshadripuram, Bangalore. The dwarf incarnation of Lord Vishnu who begged three paces of land from King Bali.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

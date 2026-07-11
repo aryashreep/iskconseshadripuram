@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Sri Rama Navami – Appearance of Lord Ramachandra';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

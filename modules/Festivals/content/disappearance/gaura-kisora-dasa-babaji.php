@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Disappearance Day of Srila Gaura Kisora dasa Babaji Maharaja';
 $metaDescription = 'Honor the disappearance day of Srila Gaura Kisora dasa Babaji at ISKCON Seshadripuram, Bangalore. The crest jewel of renunciation and spiritual master of Bhaktisiddhanta Sarasvati.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Vaishnava Calendar 2026';
 $metaDescription = 'Browse the 2026 Vaishnava calendar at ISKCON Seshadripuram, Bangalore. View all festival dates, Ekadashi fasting days, appearance and disappearance days, and download calendar posters.';
+$pageType = 'festival';
 include '../../partials/header.php';
 
 // Slug mapping: event name fragment → detail page path

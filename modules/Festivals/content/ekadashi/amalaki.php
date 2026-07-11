@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Amalaki Ekadasi';
 $metaDescription = 'Learn the glories of Amalaki Ekadasi at ISKCON Seshadripuram, Bangalore. The Ekadashi dedicated to worshipping the Amalaki tree and Lord Parashurama for spiritual liberation.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

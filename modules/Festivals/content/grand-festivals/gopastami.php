@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Gau Seva on Gopastami';
 $metaDescription = 'Learn about Gopastami at ISKCON Seshadripuram, Bangalore. Celebrating Krishna\'s cowherd pastimes and the importance of cow protection (gau seva) in Vedic tradition.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

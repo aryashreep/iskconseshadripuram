@@ -1,5 +1,9 @@
 # DEVELOPER.md — Fresher's Guide to the ISKCON Temple Website
 
+> **Last updated:** 2026-07-11
+> **Canonical owner:** Development Team
+> **Related:** [`CODING_STANDARDS.md`](../CODING_STANDARDS.md) (conventions), [`SECURITY.md`](../SECURITY.md) (security policy), [`WORKFLOWS.md`](../WORKFLOWS.md) (business flows), [`DEVELOPMENT_WORKFLOW.md`](../DEVELOPMENT_WORKFLOW.md) (process), [`DOCUMENTATION_POLICY.md`](../DOCUMENTATION_POLICY.md)
+
 Welcome! This guide will help you understand the codebase, set up your local environment, and start contributing. Read this from top to bottom if you're new.
 
 ---
@@ -177,6 +181,12 @@ php modules/RBAC/database/migrations/003_migrate_existing_admins.php
 ---
 
 ## 3. Architecture Overview
+
+### Key Concept: `$pageType` Coverage
+
+All ~125+ public content pages now set `$pageType` before including the header. This variable tells `schema.php` (included from `footer.php`) which Schema.org structured data to output. Types include `'home'`, `'festival'`, `'blog'`, `'donate'`, `'gallery'`, `'contact'`, `'about'`, `'service'`, `'course'`, `'booking'`, `'yatra'`, and `'default'`.
+
+See [`docs/SEO.md`](SEO.md) for the full schema type reference and how to add structured data to a new page.
 
 ### High-Level Diagram
 
@@ -875,6 +885,8 @@ class MyClassTest extends TestCase
 ```php
 <?php
 $pageTitle = 'Page Name';
+$metaDescription = 'Brief description for search engines (150–160 chars recommended).';
+$pageType = 'default';   // See docs/SEO.md for available types
 include 'partials/header.php';
 ?>
 
@@ -961,6 +973,8 @@ php -l modules/Content/content/services/your-file.php
 //     and create a wrapper at services/new-service.php
 
 $pageTitle = 'My New Page';
+$metaDescription = 'Brief description for search results.';
+$pageType = 'default';   // Choose from docs/SEO.md: 'home', 'festival', 'blog', 'donate', 'gallery', 'contact', 'about', 'service', 'course', 'booking', 'yatra'
 include 'partials/header.php';
 ?>
 

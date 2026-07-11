@@ -1,6 +1,53 @@
-# API.md — Payment Endpoints
+# API.md — API Endpoints Reference
 
-## Endpoints
+> **Last updated:** 2026-07-11
+> **Canonical owner:** Development Team
+> **Related:** `SECURITY.md` (payment security, webhook security), `WORKFLOWS.md` (payment flows)
+
+This document covers all API endpoints in the project. Each endpoint includes:
+- HTTP method and URL
+- Module owner
+- Auth requirements
+- Request/response schemas
+- Validation rules
+- Security notes
+
+---
+
+## Convention
+
+- All endpoints return JSON
+- All state-changing endpoints require POST
+- GET is reserved for idempotent read operations
+- Authentication varies: some are public, some require admin session
+- Error responses: `{ "error": "Description" }`
+- HTTP status codes: 200 (success), 400 (validation), 403 (unauthorized), 404 (not found), 405 (wrong method), 500 (server error)
+
+---
+
+## Endpoint Summary
+
+| Method | URL | Module | Purpose |
+|--------|-----|--------|---------|
+| POST | `/api/create-order.php` | Donation | Create Razorpay order for donation |
+| POST | `/api/verify-payment.php` | Donation | Verify payment signature |
+| POST | `/api/webhook.php` | Donation | Razorpay webhook |
+| POST | `/api/create-booking-order.php` | Booking | Create Razorpay order for booking |
+| POST | `/api/create-panihati-order.php` | Panihati | Create Razorpay order for yatra |
+| POST | `/api/sudamaseva/create-subscription` | Sudamaseva | Create Razorpay subscription |
+| POST | `/api/sudamaseva/verify-payment` | Sudamaseva | Verify subscription payment |
+| POST | `/api/sudamaseva/enroll` | Sudamaseva | Manual enrollment (donor+order) |
+| POST | `/api/sudamaseva/create-order` | Sudamaseva | Create order for next installment |
+| POST | `/api/sudamaseva/verify-order` | Sudamaseva | Verify manual order payment |
+| POST | `/api/sudamaseva/webhook` | Sudamaseva | Subscription webhook |
+| POST | `/api/sudamaseva/lookup` | Sudamaseva | Search donor by phone/legacy ID |
+| POST | `/api/track-view` | Kernel | Track page view |
+
+See `docs/API.md` in each module directory for module-specific endpoint details.
+
+---
+
+## Payment Endpoints
 
 ### POST /api/create-order.php
 

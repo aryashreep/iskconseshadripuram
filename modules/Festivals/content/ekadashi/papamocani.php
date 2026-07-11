@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Papamocani Ekadasi';
 $metaDescription = 'Learn the glories of Papamochani Ekadasi at ISKCON Seshadripuram, Bangalore. The liberator from all sinful reactions, bad habits, and planetary curses.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

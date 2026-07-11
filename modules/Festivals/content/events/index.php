@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Events & Observances';
 $metaDescription = 'Explore special Vaishnava events and spiritual observances at ISKCON Seshadripuram, Bangalore. Caturmasya Vrata, Shiksha Ceremony, and other sacred vows at the temple.';
+$pageType = 'festival';
 include '../../partials/header.php';
 
 $listItems = [

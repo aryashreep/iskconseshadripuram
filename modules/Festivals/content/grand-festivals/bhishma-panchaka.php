@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Bhishma Panchaka – The Last Five Days of Kartika';
 $metaDescription = 'Learn about Bhishma Panchaka at ISKCON Seshadripuram, Bangalore. The five most auspicious days of Kartika month for fasting, charity, and devotional service.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

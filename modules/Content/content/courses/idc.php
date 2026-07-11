@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'ISKCON Disciples Course (IDC)';
 $metaDescription = 'ISKCON Disciples Course (IDC) at ISKCON Seshadripuram — mandatory training for initiation covering guru tattva, guru selection, and discipleship. 6 sessions in English, Hindi, Kannada.';
+$pageType = 'course';
 include '../partials/header.php';
 ?>
 

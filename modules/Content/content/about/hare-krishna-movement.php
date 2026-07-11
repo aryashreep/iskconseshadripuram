@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Hare Krishna Movement';
+$pageType = 'about';
 include '../partials/header.php';
 ?>
 

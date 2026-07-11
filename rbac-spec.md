@@ -1,9 +1,17 @@
 # RBAC (Role-Based Access Control) Specification
 
+> **📜 HISTORICAL DOCUMENT** — This specification guided the initial RBAC implementation (Phase 8) which has been completed.
+> **Status:** Implemented ✅
+> **Current canonical sources:** [`modules/RBAC/README.md`](modules/RBAC/README.md) (module docs), [`SECURITY.md`](SECURITY.md) (authorization section), [`docs/ADMIN.md`](docs/ADMIN.md) (admin RBAC reference), [`docs/AUTHORIZATION_MATRIX.md`](docs/AUTHORIZATION_MATRIX.md) (permission matrix)
+> **Parts still authoritative:** Sections 4 (Database Schema), 5 (Permission Modules & Actions), 6 (Role Definitions), 7 (Service Layer)
+> **Parts superseded:** Section 8 (UI/UX) — actual implementation may differ; Section 10 (Implementation Phasing) — all phases complete
+
+---
+
 > **Project:** ISKCON Sri Jagannath Mandir — Admin Portal
 > **Author:** Buffy (Codebuff AI)
 > **Date:** July 7, 2026
-> **Status:** Draft — Pending Approval
+> **Status:** Implemented ✅
 
 ---
 

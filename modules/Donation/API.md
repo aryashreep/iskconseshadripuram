@@ -1,5 +1,8 @@
 # Donation Module — API
 
+> **Last updated:** 2026-07-11
+> **Related:** [`docs/API.md`](../../docs/API.md) (project-wide API reference), [`SECURITY.md`](../../SECURITY.md) (payment security)
+
 ## POST /api/create-order.php
 Creates a Razorpay order for a donation.
 

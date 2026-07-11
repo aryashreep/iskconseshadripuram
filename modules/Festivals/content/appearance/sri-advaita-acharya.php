@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Appearance Day of Sri Advaita Acharya';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

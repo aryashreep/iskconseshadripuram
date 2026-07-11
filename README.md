@@ -4,7 +4,40 @@ Official website for ISKCON Seshadripuram, Bangalore — the Palace Temple of Lo
 
 ## Overview
 
-A full-featured temple website with donation management, puja booking, festival listings, yatra (travel) registration, and an admin panel. Built with PHP, MySQL, and vanilla JavaScript on shared hosting (cPanel/Laragon).
+A full-featured temple website for ISKCON Seshadripuram, Bangalore with donation management (one-time + subscriptions), puja/yagya booking, festival listings, yatra registration, and an admin panel with role-based access control. Built with PHP 8, MySQL, and vanilla JavaScript on shared hosting (cPanel/Laragon).
+
+## Documentation Index
+
+This project maintains comprehensive documentation for AI coding assistants. Key documents:
+
+| Document | Purpose |
+|----------|---------|
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | System design, module layout, key patterns |
+| [`SECURITY.md`](SECURITY.md) | Security policy, OWASP Top 10, authentication, authorization |
+| [`CODING_STANDARDS.md`](CODING_STANDARDS.md) | Coding conventions, patterns, templates |
+| [`WORKFLOWS.md`](WORKFLOWS.md) | Business workflows (donations, bookings, admin) |
+| [`MODULE_INDEX.md`](MODULE_INDEX.md) | Module index with responsibilities, tables, entry points |
+| [`DOCUMENTATION_POLICY.md`](DOCUMENTATION_POLICY.md) | Documentation maintenance policy |
+| [`docs/API.md`](docs/API.md) | All API endpoints with request/response schemas |
+| [`docs/DATABASE.md`](docs/DATABASE.md) | Database schema, tables, relationships |
+| [`docs/ADMIN.md`](docs/ADMIN.md) | Admin panel navigation, RBAC roles, permission API |
+| [`docs/DEVELOPER.md`](docs/DEVELOPER.md) | Fresher's guide (setup, architecture, common tasks) |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Production deployment checklist |
+| [`docs/TESTING.md`](docs/TESTING.md) | Testing guide (E2E + PHPUnit) |
+| [`docs/DONATIONS.md`](docs/DONATIONS.md) | Donation system details |
+
+### Module Documentation
+| Module | Docs |
+|--------|------|
+| [Donation](modules/Donation/README.md) | Payment system, reports, seva catalog |
+| [Kernel](modules/Kernel/README.md) | Shared infrastructure (config, DB, auth) |
+| [Sudamaseva](modules/Sudamaseva/README.md) | Recurring/manual subscriptions |
+| [Panihati](modules/Panihati/README.md) | Yatra registration & admin |
+| [Booking](modules/Booking/README.md) | Puja/yagya booking |
+| [Festivals](modules/Festivals/README.md) | ~70 festival pages |
+| [Blogs](modules/Blogs/README.md) | Blog posts & admin |
+| [Content](modules/Content/README.md) | Static content pages |
+| [RBAC](modules/RBAC/README.md) | Role-based access control |
 
 ## Tech Stack
 
@@ -128,12 +161,16 @@ RAZORPAY_TEST_MODE=true
 - **Blog/Festival Editor** — Content management
 
 ### Security
+- Full OWASP Top 10 coverage — see [`SECURITY.md`](SECURITY.md) for details
 - PDO prepared statements (SQL injection prevention)
-- CSRF tokens on all forms
-- Rate-limited admin login
-- CSP, X-Frame-Options, HSTS headers
-- Session fixation prevention
+- CSRF tokens on all forms and destructive GET actions
+- RBAC with 11 roles, 55 permissions across 13 modules
+- Rate-limited admin login (5 attempts / 15-min window)
+- CSP, X-Frame-Options, HSTS, Referrer-Policy, Permissions-Policy headers
+- Session fixation prevention (regeneration on login)
 - Environment-based credential management (OWASP A02)
+- Razorpay HMAC-SHA256 signature verification on all payments
+- Webhook signature validation
 
 ## Database
 

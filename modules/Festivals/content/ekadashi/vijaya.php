@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Vijaya Ekadasi';
 $metaDescription = 'Learn the glories of Vijaya Ekadasi at ISKCON Seshadripuram, Bangalore. Bestows victory over all obstacles and adversaries as observed by Lord Ramachandra.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

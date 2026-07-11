@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Narasimha Chaturdashi – Appearance of Lord Nrsimhadeva';
 $metaDescription = 'Celebrate Narasimha Chaturdashi at ISKCON Seshadripuram, Bangalore. The appearance day of Lord Narasimhadeva who protected Prahlada and killed the demon Hiranyakasipu.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

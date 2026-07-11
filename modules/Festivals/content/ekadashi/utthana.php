@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Glories of Utthana (Haribodhini) Ekadasi';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

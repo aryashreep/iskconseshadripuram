@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Siksha - The Bhakti Steps';
 $metaDescription = 'Siksha Bhakti Steps program at ISKCON Seshadripuram — a progressive 7-level system for spiritual growth from Sraddhavan to Harinam Initiation. Recognized by ISKCON GBC since 1997.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'ISKCON Youth Forum';
 $metaDescription = 'ISKCON Youth Forum (IYF) at ISKCON Seshadripuram — empowering young men through Bhagavad Gita wisdom, leadership workshops, yoga retreats, and personality development programs.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

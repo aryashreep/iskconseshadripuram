@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Radha Astami – Appearance of Srimati Radharani';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

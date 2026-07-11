@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Harinam Sankirtana';
 $metaDescription = 'Harinam Sankirtana at ISKCON Bangalore — congregational chanting of the Hare Krishna Mahamantra. Join weekly Nagar Sankirtana street processions every Sunday after the feast program.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

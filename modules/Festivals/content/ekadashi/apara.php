@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Apara Ekadasi';
 $metaDescription = 'Learn the glories of Apara Ekadasi at ISKCON Seshadripuram, Bangalore. This Ekadashi grants unlimited merit and acts as an axe cutting down the forest of sinful deeds.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

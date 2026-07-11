@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'International Guest House - Temple Stay';
 $metaDescription = 'Stay at the ISKCON Seshadripuram International Guest House in Bangalore. Clean AC and non-AC rooms inside the temple campus with Govinda\'s Restaurant and daily darshan.';
+$pageType = 'booking';
 include '../../partials/header.php';
 require_once '../../config.php';
 

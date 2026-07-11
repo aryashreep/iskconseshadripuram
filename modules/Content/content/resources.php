@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Resources';
 $metaDescription = 'Curated spiritual resources from ISKCON Seshadripuram, Bangalore. Access Srila Prabhupada\'s books, audio kirtans, Bhagavad Gita study materials, Vaishnava calendar, and ISKCON links.';
+$pageType = 'default';
 include 'partials/header.php';
 ?>
 

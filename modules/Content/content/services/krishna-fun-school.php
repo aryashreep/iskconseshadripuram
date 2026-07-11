@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Krishna Fun School';
 $metaDescription = 'Krishna Fun School at ISKCON Bangalore — weekend spiritual classes for children ages 3-16. Learn Bhagavad Gita, shloka recitation, art, and Vedic values in a fun atmosphere.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

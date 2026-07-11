@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Gita Jayanti – The Advent of Srimad Bhagavad Gita';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

@@ -1,5 +1,8 @@
 # Donation Module — Tasks
 
+> **Last updated:** 2026-07-11
+> **Related:** [`ROADMAP.md`](../../ROADMAP.md) (project roadmap)
+
 ## In Progress
 - [ ] Donor email notification (thank-you + finance team alert) after successful payment
 - [ ] 80G tax receipt PDF generation

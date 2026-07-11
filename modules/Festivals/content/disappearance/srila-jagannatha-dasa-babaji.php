@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Disappearance Day of Srila Jagannatha dasa Babaji Maharaja';
 $metaDescription = 'Honor the disappearance day of Srila Jagannatha dasa Babaji at ISKCON Seshadripuram, Bangalore. The Vaishnava sarvabhauma who confirmed the birthplace of Lord Chaitanya in Mayapur.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

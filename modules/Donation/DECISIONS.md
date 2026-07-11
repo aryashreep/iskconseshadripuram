@@ -1,5 +1,10 @@
 # Donation Module — Architecture Decisions
 
+> **Last updated:** 2026-07-11
+> **Canonical owner:** Development Team
+> **Related:** [`README.md`](README.md) (module overview), [`API.md`](API.md) (API reference), [`DATABASE.md`](DATABASE.md) (schema), [`TASKS.md`](TASKS.md) (backlog), [`TESTING.md`](TESTING.md) (testing guide)
+> **Project-wide:** [`SECURITY.md`](../../SECURITY.md) (payment security), [`CODING_STANDARDS.md`](../../CODING_STANDARDS.md) (patterns), [`WORKFLOWS.md`](../../WORKFLOWS.md) (donation workflows), [`MODULE_INDEX.md`](../../MODULE_INDEX.md) (module index), [`docs/DONATIONS.md`](../../docs/DONATIONS.md) (donation system)
+
 All significant architecture and design decisions for this module.
 Use this file to prevent future contributors (including AI) from accidentally
 reversing deliberate trade-offs.

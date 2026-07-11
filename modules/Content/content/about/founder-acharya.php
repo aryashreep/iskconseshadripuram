@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Founder Acharya';
+$pageType = 'about';
 include '../partials/header.php';
 ?>
 

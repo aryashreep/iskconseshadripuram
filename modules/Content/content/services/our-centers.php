@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Our Centers';
 $metaDescription = 'Explore ISKCON Seshadripuram\'s centres across Bangalore — New Rajapur Jagannatha Dham, Bhakti Sadan neighbourhood programs, and Bhakti Vriksha weekly congregational meetings.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

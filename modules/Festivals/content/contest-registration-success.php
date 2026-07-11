@@ -6,6 +6,7 @@
  * URL: /festivals/contest-registration-success?reg_id=X&pay_id=Y
  */
 $pageTitle = 'Contest Registration Successful — Janmashtami';
+$pageType = 'festival';
 include '../partials/header.php';
 require_once '../config.php';
 

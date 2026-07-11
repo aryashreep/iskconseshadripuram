@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Disappearance Day of His Divine Grace A.C. Bhaktivedanta Swami Prabhupada';
 $metaDescription = 'Honor the disappearance day of Srila Prabhupada at ISKCON Seshadripuram, Bangalore. Remembering the Founder-Acharya of ISKCON who departed in Vrindavan in 1977.';
+$pageType = 'festival';
 include '../../partials/header.php';
 require_once '../../config.php';
 ?>

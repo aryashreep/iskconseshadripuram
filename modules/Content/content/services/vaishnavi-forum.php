@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'ISKCON Vaishnavi Forum';
 $metaDescription = 'ISKCON Vaishnavi Forum (IVF) at ISKCON Seshadripuram — empowering young women through Vedic wisdom, scripture study, music, craft, and personality development. Online and offline programs.';
+$pageType = 'service';
 include '../partials/header.php';
 ?>
 

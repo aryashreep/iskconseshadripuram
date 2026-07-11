@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Parivartini (Vamana) Ekadasi';
 $metaDescription = 'Learn the glories of Parivartini Ekadasi at ISKCON Seshadripuram, Bangalore. Commemorates the day Lord Vishnu turns over on His side during His cosmic slumber.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 

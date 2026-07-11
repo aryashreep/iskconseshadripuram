@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Glories of Utpanna Ekadasi';
 $metaDescription = 'Learn the glories of Utpanna Ekadasi at ISKCON Seshadripuram, Bangalore. Marks the birth of Ekadashi Devi from the body of Lord Vishnu to defeat the demon Mura.';
+$pageType = 'festival';
 include '../../partials/header.php';
 ?>
 
