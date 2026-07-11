@@ -1031,3 +1031,13 @@ Stack trace:
 #1 {main}
   thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 5
 [10-Jul-2026 18:01:39 UTC] DEPRECATED: Cause #10 is using old donation_cause_sevas table.
+[11-Jul-2026 03:14:51 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IF NOT EXISTS age_group VARCHAR(20) NOT NULL DEFAULT "" AFTER participant_name' at line 1 in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->exec('ALTER TABLE jan...')
+#1 {main}
+  thrown in Command line code on line 1
+[2026-07-11 03:14:51] Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IF NOT EXISTS age_group VARCHAR(20) NOT NULL DEFAULT "" AFTER participant_name' at line 1 in Command line code:1
+Stack trace:
+#0 Command line code(1): PDO->exec('ALTER TABLE jan...')
+#1 {main}
+  thrown in Command line code on line 1

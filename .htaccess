@@ -134,23 +134,45 @@ RewriteRule ^sudamaseva/dashboard/?$ sudamaseva/dashboard.php [L,QSA]
 # ============================================
 # Festival Detail Pages (SEO-friendly URLs)
 # ============================================
-# /festivals/grand-festivals/janmashtami/ → detail.php?slug=janmashtami
-# Actual files (e.g. festivals/grand-festivals/janmashtami.php) take priority via !-f check
+# Custom hardcoded PHP pages (e.g. janmashtami.php) take priority over dynamic DB pages.
+# If a corresponding .php file exists, serve it directly instead of using detail.php.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/festivals/grand-festivals/$1.php -f
+RewriteRule ^festivals/grand-festivals/([^/]+)/?$ festivals/grand-festivals/$1.php [L]
+
+# /festivals/grand-festivals/janmashtami/ → detail.php?slug=janmashtami (fallback for DB-driven pages)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^festivals/grand-festivals/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+# Same pattern for other festival categories
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/festivals/ekadashi/$1.php -f
+RewriteRule ^festivals/ekadashi/([^/]+)/?$ festivals/ekadashi/$1.php [L]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^festivals/ekadashi/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/festivals/appearance/$1.php -f
+RewriteRule ^festivals/appearance/([^/]+)/?$ festivals/appearance/$1.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^festivals/appearance/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/festivals/disappearance/$1.php -f
+RewriteRule ^festivals/disappearance/([^/]+)/?$ festivals/disappearance/$1.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^festivals/disappearance/([^/]+)/?$ festivals/detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/festivals/events/$1.php -f
+RewriteRule ^festivals/events/([^/]+)/?$ festivals/events/$1.php [L]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f

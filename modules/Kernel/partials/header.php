@@ -18,6 +18,30 @@ if (!isset($canonicalUrl)) {
 }
 $ogImage ??= BASE_URL . 'assets/images/og-default.svg';
 $ogType ??= 'website';
+
+// Dynamic page-header-bg background image lookup for festival and event pages
+$dynamicFestivalBg = null;
+$festivalSlugForBg = null;
+
+if (isset($slug) && !empty($slug)) {
+    $festivalSlugForBg = $slug;
+} elseif (isset($_GET['slug']) && !empty($_GET['slug'])) {
+    $festivalSlugForBg = $_GET['slug'];
+} else {
+    $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    if (preg_match('#/festivals/(grand-festivals|ekadashi|appearance|disappearance|events)/([^/.]+)(?:\.php)?/?$#', $requestPath, $matches)) {
+        if ($matches[2] !== 'index') {
+            $festivalSlugForBg = $matches[2];
+        }
+    }
+}
+
+if ($festivalSlugForBg) {
+    $festivalDbData = getFestivalDetail($festivalSlugForBg);
+    if ($festivalDbData && !empty($festivalDbData['image_url'])) {
+        $dynamicFestivalBg = $festivalDbData['image_url'];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,6 +102,15 @@ $ogType ??= 'website';
 
   <!-- Cart Module (must load before page-specific scripts) -->
   <script src="<?= asset('modules/Donation/assets/js/cart.js') ?>"></script>
+
+  <?php if (!empty($dynamicFestivalBg)): ?>
+  <!-- Dynamic Page Header Background Override -->
+  <style>
+    .page-header-bg {
+      background-image: url('<?php echo htmlspecialchars($dynamicFestivalBg); ?>') !important;
+    }
+  </style>
+  <?php endif; ?>
 </head>
 
 <body>
