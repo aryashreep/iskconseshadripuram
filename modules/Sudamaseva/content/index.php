@@ -260,21 +260,42 @@ if ($renewDonorId > 0) {
                 <input type="text" id="panNumber" name="pan_number" placeholder="e.g. ABCDE1234F" maxlength="10" style="text-transform:uppercase;">
               </div>
 
-              <!-- Address (optional) -->
+              <!-- Address / Location Selection -->
+              <div class="form-group">
+                <label for="state">State *</label>
+                <select id="state" name="state" class="form-control" style="width:100%; height:45px; border:1px solid var(--border); border-radius:var(--radius-md); padding:var(--space-xs) var(--space-sm); font-size:14px; background:var(--white);">
+                  <option value="">-- Select State --</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Other">-- Other State --</option>
+                </select>
+                <input type="text" id="state_custom" name="state_custom" class="form-control" placeholder="Enter State Name" style="display:none; margin-top:8px;">
+              </div>
+
               <div class="form-row-fields">
+                <div class="form-group" id="city_group">
+                  <label for="city">City *</label>
+                  <select id="city" name="city" class="form-control" disabled style="width:100%; height:45px; border:1px solid var(--border); border-radius:var(--radius-md); padding:var(--space-xs) var(--space-sm); font-size:14px; background:var(--white);">
+                    <option value="">-- Select City --</option>
+                  </select>
+                  <input type="text" id="city_custom" name="city_custom" class="form-control" placeholder="Enter City Name" style="display:none; margin-top:8px;">
+                </div>
                 <div class="form-group">
                   <label for="area">Area / Locality</label>
                   <input type="text" id="area" name="area" placeholder="e.g. Seshadripuram">
                 </div>
-                <div class="form-group">
-                  <label for="city">City</label>
-                  <input type="text" id="city" name="city" placeholder="e.g. Bengaluru">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="state">State</label>
-                <input type="text" id="state" name="state" placeholder="e.g. Karnataka">
               </div>
             </div>
 
@@ -732,6 +753,47 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.disabled = true;
     loadingEl.style.display = 'flex';
 
+    // Resolve State and City (handling custom "Other" inputs)
+    var stateVal = document.getElementById('state').value.trim();
+    if (stateVal === 'Other') {
+      stateVal = document.getElementById('state_custom').value.trim();
+      if (!stateVal) {
+        alert('Please type your state name.');
+        btn.disabled = false;
+        loadingEl.style.display = 'none';
+        return;
+      }
+    } else if (!stateVal) {
+      alert('Please select your state.');
+      btn.disabled = false;
+      loadingEl.style.display = 'none';
+      return;
+    }
+
+    var cityVal = document.getElementById('city').value.trim();
+    if (stateVal !== 'Other' && cityVal === 'Other') {
+      cityVal = document.getElementById('city_custom').value.trim();
+      if (!cityVal) {
+        alert('Please type your city name.');
+        btn.disabled = false;
+        loadingEl.style.display = 'none';
+        return;
+      }
+    } else if (stateVal === 'Other') {
+      cityVal = document.getElementById('city_custom').value.trim();
+      if (!cityVal) {
+        alert('Please type your city name.');
+        btn.disabled = false;
+        loadingEl.style.display = 'none';
+        return;
+      }
+    } else if (!cityVal) {
+      alert('Please select your city.');
+      btn.disabled = false;
+      loadingEl.style.display = 'none';
+      return;
+    }
+
     var mode = window.collectionMode;
 
     if (mode === 'offline') {
@@ -746,8 +808,8 @@ document.addEventListener('DOMContentLoaded', function() {
         amount: window.selectedAmountPaise,
         total_installments: parseInt(document.getElementById('totalInstallments').value),
         area: document.getElementById('area').value.trim(),
-        city: document.getElementById('city').value.trim(),
-        state: document.getElementById('state').value.trim(),
+        city: cityVal,
+        state: stateVal,
         collection_mode: 'offline',
         cycle: <?php echo $renewCycle; ?>
       };
@@ -787,8 +849,8 @@ document.addEventListener('DOMContentLoaded', function() {
         amount: window.selectedAmountPaise,
         total_installments: parseInt(document.getElementById('totalInstallments').value),
         area: document.getElementById('area').value.trim(),
-        city: document.getElementById('city').value.trim(),
-        state: document.getElementById('state').value.trim(),
+        city: cityVal,
+        state: stateVal,
       };
 
       fetch('<?php echo BASE_URL; ?>api/sudamaseva/create-subscription', {
@@ -849,8 +911,8 @@ document.addEventListener('DOMContentLoaded', function() {
         amount: window.selectedAmountPaise,
         total_installments: parseInt(document.getElementById('totalInstallments').value),
         area: document.getElementById('area').value.trim(),
-        city: document.getElementById('city').value.trim(),
-        state: document.getElementById('state').value.trim(),
+        city: cityVal,
+        state: stateVal,
         collection_mode: mode,
         cycle: <?php echo $renewCycle; ?>
       };
@@ -898,6 +960,70 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.disabled = false;
         loadingEl.style.display = 'none';
       });
+    }
+  });
+
+  // State and City dropdown population and custom toggle logic
+  var stateCities = {
+    "Karnataka": ["Bengaluru", "Mysuru", "Hubballi-Dharwad", "Mangaluru", "Belagavi", "Kalaburagi", "Davanagere", "Ballari", "Vijayapura", "Shivamogga", "Tumakuru", "Udupi", "Kolar", "Chikmagalur", "Hassan", "Mandya"],
+    "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Pimpri-Chinchwad", "Nashik", "Kalyan-Dombivli", "Vasai-Virar", "Aurangabad", "Navi Mumbai", "Solapur", "Mira-Bhayandar", "Bhiwandi", "Kolhapur"],
+    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tiruppur", "Erode", "Vellore", "Tirunelveli", "Thanjavur", "Dindigul"],
+    "Telangana": ["Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Mahbubnagar"],
+    "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Rajamahendravaram", "Tirupati", "Kakinada", "Kadapa", "Anantapur"],
+    "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kollam", "Thrissur", "Alappuzha", "Palakkad", "Kannur", "Kottayam"],
+    "Delhi": ["New Delhi", "Delhi Cantonment", "East Delhi", "North Delhi", "South Delhi", "West Delhi"],
+    "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Morbi", "Vapi"],
+    "Rajasthan": ["Jaipur", "Jodhpur", "Kota", "Bikaner", "Ajmer", "Udaipur", "Bhilwara", "Alwar"],
+    "Uttar Pradesh": ["Lucknow", "Kanpur", "Ghaziabad", "Agra", "Meerut", "Varanasi", "Prayagraj", "Bareilly", "Aligarh", "Moradabad", "Gorakhpur", "Noida", "Greater Noida", "Jhansi"],
+    "Haryana": ["Gurugram", "Faridabad", "Panipat", "Ambala", "Yamunanagar", "Rohtak", "Hisar", "Karnal", "Sonipat"],
+    "Punjab": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Pathankot"],
+    "Goa": ["Panaji", "Margao", "Vasco da Gama", "Mapusa", "Ponda"]
+  };
+
+  var stateSelect = document.getElementById('state');
+  var stateCustom = document.getElementById('state_custom');
+  var citySelect = document.getElementById('city');
+  var cityCustom = document.getElementById('city_custom');
+
+  stateSelect.addEventListener('change', function() {
+    var stateVal = this.value;
+    citySelect.innerHTML = '<option value="">-- Select City --</option>';
+    
+    if (stateVal === '') {
+      citySelect.disabled = true;
+      citySelect.style.display = 'block';
+      stateCustom.style.display = 'none';
+      cityCustom.style.display = 'none';
+    } else if (stateVal === 'Other') {
+      citySelect.style.display = 'none';
+      stateCustom.style.display = 'block';
+      cityCustom.style.display = 'block';
+    } else {
+      citySelect.style.display = 'block';
+      citySelect.disabled = false;
+      stateCustom.style.display = 'none';
+      cityCustom.style.display = 'none';
+
+      var cities = stateCities[stateVal] || [];
+      cities.forEach(function(c) {
+        var opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        citySelect.appendChild(opt);
+      });
+
+      var otherOpt = document.createElement('option');
+      otherOpt.value = 'Other';
+      otherOpt.textContent = '-- Other City --';
+      citySelect.appendChild(otherOpt);
+    }
+  });
+
+  citySelect.addEventListener('change', function() {
+    if (this.value === 'Other') {
+      cityCustom.style.display = 'block';
+    } else {
+      cityCustom.style.display = 'none';
     }
   });
 });

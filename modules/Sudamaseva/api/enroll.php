@@ -130,7 +130,7 @@ try {
         'status' => 'active',
         'start_date' => date('Y-m-d H:i:s'),
         'total_installments' => $totalInstallments,
-        'source' => $cycle > 1 ? 'renewal' : 'new',
+        'source' => 'new',
     ]);
 
     // Set cycle number

@@ -130,6 +130,26 @@ if (!$selectedSub && !empty($subscriptions)) {
       <a href="admin/sudamaseva-record-payment?subscription_id=<?php echo $activeSub['id']; ?>" class="btn btn-success btn-sm" style="text-decoration:none; padding:8px 16px; background:#2e7d32; color:white; border-radius:var(--radius-md); font-weight:600; font-size:12px;">
         <i class="fas fa-hand-holding-usd"></i> Record Payment
       </a>
+    <?php elseif (hasPermission('sudamaseva.edit')): 
+      $maxCycle = 0;
+      foreach ($subscriptions as $s) {
+          if (isset($s['cycle']) && (int) $s['cycle'] > $maxCycle) {
+              $maxCycle = (int) $s['cycle'];
+          }
+      }
+      $nextCycle = $maxCycle + 1;
+      $enrollUrl = "admin/sudamaseva-donor-add?phone=" . urlencode($donor['phone'] ?? '') 
+        . "&donor_name=" . urlencode($donor['donor_name'] ?? '')
+        . "&email=" . urlencode($donor['email'] ?? '')
+        . "&pan=" . urlencode($donor['pan'] ?? '')
+        . "&area=" . urlencode($donor['area'] ?? '')
+        . "&city=" . urlencode($donor['city'] ?? '')
+        . "&state=" . urlencode($donor['state'] ?? '')
+        . "&cycle=" . $nextCycle;
+    ?>
+      <a href="<?php echo $enrollUrl; ?>" class="btn btn-primary btn-sm" style="text-decoration:none; padding:8px 16px; background:#0b5ed7; color:white; border-radius:var(--radius-md); font-weight:600; font-size:12px;" title="Enroll / Renew Subscription (New Cycle)">
+        <i class="fas fa-user-plus"></i> Start New Cycle
+      </a>
     <?php endif; ?>
     <?php if (hasPermission('sudamaseva.edit')): ?>
       <a href="admin/sudamaseva-donor-edit?id=<?php echo $donorId; ?>" class="btn btn-primary btn-sm" style="text-decoration:none;">
@@ -355,10 +375,30 @@ if (!$selectedSub && !empty($subscriptions)) {
 </div>
 <?php endif; ?>
 
-<!-- All Subscriptions Table -->
 <div class="admin-card" style="margin-bottom:var(--space-xl);">
-  <div class="admin-card-header">
+  <div class="admin-card-header" style="display:flex; justify-content:space-between; align-items:center;">
     <h2>Subscriptions (<?php echo count($subscriptions); ?>)</h2>
+    <?php if (!$activeSub && hasPermission('sudamaseva.edit')): 
+      $maxCycle = 0;
+      foreach ($subscriptions as $s) {
+          if (isset($s['cycle']) && (int) $s['cycle'] > $maxCycle) {
+              $maxCycle = (int) $s['cycle'];
+          }
+      }
+      $nextCycle = $maxCycle + 1;
+      $enrollUrl = "admin/sudamaseva-donor-add?phone=" . urlencode($donor['phone'] ?? '') 
+        . "&donor_name=" . urlencode($donor['donor_name'] ?? '')
+        . "&email=" . urlencode($donor['email'] ?? '')
+        . "&pan=" . urlencode($donor['pan'] ?? '')
+        . "&area=" . urlencode($donor['area'] ?? '')
+        . "&city=" . urlencode($donor['city'] ?? '')
+        . "&state=" . urlencode($donor['state'] ?? '')
+        . "&cycle=" . $nextCycle;
+    ?>
+      <a href="<?php echo $enrollUrl; ?>" class="btn btn-primary btn-sm" style="text-decoration:none; padding:6px 14px; background:#0b5ed7; color:white; border-radius:var(--radius-md); font-weight:600; font-size:12px;">
+        <i class="fas fa-plus"></i> Start New Cycle
+      </a>
+    <?php endif; ?>
   </div>
   <div class="admin-card-body" style="padding:0;">
     <div class="admin-table-container" style="border:none; margin:0; border-radius:0;">

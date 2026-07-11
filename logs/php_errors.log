@@ -1041,3 +1041,6 @@ Stack trace:
 #0 Command line code(1): PDO->exec('ALTER TABLE jan...')
 #1 {main}
   thrown in Command line code on line 1
+[11-Jul-2026 04:25:38 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\laragon\www\isjm\modules\Kernel\Admin\partials\header.php:137) in C:\laragon\www\isjm\modules\Sudamaseva\Admin\donor-detail.php on line 51
+[11-Jul-2026 07:03:08 UTC] SudamasevaRepository::createSubscription error: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'source' at row 1
+[11-Jul-2026 07:04:08 UTC] SudamasevaRepository::createSubscription error: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'source' at row 1

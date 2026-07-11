@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     'status' => 'active',
                     'start_date' => $startDate ?: date('Y-m-d H:i:s'),
                     'total_installments' => $totalInstallments,
-                    'source' => $cycle > 1 ? 'renewal' : 'new',
+                    'source' => 'new',
                 ]);
 
                 if (!$subscriptionId) {
@@ -151,7 +151,7 @@ include 'partials/header.php';
     <h2>Donor Registration & Subscription Details</h2>
   </div>
   <div class="admin-card-body" style="padding:var(--space-xl);">
-    <form action="admin/sudamaseva-donor-add" method="POST">
+    <form action="admin/sudamaseva-donor-add" method="POST" id="donorAddForm">
       <input type="hidden" name="action" value="enroll_donor">
       <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
@@ -184,16 +184,37 @@ include 'partials/header.php';
 
       <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:var(--space-lg); margin-bottom:var(--space-xl);">
         <div class="form-group">
+          <label for="state" style="font-weight:600;">State *</label>
+          <select id="state" name="state" class="form-control" required style="height:auto; padding:8px;">
+            <option value="">-- Select State --</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Goa">Goa</option>
+            <option value="Other">-- Other State --</option>
+          </select>
+          <input type="text" id="state_custom" class="form-control" placeholder="Enter State Name" style="display:none; margin-top:8px;">
+        </div>
+        <div class="form-group">
+          <label for="city" style="font-weight:600;">City *</label>
+          <select id="city" name="city" class="form-control" disabled required style="height:auto; padding:8px;">
+            <option value="">-- Select City --</option>
+          </select>
+          <input type="text" id="city_custom" class="form-control" placeholder="Enter City Name" style="display:none; margin-top:8px;">
+        </div>
+        <div class="form-group">
           <label for="area" style="font-weight:600;">Area / Locality</label>
           <input type="text" id="area" name="area" class="form-control" placeholder="e.g. Malleswaram" value="<?php echo htmlspecialchars($_GET['area'] ?? ''); ?>">
-        </div>
-        <div class="form-group">
-          <label for="city" style="font-weight:600;">City</label>
-          <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Bangalore" value="<?php echo htmlspecialchars($_GET['city'] ?? ''); ?>">
-        </div>
-        <div class="form-group">
-          <label for="state" style="font-weight:600;">State</label>
-          <input type="text" id="state" name="state" class="form-control" placeholder="e.g. Karnataka" value="<?php echo htmlspecialchars($_GET['state'] ?? ''); ?>">
         </div>
       </div>
 
@@ -256,6 +277,127 @@ include 'partials/header.php';
 function setFormAmount(amt) {
   document.getElementById('amount').value = amt;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  var stateCities = {
+    "Karnataka": ["Bengaluru", "Mysuru", "Hubballi-Dharwad", "Mangaluru", "Belagavi", "Kalaburagi", "Davanagere", "Ballari", "Vijayapura", "Shivamogga", "Tumakuru", "Udupi", "Kolar", "Chikmagalur", "Hassan", "Mandya"],
+    "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Pimpri-Chinchwad", "Nashik", "Kalyan-Dombivli", "Vasai-Virar", "Aurangabad", "Navi Mumbai", "Solapur", "Mira-Bhayandar", "Bhiwandi", "Kolhapur"],
+    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tiruppur", "Erode", "Vellore", "Tirunelveli", "Thanjavur", "Dindigul"],
+    "Telangana": ["Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Mahbubnagar"],
+    "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Rajamahendravaram", "Tirupati", "Kakinada", "Kadapa", "Anantapur"],
+    "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kollam", "Thrissur", "Alappuzha", "Palakkad", "Kannur", "Kottayam"],
+    "Delhi": ["New Delhi", "Delhi Cantonment", "East Delhi", "North Delhi", "South Delhi", "West Delhi"],
+    "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Morbi", "Vapi"],
+    "Rajasthan": ["Jaipur", "Jodhpur", "Kota", "Bikaner", "Ajmer", "Udaipur", "Bhilwara", "Alwar"],
+    "Uttar Pradesh": ["Lucknow", "Kanpur", "Ghaziabad", "Agra", "Meerut", "Varanasi", "Prayagraj", "Bareilly", "Aligarh", "Moradabad", "Gorakhpur", "Noida", "Greater Noida", "Jhansi"],
+    "Haryana": ["Gurugram", "Faridabad", "Panipat", "Ambala", "Yamunanagar", "Rohtak", "Hisar", "Karnal", "Sonipat"],
+    "Punjab": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Pathankot"],
+    "Goa": ["Panaji", "Margao", "Vasco da Gama", "Mapusa", "Ponda"]
+  };
+
+  var stateSelect = document.getElementById('state');
+  var stateCustom = document.getElementById('state_custom');
+  var citySelect = document.getElementById('city');
+  var cityCustom = document.getElementById('city_custom');
+  var form = document.getElementById('donorAddForm');
+
+  function populateCities(stateVal, selectedCity) {
+    citySelect.innerHTML = '<option value="">-- Select City --</option>';
+    if (stateVal === '') {
+      citySelect.disabled = true;
+      citySelect.style.display = 'block';
+      stateCustom.style.display = 'none';
+      cityCustom.style.display = 'none';
+    } else if (stateVal === 'Other') {
+      citySelect.style.display = 'none';
+      stateCustom.style.display = 'block';
+      cityCustom.style.display = 'block';
+    } else {
+      citySelect.style.display = 'block';
+      citySelect.disabled = false;
+      stateCustom.style.display = 'none';
+      cityCustom.style.display = 'none';
+
+      var cities = stateCities[stateVal] || [];
+      cities.forEach(function(c) {
+        var opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        if (c === selectedCity) {
+          opt.selected = true;
+        }
+        citySelect.appendChild(opt);
+      });
+
+      var otherOpt = document.createElement('option');
+      otherOpt.value = 'Other';
+      otherOpt.textContent = '-- Other City --';
+      if (selectedCity && !cities.includes(selectedCity)) {
+        otherOpt.selected = true;
+        cityCustom.style.display = 'block';
+        cityCustom.value = selectedCity;
+      }
+      citySelect.appendChild(otherOpt);
+    }
+  }
+
+  stateSelect.addEventListener('change', function() {
+    populateCities(this.value, '');
+  });
+
+  citySelect.addEventListener('change', function() {
+    if (this.value === 'Other') {
+      cityCustom.style.display = 'block';
+    } else {
+      cityCustom.style.display = 'none';
+    }
+  });
+
+  // Pre-populate if values are passed in URL (renewals/enrollments from detail pages)
+  var urlState = "<?php echo htmlspecialchars($_GET['state'] ?? '', ENT_QUOTES, 'UTF-8'); ?>";
+  var urlCity = "<?php echo htmlspecialchars($_GET['city'] ?? '', ENT_QUOTES, 'UTF-8'); ?>";
+
+  if (urlState) {
+    if (stateCities[urlState]) {
+      stateSelect.value = urlState;
+      populateCities(urlState, urlCity);
+    } else {
+      stateSelect.value = 'Other';
+      populateCities('Other', '');
+      stateCustom.value = urlState;
+      cityCustom.value = urlCity;
+    }
+  }
+
+  form.addEventListener('submit', function(e) {
+    // Validate custom inputs
+    if (stateSelect.value === 'Other') {
+      if (!stateCustom.value.trim()) {
+        alert('Please enter a custom state.');
+        e.preventDefault();
+        return;
+      }
+      stateSelect.removeAttribute('name');
+      stateCustom.setAttribute('name', 'state');
+    } else {
+      stateSelect.setAttribute('name', 'state');
+      stateCustom.removeAttribute('name');
+    }
+
+    if (citySelect.value === 'Other' || stateSelect.value === 'Other') {
+      if (!cityCustom.value.trim()) {
+        alert('Please enter a custom city.');
+        e.preventDefault();
+        return;
+      }
+      citySelect.removeAttribute('name');
+      cityCustom.setAttribute('name', 'city');
+    } else {
+      citySelect.setAttribute('name', 'city');
+      cityCustom.removeAttribute('name');
+    }
+  });
+});
 </script>
 
 <?php include 'partials/footer.php'; ?>

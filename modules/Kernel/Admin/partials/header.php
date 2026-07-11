@@ -61,10 +61,27 @@ if (!isset($activePage)) {
           </li>
         <?php endif; ?>
         <?php if (hasPermission('festivals.view')): ?>
-          <li class="admin-nav-item <?php echo in_array($activePage, ['festivals', 'festival-edit']) ? 'active' : ''; ?>">
+          <?php
+            $festivalSubPages = ['festivals', 'festival-edit', 'janmashtami-contest-registrations'];
+            $festivalActive = in_array($activePage, $festivalSubPages);
+          ?>
+          <li class="admin-nav-group <?php echo $festivalActive ? 'active' : ''; ?>">
             <a href="admin/festivals">
-              <i class="fas fa-calendar-alt"></i> Manage Festivals
+              <span><i class="fas fa-calendar-alt"></i> Manage Festivals</span>
+              <i class="fas fa-chevron-down nav-chevron"></i>
             </a>
+            <ul class="admin-subnav">
+              <li class="admin-subnav-item <?php echo in_array($activePage, ['festivals', 'festival-edit']) ? 'active' : ''; ?>">
+                <a href="admin/festivals">
+                  <i class="fas fa-list"></i> Festivals / Causes
+                </a>
+              </li>
+              <li class="admin-subnav-item <?php echo $activePage === 'janmashtami-contest-registrations' ? 'active' : ''; ?>">
+                <a href="admin/janmashtami-contest-registrations">
+                  <i class="fas fa-trophy"></i> Contest Registrations
+                </a>
+              </li>
+            </ul>
           </li>
         <?php endif; ?>
         <?php if (hasAnyPermission(['donations.view', 'reports.view'])): ?>

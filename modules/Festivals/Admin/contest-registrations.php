@@ -7,10 +7,10 @@
  */
 
 $pageTitle = 'Janmashtami Contest Registrations';
-$activePage = 'sudamaseva-dashboard';
+$activePage = 'janmashtami-contest-registrations';
 
 require_once __DIR__ . '/../../../admin/auth-check.php';
-requirePermission('sudamaseva.view');
+requirePermission('festivals.view');
 require_once __DIR__ . '/../../../config.php';
 
 include 'partials/header.php';
