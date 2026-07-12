@@ -174,7 +174,7 @@ try {
     }
 
     // Log to file
-    $logDir = __DIR__ . '/../../logs';
+    $logDir = __DIR__ . '/../../../logs';
     if (!is_dir($logDir)) {
         @mkdir($logDir, 0755, true);
     }

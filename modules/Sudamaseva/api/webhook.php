@@ -59,7 +59,7 @@ $event = $payload['event'] ?? '';
 $repo = new SudamasevaRepository();
 $service = new SudamasevaService($repo);
 
-$logDir = __DIR__ . '/../../logs';
+$logDir = __DIR__ . '/../../../logs';
 if (!is_dir($logDir)) {
     @mkdir($logDir, 0755, true);
 }

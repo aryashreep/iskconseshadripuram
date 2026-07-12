@@ -162,7 +162,7 @@ try {
     // ============================================================
     if ($collectionMode === 'offline') {
         // Offline mode — no Razorpay order; just return the enrollment info
-        $logDir = __DIR__ . '/../../logs';
+        $logDir = __DIR__ . '/../../../logs';
         if (!is_dir($logDir)) {
             @mkdir($logDir, 0755, true);
         }
@@ -239,7 +239,7 @@ try {
     // ============================================================
     // Log
     // ============================================================
-    $logDir = __DIR__ . '/../../logs';
+    $logDir = __DIR__ . '/../../../logs';
     if (!is_dir($logDir)) {
         @mkdir($logDir, 0755, true);
     }
