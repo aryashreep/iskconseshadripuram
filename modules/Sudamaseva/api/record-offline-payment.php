@@ -67,6 +67,11 @@ try {
     $repo = new SudamasevaRepository();
     $service = new SudamasevaService($repo);
 
+    // If cash, or if reference is left empty, auto-generate unique ID
+    if ($paymentMethod === 'cash' || empty($referenceNo)) {
+        $referenceNo = $service->generateOfflineReferenceNo($paymentMethod);
+    }
+
     // Fetch subscription
     $subscription = $repo->getSubscriptionById($subscriptionId);
     if (!$subscription) {
@@ -104,6 +109,7 @@ try {
         'payment_date' => date('Y-m-d H:i:s'),
         'receipt_number' => $receiptNo,
         'payment_source' => 'admin_manual',
+        'razorpay_payment_id' => $referenceNo,
         'notes' => 'Offline payment: ' . ucfirst(str_replace('_', ' ', $paymentMethod))
             . ($referenceNo ? " (Ref: {$referenceNo})" : '')
             . ($notes ? " — {$notes}" : ''),
@@ -168,7 +174,8 @@ try {
         'amount' => $amountInr,
         'subscription_id' => $subscriptionId,
         'donor_id' => $donorId,
-        'message' => "Installment #{$installmentNumber} of ₹{$amountInr} recorded as paid.",
+        'reference_no' => $referenceNo,
+        'message' => "Installment #{$installmentNumber} of ₹{$amountInr} recorded as paid (Ref: {$referenceNo}).",
     ]);
 
 } catch (Throwable $e) {

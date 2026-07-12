@@ -282,6 +282,37 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Handle dynamic payment method references
+  var methodSelect = document.getElementById('paymentMethod');
+  var refInput = document.getElementById('referenceNo');
+
+  if (methodSelect && refInput) {
+    window.handlePaymentMethodChange = function() {
+      var method = methodSelect.value;
+      if (method === 'cash') {
+        var dateStr = new Date().toISOString().slice(2, 10).replace(/-/g, '');
+        refInput.value = 'CASH-' + dateStr + '-AUTO';
+        refInput.readOnly = true;
+        refInput.placeholder = '';
+      } else {
+        refInput.readOnly = false;
+        if (refInput.value.startsWith('CASH-') && refInput.value.endsWith('-AUTO')) {
+          refInput.value = '';
+        }
+        if (method === 'cheque') {
+          refInput.placeholder = 'e.g. CHQ-123456 (or leave empty to auto-generate)';
+        } else if (method === 'bank_transfer') {
+          refInput.placeholder = 'e.g. TXN-123456 (or leave empty to auto-generate)';
+        } else {
+          refInput.placeholder = 'e.g. OTH-123456 (or leave empty to auto-generate)';
+        }
+      }
+    };
+
+    methodSelect.addEventListener('change', window.handlePaymentMethodChange);
+    window.handlePaymentMethodChange(); // Init state
+  }
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -293,12 +324,18 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
+    var refNoVal = document.getElementById('referenceNo').value.trim();
+    var payMethod = document.getElementById('paymentMethod').value;
+    if (payMethod === 'cash' || refNoVal.endsWith('-AUTO')) {
+      refNoVal = ''; // let backend generate cryptographically secure unique ID
+    }
+
     var payload = {
       subscription_id: parseInt(document.getElementById('subscriptionId').value),
       installment_number: parseInt(document.getElementById('installmentNumber').value),
       amount: parseInt(document.getElementById('amount').value),
-      payment_method: document.getElementById('paymentMethod').value,
-      reference_no: document.getElementById('referenceNo').value.trim(),
+      payment_method: payMethod,
+      reference_no: refNoVal,
       notes: document.getElementById('notes').value.trim(),
     };
 
@@ -347,6 +384,9 @@ function resetForm() {
   }
   document.getElementById('referenceNo').value = '';
   document.getElementById('notes').value = '';
+  if (window.handlePaymentMethodChange) {
+    window.handlePaymentMethodChange();
+  }
   updateInstallmentMonth(instInput ? parseInt(instInput.value) : 0);
 }
 

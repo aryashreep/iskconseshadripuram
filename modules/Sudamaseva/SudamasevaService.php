@@ -782,4 +782,36 @@ class SudamasevaService
     {
         return $this->repo->deletePayment($id);
     }
+
+    /**
+     * Generate a unique reference number for offline payments.
+     * Format: PREFIX-YYMMDD-XXXX where XXXX is a random hex string.
+     *
+     * @param string $method The payment method (cash, cheque, bank_transfer, other)
+     * @return string The generated unique reference number
+     */
+    public function generateOfflineReferenceNo(string $method): string
+    {
+        $prefix = 'REF';
+        switch ($method) {
+            case 'cash':
+                $prefix = 'CASH';
+                break;
+            case 'cheque':
+                $prefix = 'CHQ';
+                break;
+            case 'bank_transfer':
+                $prefix = 'TXN';
+                break;
+            case 'other':
+                $prefix = 'OTH';
+                break;
+        }
+
+        $datePart = date('ymd'); // YYMMDD
+        $randomPart = strtoupper(bin2hex(random_bytes(2))); // 4 random hex characters
+
+        return sprintf('%s-%s-%s', $prefix, $datePart, $randomPart);
+    }
 }
+
