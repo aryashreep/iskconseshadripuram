@@ -130,6 +130,7 @@ $queryString = http_build_query($queryParams);
             <th>Monthly Amount</th>
             <th>Status</th>
             <th>Start Date</th>
+            <th>End Date</th>
             <th>Installments</th>
             <th>Progress</th>
             <th>Source</th>
@@ -139,7 +140,7 @@ $queryString = http_build_query($queryParams);
         <tbody>
           <?php if (empty($subscriptions)): ?>
             <tr>
-              <td colspan="10" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No subscriptions found.</td>
+              <td colspan="11" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No subscriptions found.</td>
             </tr>
           <?php else: ?>
             <?php foreach ($subscriptions as $s):
@@ -162,6 +163,18 @@ $queryString = http_build_query($queryParams);
                 <td style="font-weight:600; color:var(--maroon);"><?php echo $service->formatAmount((float) ($s['amount'] ?? 0)); ?></td>
                 <td><?php echo $service->renderStatusBadge($s['status'] ?? 'unknown'); ?></td>
                 <td style="font-size:12px; color:var(--text-light);"><?php echo $service->formatDate($s['start_date'] ?? null, 'd M Y'); ?></td>
+                <td style="font-size:12px; color:var(--text-light);">
+                  <?php 
+                    if ($s['status'] === 'completed' && !empty($s['end_date'])) {
+                        echo $service->formatDate($s['end_date'], 'd M Y');
+                    } elseif ($totalInst > 0 && !empty($s['start_date'])) {
+                        $months = $totalInst - 1;
+                        echo date('d M Y', strtotime("+{$months} months", strtotime($s['start_date'])));
+                    } else {
+                        echo '—';
+                    }
+                  ?>
+                </td>
                 <td style="text-align:center;">
                   <span title="Paid: <?php echo $paidInst; ?> / Total: <?php echo $totalInst > 0 ? $totalInst : '∞'; ?>">
                     <?php echo $progressLabel; ?>

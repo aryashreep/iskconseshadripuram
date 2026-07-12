@@ -46,6 +46,13 @@ if (!isset($activePage)) {
             </a>
           </li>
         <?php endif; ?>
+        <?php if (hasPermission('pujari_sevalist.view')): ?>
+          <li class="admin-nav-item <?php echo $activePage === 'pujari-sevalist' ? 'active' : ''; ?>">
+            <a href="admin/pujari-sevalist">
+              <i class="fas fa-bell-concierge"></i> Pujari Sevalist
+            </a>
+          </li>
+        <?php endif; ?>
         <?php if (hasPermission('blogs.view')): ?>
           <li class="admin-nav-item <?php echo in_array($activePage, ['blogs', 'blog-edit']) ? 'active' : ''; ?>">
             <a href="admin/blogs">

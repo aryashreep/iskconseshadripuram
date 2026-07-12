@@ -10,7 +10,7 @@ $db = getDB();
 // Read parameters
 $search = trim($_GET['search'] ?? '');
 $causeId = isset($_GET['cause_id']) && $_GET['cause_id'] !== '' ? intval($_GET['cause_id']) : '';
-$status = trim($_GET['status'] ?? '');
+$status = trim($_GET['status'] ?? 'paid');
 $startDate = trim($_GET['start_date'] ?? '');
 $endDate = trim($_GET['end_date'] ?? '');
 
@@ -85,10 +85,11 @@ try {
     // Query records
     $sql = "
         SELECT t.id, t.created_at, t.donor_name, t.donor_email, t.donor_phone, t.pan_number, 
-               c.title as cause_title, s.name as seva_name, t.amount, t.razorpay_order_id, 
+               c.title as cause_title, COALESCE(ms.name, s.name) as seva_name, t.amount, t.razorpay_order_id, 
                t.razorpay_payment_id, t.payment_status, t.notes
         FROM donation_transactions t
         LEFT JOIN donation_causes c ON t.cause_id = c.id
+        LEFT JOIN master_sevas ms ON t.master_seva_id = ms.id
         LEFT JOIN donation_cause_sevas s ON t.seva_id = s.id
         WHERE {$whereClause}
         ORDER BY t.created_at DESC

@@ -827,4 +827,69 @@ class DonationRepository
             return false;
         }
     }
+
+    // ============================================================
+    // TRANSACTION DETAIL (for admin detail page)
+    // ============================================================
+
+    /**
+     * Get a single donation transaction by ID with joined cause/seva details.
+     * Used by the admin donation detail page.
+     */
+    public function getTransactionById(int $id): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT t.*,
+                       c.title as cause_title,
+                       c.slug as cause_slug,
+                       c.category as cause_category,
+                       COALESCE(ms.name, s.name) as seva_name,
+                       ms.slug as master_seva_slug,
+                       msc.name as seva_category_name
+                FROM donation_transactions t
+                LEFT JOIN donation_causes c ON t.cause_id = c.id
+                LEFT JOIN master_sevas ms ON t.master_seva_id = ms.id
+                LEFT JOIN master_seva_categories msc ON ms.category_id = msc.id
+                LEFT JOIN donation_cause_sevas s ON t.seva_id = s.id
+                WHERE t.id = ?
+                LIMIT 1
+            ");
+            $stmt->execute([$id]);
+            return $stmt->fetch() ?: null;
+        } catch (PDOException $e) {
+            error_log('DonationRepository::getTransactionById error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get the puja booking associated with a donation transaction, if any.
+     */
+    public function getPujaBookingByTransactionId(int $transactionId): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM booking_pujas WHERE transaction_id = ? LIMIT 1");
+            $stmt->execute([$transactionId]);
+            return $stmt->fetch() ?: null;
+        } catch (PDOException $e) {
+            error_log('DonationRepository::getPujaBookingByTransactionId error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get a subscription by ID, used to display linked subscription info on the donation detail page.
+     */
+    public function getSubscriptionById(int $id): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM donation_subscriptions WHERE id = ? LIMIT 1");
+            $stmt->execute([$id]);
+            return $stmt->fetch() ?: null;
+        } catch (PDOException $e) {
+            error_log('DonationRepository::getSubscriptionById error: ' . $e->getMessage());
+            return null;
+        }
+    }
 }

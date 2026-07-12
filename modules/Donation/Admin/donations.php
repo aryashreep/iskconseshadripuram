@@ -21,7 +21,7 @@ try {
 // Read parameters
 $search = trim($_GET['search'] ?? '');
 $causeId = isset($_GET['cause_id']) && $_GET['cause_id'] !== '' ? intval($_GET['cause_id']) : '';
-$status = trim($_GET['status'] ?? '');
+$status = trim($_GET['status'] ?? 'paid');
 $startDate = trim($_GET['start_date'] ?? '');
 $endDate = trim($_GET['end_date'] ?? '');
 
@@ -83,9 +83,11 @@ try {
 
     // 4. Fetch the records
     $sql = "
-        SELECT t.*, c.title as cause_title, s.name as seva_name
+        SELECT t.*, c.title as cause_title,
+               COALESCE(ms.name, s.name) as seva_name
         FROM donation_transactions t
         LEFT JOIN donation_causes c ON t.cause_id = c.id
+        LEFT JOIN master_sevas ms ON t.master_seva_id = ms.id
         LEFT JOIN donation_cause_sevas s ON t.seva_id = s.id
         WHERE {$whereClause}
         ORDER BY t.created_at DESC
@@ -118,6 +120,9 @@ try {
 $queryParams = $_GET;
 unset($queryParams['page']); // page will be appended separately
 $queryString = http_build_query($queryParams);
+
+// Preserve current list URL for return navigation from detail page
+$returnUrl = urlencode($_SERVER['REQUEST_URI'] ?? 'admin/donations');
 ?>
 
 <div class="admin-page-header">
@@ -242,12 +247,13 @@ $queryString = http_build_query($queryParams);
             <th>Amount</th>
             <th>Razorpay Identifiers</th>
             <th>Status</th>
+            <th style="width:80px; text-align:center;">Actions</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($transactions)): ?>
             <tr>
-              <td colspan="7" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No transaction logs found matching the selected filters.</td>
+              <td colspan="8" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No transaction logs found matching the selected filters.</td>
             </tr>
           <?php else: ?>
             <?php foreach ($transactions as $t): 
@@ -256,8 +262,9 @@ $queryString = http_build_query($queryParams);
               elseif ($t['payment_status'] === 'failed') $badgeClass = 'badge-danger';
               elseif ($t['payment_status'] === 'attempted') $badgeClass = 'badge-warning';
               elseif ($t['payment_status'] === 'refunded') $badgeClass = 'badge-info';
+              $detailHref = 'admin/donation-detail?id=' . $t['id'] . '&return=' . $returnUrl;
             ?>
-              <tr>
+              <tr class="donation-row" data-href="<?php echo $detailHref; ?>">
                 <td style="font-size:12px; color:var(--text-light); white-space:nowrap;"><?php echo date('M d, Y H:i:s', strtotime($t['created_at'])); ?></td>
                 <td>
                   <strong style="color:var(--dark);"><?php echo htmlspecialchars($t['donor_name']); ?></strong>
@@ -281,6 +288,11 @@ $queryString = http_build_query($queryParams);
                 </td>
                 <td>
                   <span class="badge <?php echo $badgeClass; ?>"><?php echo $t['payment_status']; ?></span>
+                </td>
+                <td style="text-align:center;">
+                  <a href="admin/donation-detail?id=<?php echo $t['id']; ?>&return=<?php echo $returnUrl; ?>" class="btn btn-outline-dark btn-xs" style="text-decoration:none; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:var(--radius-sm); font-weight:600; color:var(--text); display:inline-flex; align-items:center; gap:4px;">
+                    <i class="fas fa-eye" style="font-size:10px;"></i> View
+                  </a>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -319,5 +331,40 @@ $queryString = http_build_query($queryParams);
 
   </div>
 <?php endif; ?>
+
+<!-- Row-click navigation: clicking a transaction row opens its detail page -->
+<style>
+  .admin-table tbody tr.donation-row {
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+  }
+  .admin-table tbody tr.donation-row:hover {
+    background-color: #fffde6;
+  }
+  .admin-table tbody tr.donation-row:active {
+    background-color: #fff3c4;
+  }
+</style>
+<script>
+(function() {
+  // Make each donation row clickable, ignoring clicks on links/buttons inside
+  var rows = document.querySelectorAll('.admin-table tbody tr.donation-row');
+  rows.forEach(function(row) {
+    var href = row.getAttribute('data-href');
+    if (!href) return;
+    row.addEventListener('click', function(e) {
+      // Don't navigate if the user clicked an interactive element
+      var target = e.target;
+      while (target && target !== row) {
+        if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.tagName === 'INPUT' || target.tagName === 'SELECT') {
+          return;
+        }
+        target = target.parentElement;
+      }
+      window.location.href = href;
+    });
+  });
+})();
+</script>
 
 <?php include 'partials/footer.php'; ?>

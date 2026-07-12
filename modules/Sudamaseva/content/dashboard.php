@@ -260,6 +260,17 @@ try {
             </div>
             <div style="font-size:13px; color:var(--text-light);">
               Started <?php echo $service->formatDate($sub['start_date'] ?? $sub['created_at'] ?? null, 'd M Y'); ?>
+              <?php 
+                if ($sub['status'] === 'completed' && !empty($sub['end_date'])) {
+                    echo ' &middot; Ended ' . $service->formatDate($sub['end_date'], 'd M Y');
+                } elseif ($totalInst > 0 && !empty($sub['start_date'])) {
+                    $months = $totalInst - 1;
+                    $expectedEnd = date('d M Y', strtotime("+{$months} months", strtotime($sub['start_date'])));
+                    echo ' &middot; Ends ' . $expectedEnd;
+                } else {
+                    echo ' &middot; Open-ended';
+                }
+              ?>
               <?php if ($totalInst > 0): ?>
                 &middot; <?php echo $paidInst; ?>/<?php echo $totalInst; ?> paid
               <?php endif; ?>

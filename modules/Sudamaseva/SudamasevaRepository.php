@@ -441,6 +441,7 @@ class SudamasevaRepository
             $allowedColumns = [
                 'amount', 'razorpay_subscription_id', 'razorpay_plan_id', 'status',
                 'start_date', 'end_date', 'total_installments', 'installments_paid',
+                'collection_mode',
             ];
 
             $sets = [];

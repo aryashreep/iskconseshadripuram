@@ -17,6 +17,11 @@ if (isset($_SESSION['admin_role'])) {
       header('Location: ' . BASE_URL . 'admin/sudamaseva-dashboard');
       exit;
     }
+    if (in_array('pujari', $roles) && count($roles) === 1) {
+      require_once __DIR__ . '/../config.php';
+      header('Location: ' . BASE_URL . 'admin/pujari-sevalist');
+      exit;
+    }
   }
 }
 
@@ -41,6 +46,7 @@ if (isset($_SESSION['admin_permissions']) && is_array($_SESSION['admin_permissio
             $redirects = [
                 'sudamaseva' => 'admin/sudamaseva-dashboard',
                 'panihati' => 'admin/panihati-yatra',
+                'pujari_sevalist' => 'admin/pujari-sevalist',
             ];
             if (isset($redirects[$module])) {
                 require_once __DIR__ . '/../config.php';

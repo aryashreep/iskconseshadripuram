@@ -89,6 +89,12 @@ class PermissionRegistry
                 'description' => 'Special events and programs',
                 'actions' => ['view', 'create', 'edit', 'delete', 'export'],
             ],
+            'pujari_sevalist' => [
+                'label' => 'Pujari Sevalist',
+                'icon' => 'fa-bell-concierge',
+                'description' => 'Pujari seva execution list with donor and booking details',
+                'actions' => ['view', 'edit'],
+            ],
             'audit_logs' => [
                 'label' => 'Audit Logs',
                 'icon' => 'fa-history',

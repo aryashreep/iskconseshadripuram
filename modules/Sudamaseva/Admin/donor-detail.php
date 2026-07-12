@@ -26,6 +26,44 @@ $success = '';
 
 $donorId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
+// Handle subscription update POST action
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_subscription') {
+    if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
+        $error = 'Invalid CSRF token.';
+    } elseif (!hasPermission('sudamaseva.edit')) {
+        $error = 'You do not have permission to edit subscriptions.';
+    } else {
+        $subId = (int)$_POST['subscription_id'];
+        $amount = (int)$_POST['sub_amount'];
+        $status = trim($_POST['sub_status']);
+        $totalInst = (int)$_POST['sub_total_installments'];
+        $instPaid = (int)$_POST['sub_installments_paid'];
+        $startDate = trim($_POST['sub_start_date']);
+        $collectionMode = trim($_POST['sub_collection_mode']);
+        
+        $updateData = [
+            'amount' => $amount,
+            'status' => $status,
+            'total_installments' => $totalInst,
+            'installments_paid' => $instPaid,
+            'start_date' => $startDate ?: null,
+            'collection_mode' => $collectionMode
+        ];
+        
+        if ($status === 'completed') {
+            $updateData['end_date'] = date('Y-m-d H:i:s');
+        } elseif ($status === 'active') {
+            $updateData['end_date'] = null;
+        }
+
+        if ($repo->updateSubscription($subId, $updateData)) {
+            $success = "Subscription #{$subId} updated successfully!";
+        } else {
+            $error = "Failed to update subscription #{$subId}.";
+        }
+    }
+}
+
 // Handle delete payment action (must be executed before any HTML output for redirect to work)
 if (isset($_GET['action']) && $_GET['action'] === 'delete_payment' && isset($_GET['payment_id'])) {
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $_GET['csrf_token'] ?? '')) {
@@ -250,7 +288,7 @@ if (!$selectedSub && !empty($subscriptions)) {
         </a>
       </div>
       <div class="admin-card-body">
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:var(--space-lg); margin-bottom:var(--space-lg);">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:var(--space-lg); margin-bottom:var(--space-lg);">
           <div>
             <div style="font-size:11px; text-transform:uppercase; font-weight:600; color:var(--text-light);">Monthly Amount</div>
             <div style="font-size:18px; font-weight:700; color:var(--maroon);"><?php echo $service->formatAmount((float) ($activeSub['amount'] ?? 0)); ?></div>
@@ -262,6 +300,25 @@ if (!$selectedSub && !empty($subscriptions)) {
           <div>
             <div style="font-size:11px; text-transform:uppercase; font-weight:600; color:var(--text-light);">Next Installment</div>
             <div style="font-size:18px; font-weight:700;">#<?php echo $activeSub['next_installment'] ?? 1; ?></div>
+          </div>
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; font-weight:600; color:var(--text-light);">Started</div>
+            <div style="font-size:14px; font-weight:700; color:var(--text);"><?php echo $service->formatDate($activeSub['start_date'] ?? null, 'd M Y'); ?></div>
+          </div>
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; font-weight:600; color:var(--text-light);">Ends / Ended</div>
+            <div style="font-size:14px; font-weight:700; color:var(--text);">
+              <?php 
+                if ($activeSub['status'] === 'completed' && !empty($activeSub['end_date'])) {
+                    echo $service->formatDate($activeSub['end_date'], 'd M Y');
+                } elseif ($activeSub['total_installments'] > 0 && !empty($activeSub['start_date'])) {
+                    $months = (int) $activeSub['total_installments'] - 1;
+                    echo date('d M Y', strtotime("+{$months} months", strtotime($activeSub['start_date'])));
+                } else {
+                    echo 'Open-ended';
+                }
+              ?>
+            </div>
           </div>
         </div>
         <div>
@@ -345,10 +402,22 @@ if (!$selectedSub && !empty($subscriptions)) {
 </style>
 
 <div class="admin-card" style="margin-bottom:var(--space-xl);">
-  <div class="admin-card-header" style="background:var(--cream);">
-    <h2><i class="fas fa-calendar-alt" style="color:var(--primary);"></i> Payment Schedule (Subscription #<?php echo $selectedSub['id']; ?>)</h2>
+  <div class="admin-card-header" style="background:var(--cream); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-sm);">
+    <h2 style="margin:0;"><i class="fas fa-calendar-alt" style="color:var(--primary);"></i> Payment Schedule (Subscription #<?php echo $selectedSub['id']; ?>)</h2>
     <span style="font-size:12px; color:var(--text-light); font-weight:600;">
-      Status: <span class="badge <?php echo ($selectedSub['status'] === 'active') ? 'badge-success' : 'badge-secondary'; ?>" style="font-size: 10px; padding: 2px 6px; vertical-align: middle;"><?php echo htmlspecialchars(ucfirst($selectedSub['status'])); ?></span> &middot; Showing <?php echo count($schedule); ?> months
+      Status: <span class="badge <?php echo ($selectedSub['status'] === 'active') ? 'badge-success' : 'badge-secondary'; ?>" style="font-size: 10px; padding: 2px 6px; vertical-align: middle;"><?php echo htmlspecialchars(ucfirst($selectedSub['status'])); ?></span> &middot; 
+      Started: <span style="color:var(--text);"><?php echo $service->formatDate($selectedSub['start_date'] ?? null, 'd M Y'); ?></span> &middot; 
+      Ends/Ended: <span style="color:var(--text);"><?php 
+        if ($selectedSub['status'] === 'completed' && !empty($selectedSub['end_date'])) {
+            echo $service->formatDate($selectedSub['end_date'], 'd M Y');
+        } elseif ((int)$selectedSub['total_installments'] > 0 && !empty($selectedSub['start_date'])) {
+            $months = (int)$selectedSub['total_installments'] - 1;
+            echo date('d M Y', strtotime("+{$months} months", strtotime($selectedSub['start_date'])));
+        } else {
+            echo 'Open-ended';
+        }
+      ?></span> &middot; 
+      Showing <?php echo count($schedule); ?> months
     </span>
   </div>
   <div class="admin-card-body" style="padding:var(--space-lg);">
@@ -409,6 +478,7 @@ if (!$selectedSub && !empty($subscriptions)) {
             <th>Amount</th>
             <th>Status</th>
             <th>Start Date</th>
+            <th>End Date</th>
             <th>Installments</th>
             <th>Progress</th>
             <th>Source</th>
@@ -417,7 +487,7 @@ if (!$selectedSub && !empty($subscriptions)) {
         </thead>
         <tbody>
           <?php if (empty($subscriptions)): ?>
-            <tr><td colspan="8" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No subscriptions for this donor.</td></tr>
+            <tr><td colspan="9" style="text-align:center; padding:var(--space-2xl); color:var(--text-light);">No subscriptions for this donor.</td></tr>
           <?php else: ?>
             <?php foreach ($subscriptions as $s):
               $progress = $service->calculateSubscriptionProgress($s);
@@ -430,6 +500,18 @@ if (!$selectedSub && !empty($subscriptions)) {
                 <td style="font-weight:600; color:var(--maroon);"><?php echo $service->formatAmount((float) ($s['amount'] ?? 0)); ?></td>
                 <td><?php echo $service->renderStatusBadge($s['status'] ?? 'unknown'); ?></td>
                 <td style="font-size:12px; color:var(--text-light);"><?php echo $service->formatDate($s['start_date'] ?? null, 'd M Y'); ?></td>
+                <td style="font-size:12px; color:var(--text-light);">
+                  <?php 
+                    if ($s['status'] === 'completed' && !empty($s['end_date'])) {
+                        echo $service->formatDate($s['end_date'], 'd M Y');
+                    } elseif ($totalInst > 0 && !empty($s['start_date'])) {
+                        $months = $totalInst - 1;
+                        echo date('d M Y', strtotime("+{$months} months", strtotime($s['start_date'])));
+                    } else {
+                        echo '—';
+                    }
+                  ?>
+                </td>
                 <td style="text-align:center;"><?php echo $totalInst > 0 ? "{$paidInst} / {$totalInst}" : $paidInst; ?></td>
                 <td style="min-width:100px;">
                   <?php if ($totalInst > 0): ?>
@@ -445,13 +527,29 @@ if (!$selectedSub && !empty($subscriptions)) {
                 </td>
                 <td><span class="badge badge-info"><?php echo htmlspecialchars($s['source'] ?? '—'); ?></span></td>
                 <td>
-                  <?php if ($isSelected): ?>
-                    <span style="font-size:11px; font-weight:700; color:var(--primary);"><i class="fas fa-eye"></i> Selected</span>
-                  <?php else: ?>
-                    <a href="admin/sudamaseva-donor-detail?id=<?php echo $donorId; ?>&sub_id=<?php echo $s['id']; ?>" class="btn btn-outline-dark btn-xs" style="text-decoration:none; padding:4px 8px; font-size:11px; border:1px solid var(--border); border-radius:var(--radius-sm); font-weight:600;">
-                      View Schedule
-                    </a>
-                  <?php endif; ?>
+                  <div style="display:flex; gap:6px; align-items:center;">
+                    <?php if ($isSelected): ?>
+                      <span style="font-size:11px; font-weight:700; color:var(--primary);"><i class="fas fa-eye"></i> Selected</span>
+                    <?php else: ?>
+                      <a href="admin/sudamaseva-donor-detail?id=<?php echo $donorId; ?>&sub_id=<?php echo $s['id']; ?>" class="btn btn-outline-dark btn-xs" style="text-decoration:none; padding:4px 8px; font-size:11px; border:1px solid var(--border); border-radius:var(--radius-sm); font-weight:600;">
+                        View Schedule
+                      </a>
+                    <?php endif; ?>
+                    <?php if (hasPermission('sudamaseva.edit')): ?>
+                      <button type="button" class="btn btn-primary btn-xs" style="padding:4px 8px; font-size:11px; border-radius:var(--radius-sm); font-weight:600; cursor:pointer;" 
+                              onclick='openEditSubModal(<?php echo json_encode([
+                                  "id" => $s["id"],
+                                  "amount" => $s["amount"],
+                                  "status" => $s["status"],
+                                  "total_installments" => $s["total_installments"],
+                                  "installments_paid" => $s["installments_paid"],
+                                  "start_date" => $s["start_date"] ? date("Y-m-d", strtotime($s["start_date"])) : "",
+                                  "collection_mode" => $s["collection_mode"] ?? "hybrid"
+                              ]); ?>)'>
+                        <i class="fas fa-edit"></i> Edit
+                      </button>
+                    <?php endif; ?>
+                  </div>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -517,5 +615,92 @@ if (!$selectedSub && !empty($subscriptions)) {
     </div>
   </div>
 </div>
+
+<!-- Edit Subscription Modal -->
+<div id="editSubModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+  <div class="admin-card" style="width:100%; max-width:500px; margin:auto; position:relative; box-shadow:var(--shadow-lg);">
+    <div class="admin-card-header" style="background:var(--cream); display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="margin:0;"><i class="fas fa-edit"></i> Edit Subscription <span id="modalSubIdLabel"></span></h2>
+      <span onclick="closeEditSubModal()" style="font-size:24px; font-weight:bold; cursor:pointer; color:var(--text-light);">&times;</span>
+    </div>
+    <div class="admin-card-body" style="padding:var(--space-xl);">
+      <form action="admin/sudamaseva-donor-detail?id=<?php echo $donorId; ?>" method="POST">
+        <input type="hidden" name="action" value="update_subscription">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
+        <input type="hidden" id="modalSubId" name="subscription_id">
+
+        <div class="form-group">
+          <label for="modalSubAmount" style="font-weight:600;">Monthly Amount (₹) *</label>
+          <input type="number" id="modalSubAmount" name="sub_amount" class="form-control" required min="1">
+        </div>
+
+        <div class="form-group">
+          <label for="modalSubTotalInstallments" style="font-weight:600;">Total Installments *</label>
+          <input type="number" id="modalSubTotalInstallments" name="sub_total_installments" class="form-control" required min="0" placeholder="0 = Open-ended">
+          <small style="color:var(--text-light); font-size:11px;">Set to 0 for open-ended. Set to 24 for a standard 2-year cycle.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="modalSubInstallmentsPaid" style="font-weight:600;">Installments Paid *</label>
+          <input type="number" id="modalSubInstallmentsPaid" name="sub_installments_paid" class="form-control" required min="0">
+        </div>
+
+        <div class="form-group">
+          <label for="modalSubStartDate" style="font-weight:600;">Start Date *</label>
+          <input type="date" id="modalSubStartDate" name="sub_start_date" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="modalSubStatus" style="font-weight:600;">Status *</label>
+          <select id="modalSubStatus" name="sub_status" class="form-control" style="height:auto; padding:8px;" required>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="paused">Paused</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="modalSubCollectionMode" style="font-weight:600;">Collection Mode *</label>
+          <select id="modalSubCollectionMode" name="sub_collection_mode" class="form-control" style="height:auto; padding:8px;" required>
+            <option value="recurring">Auto Monthly (Online via Razorpay sub)</option>
+            <option value="manual">Pay Monthly (Online via Razorpay order)</option>
+            <option value="offline">Pay Monthly (Offline via bank/cash)</option>
+            <option value="hybrid">Hybrid (Online via Razorpay OR offline)</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button type="submit" class="btn btn-primary" style="background-color:var(--maroon); color:white; border:none; flex:1; padding:12px; border-radius:var(--radius-md); font-weight:700; cursor:pointer;">
+            Save Changes
+          </button>
+          <button type="button" onclick="closeEditSubModal()" class="btn btn-outline-dark" style="flex:1; border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); font-weight:600; cursor:pointer;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function openEditSubModal(sub) {
+    document.getElementById('modalSubIdLabel').textContent = '#' + sub.id;
+    document.getElementById('modalSubId').value = sub.id;
+    document.getElementById('modalSubAmount').value = sub.amount;
+    document.getElementById('modalSubTotalInstallments').value = sub.total_installments;
+    document.getElementById('modalSubInstallmentsPaid').value = sub.installments_paid;
+    document.getElementById('modalSubStartDate').value = sub.start_date;
+    document.getElementById('modalSubStatus').value = sub.status;
+    document.getElementById('modalSubCollectionMode').value = sub.collection_mode;
+    
+    var modal = document.getElementById('editSubModal');
+    modal.style.display = 'flex';
+}
+
+function closeEditSubModal() {
+    document.getElementById('editSubModal').style.display = 'none';
+}
+</script>
 
 <?php include 'partials/footer.php'; ?>

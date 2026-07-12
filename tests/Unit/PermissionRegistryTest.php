@@ -16,11 +16,11 @@ class PermissionRegistryTest extends TestCase
     // ==========================================
 
     #[Test]
-    public function getModules_returns_all_13_modules(): void
+    public function getModules_returns_all_14_modules(): void
     {
         $modules = PermissionRegistry::getModules();
 
-        $this->assertCount(13, $modules);
+        $this->assertCount(14, $modules);
     }
 
     #[Test]
@@ -111,11 +111,11 @@ class PermissionRegistryTest extends TestCase
     // ==========================================
 
     #[Test]
-    public function getAllPermissions_returns_55_permissions(): void
+    public function getAllPermissions_returns_57_permissions(): void
     {
         $permissions = PermissionRegistry::getAllPermissions();
 
-        $this->assertCount(55, $permissions);
+        $this->assertCount(57, $permissions);
     }
 
     #[Test]

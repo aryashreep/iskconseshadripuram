@@ -193,8 +193,8 @@ class RbacServiceTest extends TestCase
         $adminId = $this->adminIds['super_admin'];
         $permissions = $this->service->getAdminPermissions($adminId);
 
-        // Super admin should have all 55 permissions from PermissionRegistry
-        $this->assertCount(55, $permissions);
+        // Super admin should have all 57 permissions from PermissionRegistry
+        $this->assertCount(57, $permissions);
         $this->assertContains('dashboard.view', $permissions);
         $this->assertContains('donations.export', $permissions);
     }
