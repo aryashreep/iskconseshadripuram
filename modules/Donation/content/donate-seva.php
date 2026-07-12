@@ -240,6 +240,10 @@ $sourceUrl = $_SERVER['HTTP_REFERER'] ?? '';
           <h3><i class="fas fa-hand-holding-heart"></i> Donate with Love</h3>
 
           <form id="donationForm" autocomplete="on" data-razorpay='{"keyId":"<?php echo RAZORPAY_KEY_ID; ?>","currency":"<?php echo CURRENCY; ?>","siteName":"<?php echo SITE_NAME; ?>","testMode":<?php echo RAZORPAY_TEST_MODE ? 'true' : 'false'; ?>}'>
+            <!-- Honeypot Field -->
+            <div style="display:none;" aria-hidden="true">
+              <input type="text" id="middleNameHP" name="middle_name" autocomplete="off" tabindex="-1">
+            </div>
             <!-- Mode Toggle (one-time / monthly) -->
             <?php if ($allowMonthly): ?>
             <div class="donation-mode-toggle">

@@ -193,6 +193,7 @@
       rashi: relationVal,
       nakshatra: presetName || "Standard",
       special_instructions: specialInstructionsVal,
+      middle_name: document.getElementById("middleNameHP") ? document.getElementById("middleNameHP").value : "",
     };
 
     fetch("../../api/create-booking-order.php", {

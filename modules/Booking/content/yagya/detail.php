@@ -441,6 +441,10 @@ $sponsoringTiers = [
     </div>
 
     <form id="yagyaBookingModalForm" class="modal-body">
+      <!-- Honeypot Field -->
+      <div style="display:none;" aria-hidden="true">
+        <input type="text" id="middleNameHP" name="middle_name" autocomplete="off" tabindex="-1">
+      </div>
       <input type="hidden" id="selectedYagyaName" name="puja_name" value="<?php echo htmlspecialchars($yagya['name']); ?>">
       <input type="hidden" id="selectedTierName" name="tier_name" value="">
       <input type="hidden" id="selectedAmount" name="amount" value="0">
@@ -607,7 +611,8 @@ $sponsoringTiers = [
       gotra: gotraVal.trim(),
       rashi: relationVal,
       nakshatra: tierName,
-      special_instructions: 'Sponsoring: ' + tierName + ' (' + yagyaName + ')'
+      special_instructions: 'Sponsoring: ' + tierName + ' (' + yagyaName + ')',
+      middle_name: document.getElementById('middleNameHP').value
     };
 
     // Create Order API

@@ -42,6 +42,11 @@ include __DIR__ . '/../../Kernel/partials/header.php';
       <!-- Lookup Form -->
       <div class="donate-form-card reveal" style="margin-bottom:var(--space-2xl);">
         <form id="lookupForm" autocomplete="on" style="padding:var(--space-lg);">
+          <!-- Honeypot Field -->
+          <div style="display:none;" aria-hidden="true">
+            <input type="text" id="middleNameHP" name="middle_name" autocomplete="off" tabindex="-1">
+          </div>
+
           <div class="form-group">
             <label for="lookupQuery">Phone Number or ID</label>
             <input
@@ -122,10 +127,12 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.disabled = true;
     loading.style.display = 'flex';
 
+    var middleName = document.getElementById('middleNameHP').value;
+
     fetch('<?php echo BASE_URL; ?>api/sudamaseva/lookup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query })
+      body: JSON.stringify({ query: query, middle_name: middleName })
     })
     .then(function(res) { return res.json(); })
     .then(function(data) {

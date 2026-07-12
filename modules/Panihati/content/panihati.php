@@ -103,6 +103,10 @@ include '../partials/header.php';
           <h3 style="font-family: var(--font-heading); color: var(--text-dark); border-bottom: 2px solid var(--primary); padding-bottom: var(--space-xs); margin-top: 0; margin-bottom: var(--space-lg); text-align: center;">Yatra Registration</h3>
           
           <form id="panihatiForm">
+            <!-- Honeypot Field -->
+            <div style="display:none;" aria-hidden="true">
+              <input type="text" id="middleNameHP" name="middle_name" autocomplete="off" tabindex="-1">
+            </div>
             <!-- Basic Details -->
             <div class="form-group" style="margin-bottom: var(--space-md);">
               <label for="regName" style="display: block; font-size: var(--font-size-sm); font-weight: 600; color: var(--text-dark); margin-bottom: 4px;">Full Name *</label>
@@ -320,7 +324,8 @@ document.addEventListener('DOMContentLoaded', function() {
       kids_count: kids,
       bhakti_sadan: bhaktiSadan,
       pickup_location: (currentTravelMode === 'bus') ? pickup : 'Own Vehicle',
-      amount: totalAmountRupees * 100
+      amount: totalAmountRupees * 100,
+      middle_name: document.getElementById('middleNameHP').value
     };
     
     fetch('<?php echo BASE_URL; ?>api/create-panihati-order.php', {

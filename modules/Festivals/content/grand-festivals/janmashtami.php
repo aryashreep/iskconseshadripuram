@@ -732,6 +732,10 @@ details[open] .j-chevron {
       <div class="j-register-card">
         <h3>Participant Details</h3>
         <form id="contestRegForm">
+          <!-- Honeypot Field -->
+          <div style="display:none;" aria-hidden="true">
+            <input type="text" id="middleNameHP" name="middle_name" autocomplete="off" tabindex="-1">
+          </div>
           <!-- Contest Selection -->
           <div class="j-form-group">
             <label for="regContest">Select Contest *</label>
@@ -958,7 +962,8 @@ document.addEventListener('DOMContentLoaded', function() {
         participant_type: participantType,
         phone: phone,
         email: email,
-        amount: CONTEST_FEE_PAISE
+        amount: CONTEST_FEE_PAISE,
+        middle_name: document.getElementById('middleNameHP').value
       })
     })
     .then(function(res) {

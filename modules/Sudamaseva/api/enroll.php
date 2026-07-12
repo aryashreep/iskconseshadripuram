@@ -16,6 +16,7 @@
  * Response (success):
  *   { success: true, order_id: "...", subscription_id: N, donor_id: N,
  *     amount: 10000, currency: "INR", ... }
+ */
 
 header('Content-Type: application/json');
 $requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -37,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
+\Isjm\Helpers\Security::checkHoneypot($input);
 if (!$input) {
     http_response_code(400);
     echo json_encode(['error' => 'Invalid request body']);

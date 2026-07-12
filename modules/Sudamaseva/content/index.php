@@ -202,6 +202,10 @@ if ($renewDonorId > 0) {
               <input type="hidden" id="collectionMode" name="collection_mode" value="recurring">
               <input type="hidden" id="selectedAmount" name="amount" value="10000">
               <input type="hidden" id="totalInstallments" name="total_installments" value="24">
+              <!-- Honeypot Field -->
+              <div style="display:none;" aria-hidden="true">
+                <input type="text" id="middleNameHP" name="middle_name" autocomplete="off" tabindex="-1">
+              </div>
 
               <!-- Selected Amount Display -->
               <div class="form-group" style="text-align:center; margin-bottom:var(--space-lg);">
@@ -811,7 +815,8 @@ document.addEventListener('DOMContentLoaded', function() {
         city: cityVal,
         state: stateVal,
         collection_mode: 'offline',
-        cycle: <?php echo $renewCycle; ?>
+        cycle: <?php echo $renewCycle; ?>,
+        middle_name: document.getElementById('middleNameHP').value
       };
 
       fetch('<?php echo BASE_URL; ?>api/sudamaseva/enroll', {
@@ -851,6 +856,7 @@ document.addEventListener('DOMContentLoaded', function() {
         area: document.getElementById('area').value.trim(),
         city: cityVal,
         state: stateVal,
+        middle_name: document.getElementById('middleNameHP').value
       };
 
       fetch('<?php echo BASE_URL; ?>api/sudamaseva/create-subscription', {
@@ -914,7 +920,8 @@ document.addEventListener('DOMContentLoaded', function() {
         city: cityVal,
         state: stateVal,
         collection_mode: mode,
-        cycle: <?php echo $renewCycle; ?>
+        cycle: <?php echo $renewCycle; ?>,
+        middle_name: document.getElementById('middleNameHP').value
       };
 
       fetch('<?php echo BASE_URL; ?>api/sudamaseva/enroll', {

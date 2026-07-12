@@ -499,6 +499,9 @@
         seva_date: document.getElementById("sevaDate")
           ? document.getElementById("sevaDate").value
           : "",
+        middle_name: document.getElementById("middleNameHP")
+          ? document.getElementById("middleNameHP").value
+          : "",
       };
 
       // Choose endpoint based on mode

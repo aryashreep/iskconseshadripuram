@@ -21,6 +21,7 @@ require_once __DIR__ . '/../../config.php';
 
 // Get POST data
 $input = json_decode(file_get_contents('php://input'), true);
+\Isjm\Helpers\Security::checkHoneypot($input);
 
 if (!$input) {
     http_response_code(400);

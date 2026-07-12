@@ -231,6 +231,10 @@ $offeringCategories = [
           </h3>
 
           <form id="pujaCartBookingForm">
+            <!-- Honeypot Field -->
+            <div style="display:none;" aria-hidden="true">
+              <input type="text" id="middleNameHP" name="middle_name" autocomplete="off" tabindex="-1">
+            </div>
             <!-- Hidden inputs -->
             <input type="hidden" id="selectedPujaName" name="puja_name" value="<?php echo htmlspecialchars($puja['name']); ?>">
             <input type="hidden" id="totalAmountVal" name="amount" value="0">
