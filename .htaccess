@@ -1,6 +1,23 @@
 AddDefaultCharset UTF-8
 
 # ============================================
+# Security Hardening: Block Sensitive Files (OWASP A05)
+# ============================================
+# Block all hidden files and folders (starting with a dot) except for .well-known
+RedirectMatch 404 /\.(?!well-known/)
+
+# Block direct access to logs, package configuration, and test files
+<FilesMatch "\.log$|composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ============================================
 # Security Headers
 # ============================================
 <IfModule mod_headers.c>
