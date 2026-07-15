@@ -201,7 +201,7 @@ if (!isset($activePage)) {
         <?php endif; ?>
         <?php if (hasPermission('sudamaseva.view')): ?>
           <?php
-            $sudamasevaSubPages = ['sudamaseva-dashboard', 'sudamaseva-donors', 'sudamaseva-donor-add', 'sudamaseva-subscriptions', 'sudamaseva-payments', 'sudamaseva-receipts'];
+            $sudamasevaSubPages = ['sudamaseva-dashboard', 'sudamaseva-donors', 'sudamaseva-donor-add', 'sudamaseva-subscriptions', 'sudamaseva-completed-subscriptions', 'sudamaseva-payments', 'sudamaseva-receipts'];
             $sudamasevaActive = in_array($activePage, $sudamasevaSubPages);
           ?>
           <li class="admin-nav-group <?php echo $sudamasevaActive ? 'active' : ''; ?>">
@@ -230,6 +230,11 @@ if (!isset($activePage)) {
               <li class="admin-subnav-item <?php echo $activePage === 'sudamaseva-subscriptions' ? 'active' : ''; ?>">
                 <a href="admin/sudamaseva-subscriptions">
                   <i class="fas fa-sync"></i> Subscriptions
+                </a>
+              </li>
+              <li class="admin-subnav-item <?php echo $activePage === 'sudamaseva-completed-subscriptions' ? 'active' : ''; ?>">
+                <a href="admin/sudamaseva-completed-subscriptions">
+                  <i class="fas fa-check-double"></i> Completed Subs
                 </a>
               </li>
               <li class="admin-subnav-item <?php echo $activePage === 'sudamaseva-payments' ? 'active' : ''; ?>">

@@ -77,7 +77,7 @@ class SudamasevaService
     {
         $map = [
             'active'    => ['label' => 'Active',     'class' => 'badge-success',  'icon' => 'fa-check-circle'],
-            'completed' => ['label' => 'Completed',  'class' => 'badge-info',     'icon' => 'fa-check-double'],
+            'completed' => ['label' => 'Completed',  'class' => 'badge-info badge-completed-blink',     'icon' => 'fa-check-double'],
             'paused'    => ['label' => 'Paused',     'class' => 'badge-warning',  'icon' => 'fa-pause-circle'],
             'cancelled' => ['label' => 'Cancelled',  'class' => 'badge-danger',   'icon' => 'fa-times-circle'],
         ];
@@ -621,6 +621,17 @@ class SudamasevaService
     public function getSubscriptions(?string $status = null, ?int $donorId = null, int $page = 1, int $perPage = 50): array
     {
         return $this->repo->getSubscriptions($status, $donorId, $page, $perPage);
+    }
+
+    public function getCompletedSubscriptions(
+        int $page = 1,
+        int $perPage = 50,
+        ?string $search = null,
+        ?string $from = null,
+        ?string $to = null,
+        bool $hideOrphans = true
+    ): array {
+        return $this->repo->getCompletedSubscriptions($page, $perPage, $search, $from, $to, $hideOrphans);
     }
 
     public function createSubscription(array $data): int|false

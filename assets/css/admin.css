@@ -1611,3 +1611,22 @@ body.admin-body {
   gap: 10px;
 }
 
+/* ----- Blinking status badge for Completed Subscriptions ----- */
+@keyframes badge-blink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 4px rgba(12, 84, 96, 0.4);
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 10px rgba(12, 84, 96, 0.8);
+  }
+}
+.badge-completed-blink {
+  animation: badge-blink 1.5s infinite ease-in-out;
+  background-color: #0c5460 !important; /* solid dark teal */
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+

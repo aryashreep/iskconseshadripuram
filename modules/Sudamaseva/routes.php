@@ -106,6 +106,12 @@ return [
             'index',
             ['super_admin', 'treasurer'],
         ],
+        'admin/sudamaseva-completed-subscriptions' => [
+            'GET',
+            'Admin\\CompletedSubscriptions',
+            'index',
+            ['super_admin', 'treasurer'],
+        ],
         'admin/sudamaseva-payments' => [
             'GET',
             'Admin\\Payments',
@@ -127,6 +133,12 @@ return [
         'admin/sudamaseva-export-payments' => [
             'GET',
             'Admin\\Exports\\PaymentsExport',
+            'export',
+            ['super_admin', 'treasurer'],
+        ],
+        'admin/sudamaseva-export-completed-subscriptions' => [
+            'GET',
+            'Admin\\Exports\\CompletedSubscriptionsExport',
             'export',
             ['super_admin', 'treasurer'],
         ],
@@ -154,6 +166,11 @@ return [
                 'label' => 'Subscriptions',
                 'route' => 'admin/sudamaseva-subscriptions',
                 'icon' => 'fa-sync',
+            ],
+            [
+                'label' => 'Completed Subs',
+                'route' => 'admin/sudamaseva-completed-subscriptions',
+                'icon' => 'fa-check-double',
             ],
             [
                 'label' => 'Payments',

@@ -109,13 +109,13 @@ $TEMPLE_INFO = [
 
 // Bank details for direct transfer
 $BANK_DETAILS = [
-    'bank_name' => 'State Bank of India',
-    'account_name' => 'ISKCON Seshadripuram Seva Account',
-    'account_number' => '1234567890123456',
-    'branch' => 'Seshadripuram Branch',
-    'ifsc_code' => 'SBIN0012345',
-    'swift_code' => 'SBININBB104',
-    'upi_id' => 'iskconbangalore@upi',
+    'bank_name' => 'Axis Bank',
+    'account_name' => 'ISKCON',
+    'account_number' => '914010017488445',
+    'branch' => 'J C Road Branch, Bangalore',
+    'ifsc_code' => 'UTIB0001688',
+    'swift_code' => 'UTIBINBB',
+    'upi_id' => '',
 ];
 
 // Temple Schedule

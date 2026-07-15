@@ -399,6 +399,91 @@ class SudamasevaRepository
     }
 
     /**
+     * Get all completed subscriptions (where status = 'completed' OR installments_paid >= total_installments).
+     */
+    public function getCompletedSubscriptions(
+        int $page = 1,
+        int $perPage = 50,
+        ?string $search = null,
+        ?string $from = null,
+        ?string $to = null,
+        bool $hideOrphans = true
+    ): array {
+        try {
+            $where = ["(s.status = 'completed' OR (s.total_installments > 0 AND s.installments_paid >= s.total_installments))"];
+            $params = [];
+
+            if ($search) {
+                $where[] = "(d.donor_name LIKE ? OR d.phone LIKE ? OR d.email LIKE ? OR s.id = ?)";
+                $searchTerm = '%' . $search . '%';
+                $params[] = $searchTerm;
+                $params[] = $searchTerm;
+                $params[] = $searchTerm;
+                $params[] = (int)$search;
+            }
+
+            if ($from) {
+                // Completed/End date >= from
+                $where[] = "COALESCE(s.end_date, DATE_ADD(s.start_date, INTERVAL (s.total_installments - 1) MONTH)) >= ?";
+                $params[] = $from . ' 00:00:00';
+            }
+
+            if ($to) {
+                // Completed/End date <= to
+                $where[] = "COALESCE(s.end_date, DATE_ADD(s.start_date, INTERVAL (s.total_installments - 1) MONTH)) <= ?";
+                $params[] = $to . ' 23:59:59';
+            }
+
+            if ($hideOrphans) {
+                $where[] = "d.phone NOT LIKE 'orphan-%'";
+            }
+
+            $whereClause = 'WHERE ' . implode(' AND ', $where);
+            $offset = max(0, ($page - 1) * $perPage);
+
+            // Count completed
+            $countStmt = $this->db->prepare("
+                SELECT COUNT(*) 
+                FROM sudamaseva_subscriptions s
+                JOIN sudamaseva_donors d ON s.donor_id = d.id
+                {$whereClause}
+            ");
+            $countStmt->execute($params);
+            $total = (int) $countStmt->fetchColumn();
+            $pages = (int) ceil($total / $perPage);
+
+            // Fetch completed
+            $stmt = $this->db->prepare("
+                SELECT s.*, d.donor_name, d.phone, d.email, d.pan
+                FROM sudamaseva_subscriptions s
+                JOIN sudamaseva_donors d ON s.donor_id = d.id
+                {$whereClause}
+                ORDER BY s.updated_at DESC, s.id DESC
+                LIMIT ? OFFSET ?
+            ");
+            
+            $paramIndex = 1;
+            foreach ($params as $pVal) {
+                $stmt->bindValue($paramIndex++, $pVal, PDO::PARAM_STR);
+            }
+            $stmt->bindValue($paramIndex++, $perPage, PDO::PARAM_INT);
+            $stmt->bindValue($paramIndex++, $offset, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return [
+                'subscriptions' => $stmt->fetchAll(),
+                'total' => $total,
+                'pages' => $pages,
+                'page' => $page,
+                'per_page' => $perPage,
+            ];
+        } catch (PDOException $e) {
+            error_log('SudamasevaRepository::getCompletedSubscriptions error: ' . $e->getMessage());
+            return ['subscriptions' => [], 'total' => 0, 'pages' => 0, 'page' => 1, 'per_page' => $perPage];
+        }
+    }
+
+    /**
      * Create a new subscription record.
      *
      * @param array $data Keys: donor_id, amount, [razorpay_subscription_id], [razorpay_plan_id], [status], [start_date], [total_installments], [source]

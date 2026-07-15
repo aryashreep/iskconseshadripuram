@@ -1044,3 +1044,104 @@ Stack trace:
 [11-Jul-2026 04:25:38 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\laragon\www\isjm\modules\Kernel\Admin\partials\header.php:137) in C:\laragon\www\isjm\modules\Sudamaseva\Admin\donor-detail.php on line 51
 [11-Jul-2026 07:03:08 UTC] SudamasevaRepository::createSubscription error: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'source' at row 1
 [11-Jul-2026 07:04:08 UTC] SudamasevaRepository::createSubscription error: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'source' at row 1
+[11-Jul-2026 16:10:40 UTC] PHP Warning:  Undefined variable $todayPending in C:\laragon\www\isjm\modules\Booking\Admin\pujari-sevalist.php on line 532
+[11-Jul-2026 16:10:40 UTC] PHP Warning:  Undefined variable $upcomingPending in C:\laragon\www\isjm\modules\Booking\Admin\pujari-sevalist.php on line 533
+[11-Jul-2026 16:10:40 UTC] PHP Warning:  Undefined variable $todayDonations in C:\laragon\www\isjm\modules\Booking\Admin\pujari-sevalist.php on line 534
+[11-Jul-2026 16:11:19 UTC] PHP Warning:  Undefined variable $todayPending in C:\laragon\www\isjm\modules\Booking\Admin\pujari-sevalist.php on line 532
+[11-Jul-2026 16:11:19 UTC] PHP Warning:  Undefined variable $upcomingPending in C:\laragon\www\isjm\modules\Booking\Admin\pujari-sevalist.php on line 533
+[11-Jul-2026 16:11:19 UTC] PHP Warning:  Undefined variable $todayDonations in C:\laragon\www\isjm\modules\Booking\Admin\pujari-sevalist.php on line 534
+[12-Jul-2026 01:17:27 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 01:17:27 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 01:17:27] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 01:19:05 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 01:19:05 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 01:19:05] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 01:53:44 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 01:53:44 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 01:53:44] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 01:55:29 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 01:55:29 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 01:55:29] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:02:35 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[12-Jul-2026 02:12:27 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:12:27 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 02:12:27] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:13:48 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:13:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 02:13:48] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:47:34 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:47:34 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 02:47:34] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:48:55 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 02:48:55 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-07-12 02:48:55] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[12-Jul-2026 04:56:28 UTC] PHP Warning:  Undefined array key "upi_id" in C:\laragon\www\isjm\modules\Donation\content\donate-seva.php on line 505
+[12-Jul-2026 04:56:28 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\laragon\www\isjm\modules\Donation\content\donate-seva.php on line 505
+[12-Jul-2026 04:56:28 UTC] PHP Warning:  Undefined array key "upi_id" in C:\laragon\www\isjm\modules\Donation\content\donate-seva.php on line 506
+[12-Jul-2026 04:56:28 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\laragon\www\isjm\modules\Donation\content\donate-seva.php on line 506
+[15-Jul-2026 00:47:30 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[15-Jul-2026 01:03:06 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
