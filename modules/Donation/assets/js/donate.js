@@ -543,7 +543,7 @@
               handler: function (response) {
                 // Redirect to success page
                 window.location.href =
-                  "payment-success.php?subscription_id=" +
+                  "../donate/payment-success.php?subscription_id=" +
                   encodeURIComponent(response.razorpay_subscription_id) +
                   "&payment_id=" +
                   encodeURIComponent(response.razorpay_payment_id) +
@@ -606,7 +606,7 @@
               if (cause) params.push("cause=" + encodeURIComponent(cause));
               if (mode) params.push("mode=" + encodeURIComponent(mode));
               window.location.href =
-                "payment-failed.php" +
+                "../donate/payment-failed.php" +
                 (params.length ? "?" + params.join("&") : "");
             });
             rzp1.open();
@@ -643,7 +643,7 @@
       .then(function (res) {
         if (!res.ok) {
           window.location.href =
-            "payment-failed.php?payment_id=" +
+            "../donate/payment-failed.php?payment_id=" +
             encodeURIComponent(response.razorpay_payment_id);
           return null;
         }
@@ -652,7 +652,7 @@
       .then(function (data) {
         if (data && data.success) {
           window.location.href =
-            "payment-success.php?payment_id=" +
+            "../donate/payment-success.php?payment_id=" +
             encodeURIComponent(response.razorpay_payment_id) +
             "&order_id=" +
             encodeURIComponent(response.razorpay_order_id) +
@@ -662,13 +662,13 @@
             encodeURIComponent(causeSlug);
         } else if (data) {
           window.location.href =
-            "payment-failed.php?payment_id=" +
+            "../donate/payment-failed.php?payment_id=" +
             encodeURIComponent(response.razorpay_payment_id);
         }
       })
       .catch(function () {
         window.location.href =
-          "payment-failed.php?payment_id=" +
+          "../donate/payment-failed.php?payment_id=" +
           encodeURIComponent(response.razorpay_payment_id) +
           "&order_id=" +
           encodeURIComponent(response.razorpay_order_id) +
