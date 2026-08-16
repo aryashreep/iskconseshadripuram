@@ -142,6 +142,12 @@ return [
             'export',
             ['super_admin', 'treasurer'],
         ],
+        'admin/sudamaseva-export-donors' => [
+            'GET',
+            'Admin\\Exports\\DonorsExport',
+            'export',
+            ['super_admin', 'treasurer'],
+        ],
     ],
 
     // ============================================================

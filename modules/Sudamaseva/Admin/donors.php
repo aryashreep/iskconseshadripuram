@@ -77,6 +77,11 @@ $queryString = http_build_query($queryParams);
     <p>Manage all registered donors from the subscription donation system.</p>
   </div>
   <div class="admin-page-actions">
+    <?php if (hasPermission('sudamaseva.export')): ?>
+      <a href="admin/sudamaseva-export-donors?<?php echo $queryString; ?>" class="btn btn-primary btn-sm" style="background-color: var(--maroon); text-decoration:none;">
+        <i class="fas fa-file-csv"></i> Export Members CSV
+      </a>
+    <?php endif; ?>
     <?php if (hasPermission('sudamaseva.edit')): ?>
       <a href="admin/sudamaseva-donor-add" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fas fa-user-plus"></i> Add New Donor</a>
     <?php endif; ?>
@@ -180,6 +185,8 @@ $queryString = http_build_query($queryParams);
             <th>ID</th>
             <th>Name</th>
             <th>Phone</th>
+            <th>Enrolled Amount</th>
+            <th>Duration</th>
             <th>Email / PAN</th>
             <th>Source</th>
             <th>Status</th>
@@ -190,7 +197,7 @@ $queryString = http_build_query($queryParams);
         <tbody>
           <?php if (empty($donors)): ?>
             <tr>
-              <td colspan="8" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No donors found matching the filters.</td>
+              <td colspan="10" style="text-align:center; padding:var(--space-3xl); color:var(--text-light);">No donors found matching the filters.</td>
             </tr>
           <?php else: ?>
             <?php foreach ($donors as $d): ?>
@@ -203,6 +210,8 @@ $queryString = http_build_query($queryParams);
                   <?php endif; ?>
                 </td>
                 <td style="font-family:monospace; font-size:12px;"><?php echo htmlspecialchars($d['phone'] ?: '—'); ?></td>
+                <td style="font-weight:600; color:var(--maroon); white-space:nowrap;"><?php echo !empty($d['enrolled_amount']) ? $service->formatAmount((float) $d['enrolled_amount']) : '—'; ?></td>
+                <td style="text-align:center; white-space:nowrap;"><?php echo !empty($d['subscription_months']) ? (int) $d['subscription_months'] . ' Months' : 'Open-ended'; ?></td>
                 <td>
                   <div style="font-size:11px;"><?php echo htmlspecialchars($d['email'] ?: '—'); ?></div>
                   <div style="font-size:10px; color:var(--text-light); text-transform:uppercase;">PAN: <?php echo htmlspecialchars($d['pan'] ?: '—'); ?></div>

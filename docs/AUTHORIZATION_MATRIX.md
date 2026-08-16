@@ -43,7 +43,8 @@ All permissions follow the pattern: `{module}.{action}`
 | `/admin/panihati-pickups` | `panihati.edit` | |
 | `/admin/panihati-expenses` | `panihati.edit` | |
 | `/admin/sudamaseva-dashboard` | `sudamaseva.view` | |
-| `/admin/sudamaseva-donors` | `sudamaseva.view` | |
+| `/admin/sudamaseva-donors` | `sudamaseva.view` | Export requires `sudamaseva.export` |
+| `/admin/sudamaseva-export-donors` | `sudamaseva.export` | |
 | `/admin/sudamaseva-payments` | `sudamaseva.view` | |
 | `/admin/sudamaseva-receipts` | `sudamaseva.view` | |
 | `/admin/admins` | `dashboard.view` (super_admin effective) | Only super_admin can access |

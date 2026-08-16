@@ -134,7 +134,9 @@ class SudamasevaRepository
             $stmt = $this->db->prepare(
                 "SELECT *, 
                         (SELECT id FROM sudamaseva_subscriptions WHERE donor_id = sudamaseva_donors.id AND status = 'active' LIMIT 1) as active_sub_id,
-                        (SELECT MAX(cycle) FROM sudamaseva_subscriptions WHERE donor_id = sudamaseva_donors.id) as max_cycle
+                        (SELECT MAX(cycle) FROM sudamaseva_subscriptions WHERE donor_id = sudamaseva_donors.id) as max_cycle,
+                        (SELECT amount FROM sudamaseva_subscriptions WHERE donor_id = sudamaseva_donors.id ORDER BY (status = 'active') DESC, created_at DESC, id DESC LIMIT 1) as enrolled_amount,
+                        (SELECT total_installments FROM sudamaseva_subscriptions WHERE donor_id = sudamaseva_donors.id ORDER BY (status = 'active') DESC, created_at DESC, id DESC LIMIT 1) as subscription_months
                  FROM sudamaseva_donors {$whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?"
             );
             $paramIndex = 1;
