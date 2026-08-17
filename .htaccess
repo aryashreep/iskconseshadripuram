@@ -70,6 +70,11 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^blogs/([^/]+)/?$ blogs/detail.php?slug=$1 [L,QSA]
 
+# Legacy root-level payment pages: browsers with cached pre-fix JS or old
+# links may hit /payment-success.php instead of /donate/payment-success.php
+RewriteRule ^payment-success(\.php)?/?$ donate/payment-success.php [L,QSA]
+RewriteRule ^payment-failed(\.php)?/?$ donate/payment-failed.php [L,QSA]
+
 # Donate static pages (must come before the cause-slug rule)
 RewriteRule ^donate/payment-success/?$ donate/payment-success.php [L,QSA]
 RewriteRule ^donate/payment-failed/?$ donate/payment-failed.php [L,QSA]

@@ -23,7 +23,7 @@ function asset(string $path): string
 
     // Load manifest once
     if ($manifest === null) {
-        $manifestPath = dirname(__DIR__, 2) . '/assets/dist/manifest.json';
+        $manifestPath = dirname(__DIR__, 3) . '/assets/dist/manifest.json';
         if (file_exists($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
         } else {
@@ -44,8 +44,12 @@ function asset(string $path): string
         return $baseUrl . $manifest[$path];
     }
 
-    // Fallback to original path
-    return $baseUrl . $path;
+    // Fallback to original path, cache-busted by file mtime so that fixes to
+    // un-hashed assets (e.g. modules/Donation/assets/js/donate.js) reach
+    // browsers immediately despite the long Expires headers in .htaccess.
+    $filePath = dirname(__DIR__, 3) . '/' . $path;
+    $version = is_file($filePath) ? '?v=' . filemtime($filePath) : '';
+    return $baseUrl . $path . $version;
 }
 
 /**
@@ -59,7 +63,7 @@ function assetPath(string $path): string
     static $manifest = null;
 
     if ($manifest === null) {
-        $manifestPath = dirname(__DIR__) . '/assets/dist/manifest.json';
+        $manifestPath = dirname(__DIR__, 3) . '/assets/dist/manifest.json';
         if (file_exists($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
         } else {
@@ -70,8 +74,8 @@ function assetPath(string $path): string
     $path = ltrim($path, '/');
 
     if (isset($manifest[$path])) {
-        return dirname(__DIR__, 2) . '/' . $manifest[$path];
+        return dirname(__DIR__, 3) . '/' . $manifest[$path];
     }
 
-    return dirname(__DIR__, 2) . '/' . $path;
+    return dirname(__DIR__, 3) . '/' . $path;
 }
