@@ -46,7 +46,6 @@ $suggestionMap = [
     'gallery'     => ['label' => 'Gallery / Darshan',     'url' => 'darshan',             'icon' => 'fa-images'],
     'contact'     => ['label' => 'Contact Us',            'url' => 'contact',             'icon' => 'fa-envelope'],
     'about'       => ['label' => 'About Us',              'url' => 'about',               'icon' => 'fa-info-circle'],
-    'guest'       => ['label' => 'Guest House',           'url' => 'booking/guest-house', 'icon' => 'fa-bed'],
     'sitemap'     => ['label' => 'Sitemap',               'url' => 'sitemap',             'icon' => 'fa-sitemap'],
 ];
 

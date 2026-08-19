@@ -1147,3 +1147,37 @@ Stack trace:
 [15-Jul-2026 01:03:06 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
 [16-Aug-2026 15:58:57 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
 [16-Aug-2026 16:07:12 UTC] SudamasevaRepository::getPaymentStats error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+[17-Aug-2026 08:07:05 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[17-Aug-2026 08:07:05 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-08-17 08:07:05] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[17-Aug-2026 08:07:48 UTC] PHP Warning:  require_once(C:\laragon\www\isjm\modules\Content\content\services/../../config.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[17-Aug-2026 08:07:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[2026-08-17 08:07:48] Uncaught Error: Failed opening required 'C:\laragon\www\isjm\modules\Content\content\services/../../config.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php:6
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 6
+[19-Aug-2026 01:17:32 UTC] PHP Warning:  include_once(C:\laragon\www\isjm\modules\Content\content\services/../../partials/donation-cta.php): Failed to open stream: No such file or directory in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 89
+[19-Aug-2026 01:17:32 UTC] PHP Warning:  include_once(): Failed opening 'C:\laragon\www\isjm\modules\Content\content\services/../../partials/donation-cta.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 89
+[19-Aug-2026 01:17:32 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function renderDonationSection() in C:\laragon\www\isjm\modules\Content\content\services\index.php:90
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 90
+[2026-08-19 01:17:32] Uncaught Error: Call to undefined function renderDonationSection() in C:\laragon\www\isjm\modules\Content\content\services\index.php:90
+Stack trace:
+#0 C:\laragon\www\isjm\services\index.php(8): require_once()
+#1 {main}
+  thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 90

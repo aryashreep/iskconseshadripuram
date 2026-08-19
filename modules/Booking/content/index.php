@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'Devotional Bookings & Services';
-$metaDescription = 'Book puja, yagya, guest house stay, and pilgrimage yatras at the official ISKCON temple in Seshadripuram, Bangalore. Sponsor sacred offerings and fire sacrifices online.';
+$metaDescription = 'Book puja, yagya, and pilgrimage yatras at the official ISKCON temple in Seshadripuram, Bangalore. Sponsor sacred offerings and fire sacrifices online.';
 $pageType = 'booking';
 include '../partials/header.php';
 require_once '../config.php';
@@ -62,18 +62,7 @@ require_once '../config.php';
         </div>
       </div>
 
-      <!-- Card 3: Guest House -->
-      <div class="gateway-card reveal">
-        <div class="gateway-card-image" style="background-image:url('<?php echo BASE_URL; ?>assets/images/banners/guest_house_room.jpg');">
-          <div class="gateway-card-overlay"></div>
-          <div class="gateway-card-icon"><i class="fas fa-bed"></i></div>
-        </div>
-        <div class="gateway-card-body">
-          <h3>Guest House Stay</h3>
-          <p>Experience a spiritual retreat inside the temple campus. Located foot-steps away from the main deities and restaurant.</p>
-          <a href="booking/guest-house" class="btn btn-primary btn-sm">Reserve Room <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
+      <!-- Card 3: Guest House (disabled) -->
 
       <!-- Card 4: Yatras -->
       <div class="gateway-card reveal">

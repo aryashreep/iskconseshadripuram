@@ -123,15 +123,6 @@ require_once 'config.php';
               <div style="color:var(--text-light);font-size:14px;"><i class="fas fa-chevron-right"></i></div>
             </a>
 
-            <!-- Link 3: Guest House -->
-            <a href="booking/guest-house" style="display:flex;align-items:center;gap:15px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;transition:all var(--transition-base);" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--cream-light)';" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent';">
-              <div style="width:40px;height:40px;background:var(--cream);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"><i class="fas fa-bed"></i></div>
-              <div style="flex-grow:1;">
-                <strong style="color:var(--text-dark);display:block;font-size:var(--font-size-sm);font-family:var(--font-heading);">Guest House Stay</strong>
-                <span style="color:var(--text-light);font-size:11px;display:block;">Reserve accommodations in Seshadripuram</span>
-              </div>
-              <div style="color:var(--text-light);font-size:14px;"><i class="fas fa-chevron-right"></i></div>
-            </a>
 
             <!-- Link 4: Yatras -->
             <a href="yatra" style="display:flex;align-items:center;gap:15px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;transition:all var(--transition-base);" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--cream-light)';" onmouseout="this.style.borderColor='var(--border)';this.style.background='transparent';">

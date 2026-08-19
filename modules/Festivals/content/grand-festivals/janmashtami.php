@@ -7,7 +7,7 @@ require_once '../../config.php';
 
 // Load contest & seva data
 $janmashtamiData = include __DIR__ . '/data/janmashtami-contests.php';
-$contests = $janmashtamiData['contests'] ?? [];
+$contests = array_values(array_filter($janmashtamiData['contests'] ?? [], fn($c) => empty($c['hidden'])));
 $sevas = $janmashtamiData['sevas'] ?? [];
 $regConfig = $janmashtamiData['registration'] ?? [];
 $contestFeePaise = ($regConfig['fee'] ?? 108) * 100; // Convert to paise for Razorpay

@@ -234,7 +234,6 @@ if ($festivalSlugForBg) {
             <ul class="dropdown-menu">
               <li><a href="booking/puja">Book Puja</a></li>
               <li><a href="booking/yagya">Book Yagya</a></li>
-              <li><a href="booking/guest-house">Guest House</a></li>
               <li><a href="yatra/">Yatras</a></li>
             </ul>
           </li>
@@ -359,7 +358,6 @@ if ($festivalSlugForBg) {
         <ul class="mobile-sublist">
           <li><a href="booking/puja">Book Puja</a></li>
           <li><a href="booking/yagya">Book Yagya</a></li>
-          <li><a href="booking/guest-house">Guest House</a></li>
           <li><a href="yatra/">Yatras</a></li>
         </ul>
       </li>

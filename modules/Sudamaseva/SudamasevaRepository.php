@@ -981,9 +981,13 @@ class SudamasevaRepository
             $stmt->execute($countParams);
             $totalCount = (int) $stmt->fetchColumn();
 
-            // Paid payment count
+            // Paid payment count — rebuild WHERE without the '1 = 1' tautology
             $paidParams = array_merge(['paid'], $countParams);
-            $paidWhere = "WHERE payment_status = ? AND " . substr($whereClause, 7); // remove leading '1 = 1 AND ' if needed
+            $paidConditions = array_values(array_filter($where, fn($w) => $w !== '1 = 1'));
+            $paidWhere = 'WHERE payment_status = ?';
+            if (!empty($paidConditions)) {
+                $paidWhere .= ' AND ' . implode(' AND ', $paidConditions);
+            }
             $stmt = $this->db->prepare("SELECT COUNT(*) FROM sudamaseva_payments {$paidWhere}");
             $stmt->execute($paidParams);
             $paidCount = (int) $stmt->fetchColumn();

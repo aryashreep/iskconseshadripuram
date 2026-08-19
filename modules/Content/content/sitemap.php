@@ -89,12 +89,13 @@ $staticPages = [
     ['loc' => BASE_URL . 'courses/idc',                        'freq' => 'monthly', 'pri' => '0.4'],
     ['loc' => BASE_URL . 'courses/teachers-training',          'freq' => 'monthly', 'pri' => '0.5'],
     ['loc' => BASE_URL . 'booking/',                           'freq' => 'weekly',  'pri' => '0.7'],
-    ['loc' => BASE_URL . 'booking/guest-house',                'freq' => 'monthly', 'pri' => '0.5'],
     ['loc' => BASE_URL . 'yatra/',                             'freq' => 'weekly',  'pri' => '0.7'],
     ['loc' => BASE_URL . 'yatra/panihati',                     'freq' => 'weekly',  'pri' => '0.7'],
     ['loc' => BASE_URL . 'seva',                               'freq' => 'monthly', 'pri' => '0.6'],
     ['loc' => BASE_URL . 'resources',                          'freq' => 'monthly', 'pri' => '0.5'],
     ['loc' => BASE_URL . 'forums',                             'freq' => 'monthly', 'pri' => '0.5'],
+    ['loc' => BASE_URL . 'privacy-policy',                      'freq' => 'yearly',  'pri' => '0.3'],
+    ['loc' => BASE_URL . 'terms-of-service',                    'freq' => 'yearly',  'pri' => '0.3'],
 ];
 foreach ($staticPages as $p) {
     sitemap_add($p['loc'], '', $p['freq'], $p['pri']);

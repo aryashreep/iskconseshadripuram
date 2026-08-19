@@ -2,8 +2,8 @@
 $pageTitle = 'All Services';
 $metaDescription = 'Explore all services at ISKCON The Palace Temple of Lord Jagannath in Bangalore — Siksha Bhakti Steps, Harinam Sankirtana, corporate programs, Govinda\'s Prasadam, function hall, and Food For Life.';
 $pageType = 'service';
-include '../partials/header.php';
-require_once __DIR__ . '/../../config.php';
+include __DIR__ . '/../../../../partials/header.php';
+require_once __DIR__ . '/../../../../config.php';
 ?>
 
 <section class="page-header">
@@ -86,7 +86,7 @@ require_once __DIR__ . '/../../config.php';
     </div>
 
     <?php 
-    include_once __DIR__ . '/../../partials/donation-cta.php';
+    include_once __DIR__ . '/../../../../partials/donation-cta.php';
     renderDonationSection([
       'cause_slug' => 'general-donation',
       'button_label' => 'Support Temple Services',
@@ -96,4 +96,4 @@ require_once __DIR__ . '/../../config.php';
   </div>
 </section>
 
-<?php include '../partials/footer.php'; ?>
+<?php include __DIR__ . '/../../../../partials/footer.php'; ?>

@@ -98,6 +98,7 @@ return [
             'icon'        => 'fa-question-circle',
             'color'       => '#f57c00',
             'status'      => 'active',
+            'hidden'      => true,
             'mode'        => 'online_offline',
             'venue'       => 'ISKCON Seshadripuram (Offline) / Zoom (Online)',
             'schedule'    => 'Schedule will be announced. Finals held offline at ISKCON Seshadripuram.',

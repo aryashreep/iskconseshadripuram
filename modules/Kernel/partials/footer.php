@@ -45,7 +45,6 @@
         <div class="footer-links">
           <a href="booking/puja">Puja Booking</a>
           <a href="booking/yagya">Yagya Booking</a>
-          <a href="booking/guest-house">Guest House Booking</a>
           <a href="booking">All Bookings</a>
         </div>
       </div>
