@@ -32,17 +32,17 @@ return [
                 [
                     'name'         => 'Group 1',
                     'age_range'    => '3 – 6 years',
-                    'instructions' => 'Dress and enact your favourite character from Lord Krishna\'s Vrindavan leela. Time: 1 min per participant.',
+                    'instructions' => 'Dress and dance in your favourite character from Lord Krishna\'s Vrindavan leela. Time: 1 min per participant.',
                 ],
                 [
                     'name'         => 'Group 2',
                     'age_range'    => '7 – 10 years',
-                    'instructions' => 'Dress and act out your favourite character from Vedic pastimes and tell us about your character. Time: 1 min per participant.',
+                    'instructions' => 'Dress and dance / act out your favourite character from Vedic pastimes and tell us about your character. Time: 1 min per participant.',
                 ],
                 [
                     'name'         => 'Group 3',
                     'age_range'    => '11 – 15 years',
-                    'instructions' => 'Dress and hone your acting skills by depicting inspiring events from Krishna Lila, Ram Leela, Chaitanya Leela. Time: 2 mins per participant.',
+                    'instructions' => 'Dress and hone your acting skills by depicting inspiring and breath-taking events from Krishna Lila, Ram Leela, Chaitanya Leela. Time: 2 mins per participant.',
                 ],
             ],
             'evaluation'  => 'Authenticity, adherence to time limit',
@@ -66,22 +66,17 @@ return [
                 [
                     'name'         => 'Group 1',
                     'age_range'    => 'Up to 6 years',
-                    'instructions' => 'Syllabus: Slokas from Bhagavad Gita Chapter 3. Recite any 5 slokas from Chapter 3.',
+                    'instructions' => 'Syllabus: Slokas from Bhagavad Gita Chapter 2. Recite any 5 slokas from Chapter 2.',
                 ],
                 [
                     'name'         => 'Group 2',
                     'age_range'    => '7 – 10 years',
-                    'instructions' => 'Syllabus: Slokas from Bhagavad Gita Chapter 10. Recite 8 slokas from Chapter 10 with the sloka number and translation of any one. Translation from Bhagavad Gita As It Is by Srila Prabhupada.',
+                    'instructions' => 'Syllabus: Slokas from Bhagavad Gita Chapter 15. Recite 8 slokas from Chapter 15 with the sloka number and translation of any one. Translation from Bhagavad Gita As It Is by His Divine Grace Srila A.C. Bhakti Vedanta Swami Prabhupada.',
                 ],
                 [
                     'name'         => 'Group 3',
                     'age_range'    => '11 – 15 years',
-                    'instructions' => 'Syllabus: Bhagavad Gita Chapter 7, Slokas 1–8. Recite BG 7.1–7.8 and translation of any 4 slokas. Translation from Bhagavad Gita As It Is by Srila Prabhupada.',
-                ],
-                [
-                    'name'         => 'Group 4',
-                    'age_range'    => '16 years & above',
-                    'instructions' => 'Syllabus: Srimad Bhagavatam Canto 10, Chapter 90, Sloka 47–50. Recite SB 10.90.47–50 with translation by Srila Prabhupada.',
+                    'instructions' => 'Syllabus: Bhagavad Gita Chapter 13, Slokas 1–8. Recite B.G. 10.8–10.15 and translation of Catur-sloki Bhagavad Gita. Sloka translation from Bhagavad Gita As It Is by His Divine Grace Srila A.C. Bhakti Vedanta Swami Prabhupada.',
                 ],
             ],
             'evaluation'  => 'Completeness, correctness of words, pronunciation, and meter',
@@ -150,12 +145,12 @@ return [
                 [
                     'name'         => 'Group 3',
                     'age_range'    => '11 – 16 years',
-                    'instructions' => 'Draw or sketch the Lord\'s pastime or an Acharya\'s picture and colour the same. Picture should be authentic and adhering to Vedic version.',
+                    'instructions' => 'Draw or sketch Lord\'s picture, Acharya\'s picture and colour the same. Picture should be authentic and adhering to Vedic version.',
                 ],
                 [
                     'name'         => 'Group 4',
                     'age_range'    => '16 years & above',
-                    'instructions' => 'Draw or sketch the Lord\'s pastime or an Acharya\'s picture and colour the same. Picture should be authentic and adhering to Vedic version.',
+                    'instructions' => 'Draw or sketch Lord\'s picture, Acharya\'s picture and colour the same. Picture should be authentic and adhering to Vedic version.',
                 ],
             ],
             'evaluation'  => 'Completeness, Creativity/Innovation, Neatness, Choice of colours',
@@ -179,17 +174,17 @@ return [
                 [
                     'name'         => 'Group 1',
                     'age_range'    => 'Up to 6 years',
-                    'instructions' => 'Sing any one of the following bhajans: (1) Hari Haraya Namah — first 2 stanzas, (2) Narasimha Arati, (3) Tarakka Bindige. Refer to provided links for proper lyrics and tune. Time: 3 min per participant.',
+                    'instructions' => 'You can sing any Krishna bhajan / Vaishnav song. Time: 3 min per participant.',
                 ],
                 [
                     'name'         => 'Group 2',
                     'age_range'    => '7 – 10 years',
-                    'instructions' => 'Sing any one bhajan: (1) Adharam Madhuram, (2) Bhaju Re Mana, (3) Allide Namma Mane. Song can be accompanied by a musical instrument. Refer to provided links for proper lyrics and tune. Time: 3 min per participant.',
+                    'instructions' => 'You can sing any Krishna bhajan / Vaishnav song. Song can be accompanied by a musical instrument. **You need not repeat the lines as that would take more time. Time: 3 min per participant.',
                 ],
                 [
                     'name'         => 'Group 3',
                     'age_range'    => '11 – 15 years',
-                    'instructions' => 'Sing any one bhajan: (1) Sri Nanda Nandanashtakam, (2) Jaya Radhe Jaya Krishna, (3) Thallanisadiru Kandya. Song can be accompanied by a musical instrument. Refer to provided links for proper lyrics and tune. Time: 3 min per participant.',
+                    'instructions' => 'You can sing any one Krishna bhajan / Vaishnav song. Song can be accompanied by a musical instrument. **You need not repeat the lines as that would take more time. Time: 3 min per participant.',
                 ],
             ],
             'evaluation'  => 'Completeness, Raga & bhava (melody and emotion)',
@@ -218,12 +213,12 @@ return [
                 [
                     'name'         => 'Group 2',
                     'age_range'    => '7 – 10 years',
-                    'instructions' => 'Narrate any pastime from Ramayana or Mahabharata and explain the lesson learnt. Props can be used. Time: 3 min per participant.',
+                    'instructions' => 'Narrate any pastime from Ramayana / Mahabharata. Explain the lesson learnt. Props can be used. Time: 3 min per participant.',
                 ],
                 [
                     'name'         => 'Group 3',
                     'age_range'    => '11 – 15 years',
-                    'instructions' => 'Narrate any pastime of Chaitanya Mahaprabhu. Props and mimicry can be used. Time: 3 min per participant.',
+                    'instructions' => 'Narrate any pastime from Ramayana, Mahabharata, Krishna Leela, Gaura Leela. Props and mimicry can be used. Time: 3 min per participant.',
                 ],
             ],
             'evaluation'  => 'Authenticity, message and storytelling skills',
