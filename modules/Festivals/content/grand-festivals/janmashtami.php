@@ -672,7 +672,11 @@ details[open] .j-chevron {
       <div class="j-section-header">
         <div class="j-section-divider"></div>
         <h2><i class="fas fa-trophy" style="color:var(--primary);"></i> Janmashtami Contests for Kids & Families</h2>
-        <p>Encourage your children to celebrate Krishna consciousness through recitation, dress-up, quiz, music, storytelling, and creative arts. All participants receive the blessings of Lord Krishna!</p>
+        <p style="margin-bottom:var(--space-md);">Encourage your children to celebrate Krishna consciousness through recitation, dress-up, quiz, music, storytelling, and creative arts. All participants receive the blessings of Lord Krishna!</p>
+        <div style="display:inline-flex; align-items:center; gap:10px; background:linear-gradient(135deg, var(--primary), var(--maroon)); color:var(--white); padding:12px 28px; border-radius:var(--radius-xl); font-weight:700; font-size:var(--font-size-base); box-shadow:var(--shadow-md);">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Contest Date: 4th September 2026</span>
+        </div>
       </div>
 
       <!-- Contest Overview Cards -->
@@ -772,14 +776,7 @@ details[open] .j-chevron {
               <label for="regPhone">Phone Number *</label>
               <input type="tel" id="regPhone" required placeholder="+91 9876543210">
             </div>
-            <div class="j-form-group">
-              <label for="regParticipantType">Participant Type *</label>
-              <select id="regParticipantType" required>
-                <option value="" disabled selected>-- Select type --</option>
-                <option value="offline">Offline</option>
-                <option value="online">Online</option>
-              </select>
-            </div>
+            <input type="hidden" id="regParticipantType" value="offline">
           </div>
 
           <div class="j-form-row">
@@ -940,7 +937,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!contestSlug) { alert('Please select a contest.'); return; }
     if (!name) { alert('Please enter participant name.'); return; }
     if (!ageGroup) { alert('Please select an age group.'); return; }
-    if (!participantType) { alert('Please select participant type (Online/Offline).'); return; }
+
     if (!phone || phone.length < 10) { alert('Please enter a valid phone number.'); return; }
 
     var btn = document.getElementById('regSubmitBtn');

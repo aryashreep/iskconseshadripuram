@@ -1181,3 +1181,29 @@ Stack trace:
 #0 C:\laragon\www\isjm\services\index.php(8): require_once()
 #1 {main}
   thrown in C:\laragon\www\isjm\modules\Content\content\services\index.php on line 90
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
+[24-Aug-2026 15:40:26 UTC] PHP Warning:  Undefined array key "is_active" in Command line code on line 10
