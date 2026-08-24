@@ -81,7 +81,7 @@ $cat = $listConfig;
 
     <?php if (!empty($listItems)): ?>
     <!-- Cards Container -->
-    <div id="festivalCardsContainer" class="reveal <?php echo $cat['cardLayout'] === 'image_card' ? 'events-grid' : ''; ?>" style="
+    <div id="festivalCardsContainer" class="<?php echo $cat['cardLayout'] === 'image_card' ? 'events-grid' : ''; ?>" style="
       <?php if ($cat['cardLayout'] === 'image_card'): ?>
         display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:var(--space-xl); margin-bottom:var(--space-3xl);
       <?php elseif ($cat['cardLayout'] === 'bordered_card'): ?>
@@ -104,7 +104,7 @@ $cat = $listConfig;
 
       <?php if ($cat['cardLayout'] === 'image_card'): ?>
       <!-- Image Card (Grand Festivals) -->
-      <div class="event-card" data-title="<?php echo htmlspecialchars($itemTitle); ?>" data-desc="<?php echo htmlspecialchars($itemDesc); ?>" style="background:var(--white); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid var(--border); display:flex; flex-direction:column; transition:all var(--transition-base);"
+      <div class="event-card reveal" data-title="<?php echo htmlspecialchars($itemTitle); ?>" data-desc="<?php echo htmlspecialchars($itemDesc); ?>" style="background:var(--white); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid var(--border); display:flex; flex-direction:column; transition:all var(--transition-base);"
            onmouseover="this.style.boxShadow='var(--shadow-md)'; this.style.transform='translateY(-4px)'; this.style.borderColor='var(--primary-light)';"
            onmouseout="this.style.boxShadow='var(--shadow-sm)'; this.style.transform='translateY(0)'; this.style.borderColor='var(--border)';"
       >
@@ -129,7 +129,7 @@ $cat = $listConfig;
 
       <?php elseif ($cat['cardLayout'] === 'bordered_card'): ?>
       <!-- Bordered Card (Ekadashi) -->
-      <div class="festival-card" 
+      <div class="festival-card reveal" 
            data-title="<?php echo htmlspecialchars($itemTitle); ?>" 
            <?php foreach (($cat['searchFields'] ?? []) as $sf): if (isset($item[$sf])): ?>
            data-<?php echo $sf; ?>="<?php echo htmlspecialchars($item[$sf]); ?>"
@@ -178,7 +178,7 @@ $cat = $listConfig;
 
       <?php elseif ($cat['cardLayout'] === 'vertical_card'): ?>
       <!-- Vertical Card (Appearance / Disappearance) -->
-      <div class="festival-card" 
+      <div class="festival-card reveal" 
            data-title="<?php echo htmlspecialchars($itemTitle); ?>" 
            data-desc="<?php echo htmlspecialchars($itemDesc); ?>"
            <?php foreach (($cat['searchFields'] ?? []) as $sf): if (isset($item[$sf])): ?>
@@ -236,7 +236,7 @@ $cat = $listConfig;
 
       <?php elseif ($cat['cardLayout'] === 'icon_card'): ?>
       <!-- Icon Card (Events) -->
-      <div class="festival-card" data-title="<?php echo htmlspecialchars($itemTitle); ?>" data-desc="<?php echo htmlspecialchars($itemDesc); ?>" style="background:var(--white); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); border:1px solid var(--border); padding:var(--space-xl); display:flex; gap:var(--space-xl); align-items:center; flex-wrap:wrap; transition:all var(--transition-base);"
+      <div class="festival-card reveal" data-title="<?php echo htmlspecialchars($itemTitle); ?>" data-desc="<?php echo htmlspecialchars($itemDesc); ?>" style="background:var(--white); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); border:1px solid var(--border); padding:var(--space-xl); display:flex; gap:var(--space-xl); align-items:center; flex-wrap:wrap; transition:all var(--transition-base);"
            onmouseover="this.style.boxShadow='var(--shadow-md)'; this.style.transform='translateY(-3px)'; this.style.borderColor='var(--primary-light)';"
            onmouseout="this.style.boxShadow='var(--shadow-sm)'; this.style.transform='translateY(0)'; this.style.borderColor='var(--border)';"
       >
