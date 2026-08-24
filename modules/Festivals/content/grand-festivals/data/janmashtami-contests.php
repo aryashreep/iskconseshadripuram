@@ -59,24 +59,24 @@ return [
             'icon'        => 'fa-book-open',
             'color'       => '#1565c0',
             'status'      => 'active',
-            'mode'        => 'online_offline',
-            'venue'       => 'ISKCON Seshadripuram (Offline) / Zoom (Online)',
-            'schedule'    => 'Schedule will be announced',
+            'mode'        => 'offline',
+            'venue'       => 'ISKCON Seshadripuram',
+            'schedule'    => '4th September 2026 — 3:00 PM',
             'age_groups'  => [
                 [
                     'name'         => 'Group 1',
                     'age_range'    => 'Up to 6 years',
-                    'instructions' => 'Syllabus: Slokas from Bhagavad Gita Chapter 2. Recite any 5 slokas from Chapter 2.',
+                    'instructions' => 'Recite any 5 shlokas from the Bhagavad Gita.',
                 ],
                 [
                     'name'         => 'Group 2',
                     'age_range'    => '7 – 10 years',
-                    'instructions' => 'Syllabus: Slokas from Bhagavad Gita Chapter 15. Recite 8 slokas from Chapter 15 with the sloka number and translation of any one. Translation from Bhagavad Gita As It Is by His Divine Grace Srila A.C. Bhakti Vedanta Swami Prabhupada.',
+                    'instructions' => 'Recite any 5 shlokas from the Bhagavad Gita.',
                 ],
                 [
                     'name'         => 'Group 3',
                     'age_range'    => '11 – 15 years',
-                    'instructions' => 'Syllabus: Bhagavad Gita Chapter 13, Slokas 1–8. Recite B.G. 10.8–10.15 and translation of Catur-sloki Bhagavad Gita. Sloka translation from Bhagavad Gita As It Is by His Divine Grace Srila A.C. Bhakti Vedanta Swami Prabhupada.',
+                    'instructions' => 'Recite Bhagavad Gita shlokas 13.1 – 13.8.',
                 ],
             ],
             'evaluation'  => 'Completeness, correctness of words, pronunciation, and meter',
@@ -94,9 +94,9 @@ return [
             'color'       => '#f57c00',
             'status'      => 'active',
             'hidden'      => true,
-            'mode'        => 'online_offline',
-            'venue'       => 'ISKCON Seshadripuram (Offline) / Zoom (Online)',
-            'schedule'    => 'Schedule will be announced. Finals held offline at ISKCON Seshadripuram.',
+            'mode'        => 'offline',
+            'venue'       => 'ISKCON Seshadripuram',
+            'schedule'    => 'Schedule will be announced.',
             'age_groups'  => [
                 [
                     'name'         => 'Group 2',
@@ -130,7 +130,7 @@ return [
             'status'      => 'active',
             'mode'        => 'offline',
             'venue'       => 'ISKCON Seshadripuram',
-            'schedule'    => 'Schedule will be announced',
+            'schedule'    => '4th September 2026 — 1:00 PM onwards',
             'age_groups'  => [
                 [
                     'name'         => 'Group 1',
@@ -167,9 +167,9 @@ return [
             'icon'        => 'fa-music',
             'color'       => '#00838f',
             'status'      => 'active',
-            'mode'        => 'online_offline',
-            'venue'       => 'ISKCON Seshadripuram (Offline) / Zoom (Online)',
-            'schedule'    => 'Schedule will be announced',
+            'mode'        => 'offline',
+            'venue'       => 'ISKCON Seshadripuram',
+            'schedule'    => '4th September 2026 — 4:30 PM',
             'age_groups'  => [
                 [
                     'name'         => 'Group 1',
@@ -201,9 +201,9 @@ return [
             'icon'        => 'fa-microphone-alt',
             'color'       => '#2e7d32',
             'status'      => 'active',
-            'mode'        => 'online_offline',
-            'venue'       => 'ISKCON Seshadripuram (Offline) / Zoom (Online)',
-            'schedule'    => 'Schedule will be announced',
+            'mode'        => 'offline',
+            'venue'       => 'ISKCON Seshadripuram',
+            'schedule'    => '4th September 2026 — 4:00 PM',
             'age_groups'  => [
                 [
                     'name'         => 'Group 1',
