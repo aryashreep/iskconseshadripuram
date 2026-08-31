@@ -257,7 +257,7 @@ return [
     // REGISTRATION CONFIG
     // ================================================================
     'registration' => [
-        'fee'          => 108, // ₹108 per participant per contest
+        'fee'          => 50, // ₹50 per participant per contest
         'currency'     => 'INR',
         'success_page' => BASE_URL . 'festivals/contest-registration-success',
     ],

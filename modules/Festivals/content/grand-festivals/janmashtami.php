@@ -10,7 +10,7 @@ $janmashtamiData = include __DIR__ . '/data/janmashtami-contests.php';
 $contests = array_values(array_filter($janmashtamiData['contests'] ?? [], fn($c) => empty($c['hidden'])));
 $sevas = $janmashtamiData['sevas'] ?? [];
 $regConfig = $janmashtamiData['registration'] ?? [];
-$contestFeePaise = ($regConfig['fee'] ?? 108) * 100; // Convert to paise for Razorpay
+$contestFeePaise = ($regConfig['fee'] ?? 50) * 100; // Convert to paise for Razorpay
 
 /**
  * Render a contest card for the overview grid.
@@ -56,7 +56,7 @@ function renderContestCard(array $contest): void {
                 </a>
                 <?php if ($contest['status'] === 'active'): ?>
                     <a href="#register" class="j-btn j-btn-primary j-btn-sm" onclick="selectContest('<?= htmlspecialchars($contest['slug']) ?>', '<?= htmlspecialchars($contest['title']) ?>')">
-                        Register ₹<?= htmlspecialchars(number_format($GLOBALS['regConfig']['fee'] ?? 108)) ?> <i class="fas fa-external-link-alt"></i>
+                        Register ₹<?= htmlspecialchars(number_format($GLOBALS['regConfig']['fee'] ?? 50)) ?> <i class="fas fa-external-link-alt"></i>
                     </a>
                 <?php endif; ?>
             </div>
@@ -91,7 +91,7 @@ function renderContestDetail(array $contest): void {
                 <?php if ($isActive): ?>
                 <div class="j-detail-register-top">
                     <a href="#register" class="j-btn j-btn-primary" onclick="selectContest('<?= htmlspecialchars($contest['slug']) ?>', '<?= htmlspecialchars($contest['title']) ?>')">
-                        <i class="fas fa-user-plus"></i> Register Now — ₹<?= htmlspecialchars(number_format($GLOBALS['regConfig']['fee'] ?? 108)) ?>
+                        <i class="fas fa-user-plus"></i> Register Now — ₹<?= htmlspecialchars(number_format($GLOBALS['regConfig']['fee'] ?? 50)) ?>
                     </a>
                 </div>
                 <?php endif; ?>
@@ -730,7 +730,7 @@ details[open] .j-chevron {
       <div class="j-section-header">
         <div class="j-section-divider"></div>
         <h2><i class="fas fa-user-plus" style="color:var(--primary);"></i> Contest Registration</h2>
-        <p>Register for your chosen contest. Registration fee is <strong>₹<?= number_format($regConfig['fee'] ?? 108) ?></strong> per participant per contest. Secure your spot today!</p>
+        <p>Register for your chosen contest. Registration fee is <strong>₹<?= number_format($regConfig['fee'] ?? 50) ?></strong> per participant per contest. Secure your spot today!</p>
       </div>
 
       <div class="j-register-card">
@@ -748,7 +748,7 @@ details[open] .j-chevron {
               <?php foreach ($contests as $c): ?>
                 <?php if ($c['status'] === 'active'): ?>
                   <option value="<?= htmlspecialchars($c['slug']) ?>" data-name="<?= htmlspecialchars($c['title']) ?>">
-                    <?= htmlspecialchars($c['title']) ?> — ₹<?= number_format($regConfig['fee'] ?? 108) ?>
+                    <?= htmlspecialchars($c['title']) ?> — ₹<?= number_format($regConfig['fee'] ?? 50) ?>
                   </option>
                 <?php endif; ?>
               <?php endforeach; ?>
@@ -793,13 +793,13 @@ details[open] .j-chevron {
           <!-- Price Summary -->
           <div class="j-price-summary">
             <div class="j-price-label">Registration Fee</div>
-            <div class="j-price-amount">₹<?= number_format($regConfig['fee'] ?? 108) ?></div>
+            <div class="j-price-amount">₹<?= number_format($regConfig['fee'] ?? 50) ?></div>
             <div class="j-price-label">Per participant · Per contest</div>
           </div>
 
           <!-- Submit -->
           <button type="submit" id="regSubmitBtn" class="j-btn j-btn-primary j-btn-lg" style="width:100%; justify-content:center; text-align:center;">
-            <i class="fas fa-lock"></i> Register & Pay ₹<?= number_format($regConfig['fee'] ?? 108) ?>
+            <i class="fas fa-lock"></i> Register & Pay ₹<?= number_format($regConfig['fee'] ?? 50) ?>
           </button>
 
           <div style="text-align:center; font-size:11px; color:var(--text-light); margin-top:var(--space-md);">
@@ -992,8 +992,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Re-enable form if user closes Razorpay modal
             loading.style.display = 'none';
             form.style.display = 'block';
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-lock"></i> Register & Pay ₹<?php echo number_format($regConfig['fee'] ?? 108); ?>';
+            btn.disabled = false;btn.innerHTML = '<i class="fas fa-lock"></i> Register & Pay ₹<?php echo number_format($regConfig['fee'] ?? 50); ?>';
           }
         }
       };
@@ -1003,7 +1002,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loading.style.display = 'none';
         form.style.display = 'block';
         btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-lock"></i> Register & Pay ₹<?php echo number_format($regConfig['fee'] ?? 108); ?>';
+        btn.innerHTML = '<i class="fas fa-lock"></i> Register & Pay ₹<?php echo number_format($regConfig['fee'] ?? 50); ?>';
       });
       rzp.open();
     })
@@ -1011,8 +1010,8 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Error: ' + err.message);
       loading.style.display = 'none';
       form.style.display = 'block';
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-lock"></i> Register & Pay ₹<?php echo number_format($regConfig['fee'] ?? 108); ?>';
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-lock"></i> Register & Pay ₹<?php echo number_format($regConfig['fee'] ?? 50); ?>';
     });
   });
 });

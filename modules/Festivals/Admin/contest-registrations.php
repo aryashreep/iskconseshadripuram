@@ -13,9 +13,42 @@ require_once __DIR__ . '/../../../admin/auth-check.php';
 requirePermission('festivals.view');
 require_once __DIR__ . '/../../../config.php';
 
-include 'partials/header.php';
-
 $db = getDB();
+
+// Handle CSV export — must run BEFORE any HTML output (header partial)
+if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="janmashtami-contest-registrations-' . date('Y-m-d') . '.csv"');
+    $output = fopen('php://output', 'w');
+    fputcsv($output, ['ID', 'Participant Name', 'Age Group', 'Participant Type', 'Phone', 'Email', 'Contest', 'Amount', 'Payment Status', 'Payment ID', 'Registered At']);
+    
+    $exportStmt = $db->query("SELECT * FROM janmashtami_contest_registrations ORDER BY registered_at DESC");
+    while ($row = $exportStmt->fetch(PDO::FETCH_ASSOC)) {
+        $ageLabel = match ($row['age_group'] ?? '') {
+            'group1' => 'Group 1 (Up to 6)',
+            'group2' => 'Group 2 (7-10)',
+            'group3' => 'Group 3 (11-15)',
+            default => $row['age_group'] ?? '',
+        };
+        fputcsv($output, [
+            $row['id'],
+            $row['participant_name'],
+            $ageLabel,
+            $row['participant_type'] ?? '',
+            $row['phone'],
+            $row['email'] ?? '',
+            $row['contest_name'],
+            $row['amount'],
+            $row['payment_status'],
+            $row['razorpay_payment_id'] ?? '',
+            $row['registered_at'],
+        ]);
+    }
+    fclose($output);
+    exit;
+}
+
+include 'partials/header.php';
 
 // Filters
 $statusFilter = $_GET['status'] ?? '';
@@ -84,39 +117,6 @@ $stats = [
     'revenue' => (float) $db->query("SELECT COALESCE(SUM(amount), 0) FROM janmashtami_contest_registrations WHERE payment_status = 'paid'")->fetchColumn(),
 ];
 
-// Handle CSV export
-if (isset($_GET['export']) && $_GET['export'] === 'csv') {
-    header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename="janmashtami-contest-registrations-' . date('Y-m-d') . '.csv"');
-    $output = fopen('php://output', 'w');
-    fputcsv($output, ['ID', 'Participant Name', 'Age Group', 'Participant Type', 'Phone', 'Email', 'Contest', 'Amount', 'Payment Status', 'Payment ID', 'Registered At']);
-    
-    $exportStmt = $db->query("SELECT * FROM janmashtami_contest_registrations ORDER BY registered_at DESC");
-    while ($row = $exportStmt->fetch(PDO::FETCH_ASSOC)) {
-        $ageLabel = match ($row['age_group'] ?? '') {
-            'group1' => 'Group 1 (Up to 6)',
-            'group2' => 'Group 2 (7-10)',
-            'group3' => 'Group 3 (11-15)',
-            default => $row['age_group'] ?? '',
-        };
-        fputcsv($output, [
-            $row['id'],
-            $row['participant_name'],
-            $ageLabel,
-            $row['participant_type'] ?? '',
-            $row['phone'],
-            $row['email'] ?? '',
-            $row['contest_name'],
-            $row['amount'],
-            $row['payment_status'],
-            $row['razorpay_payment_id'] ?? '',
-            $row['registered_at'],
-        ]);
-    }
-    fclose($output);
-    exit;
-}
-
 // Payment status badge function
 function renderPaymentBadge(string $status): string {
     return match ($status) {
@@ -135,7 +135,7 @@ function renderPaymentBadge(string $status): string {
     <p>Manage and monitor contest registrations and payments.</p>
   </div>
   <div class="admin-page-actions">
-    <a href="?export=csv<?php echo $statusFilter ? '&status=' . urlencode($statusFilter) : ''; ?>" class="btn btn-success btn-sm" style="text-decoration:none;">
+    <a href="admin/janmashtami-contest-registrations?export=csv<?php echo $statusFilter ? '&status=' . urlencode($statusFilter) : ''; ?>" class="btn btn-success btn-sm" style="text-decoration:none;">
       <i class="fas fa-download"></i> Export CSV
     </a>
     <a href="../festivals/grand-festivals/janmashtami/" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);" target="_blank">
@@ -186,7 +186,7 @@ function renderPaymentBadge(string $status): string {
 <!-- Filters -->
 <div class="admin-card" style="margin-bottom:var(--space-lg);">
   <div class="admin-card-body">
-    <form method="GET" style="display:flex; gap:var(--space-md); align-items:flex-end; flex-wrap:wrap;">
+    <form method="GET" action="admin/janmashtami-contest-registrations" style="display:flex; gap:var(--space-md); align-items:flex-end; flex-wrap:wrap;">
       <div class="form-group" style="margin-bottom:0; min-width:150px;">
         <label for="status">Payment Status</label>
         <select name="status" id="status" class="form-control">
@@ -212,7 +212,7 @@ function renderPaymentBadge(string $status): string {
         <input type="text" name="search" id="search" class="form-control" placeholder="Name, phone, or email..." value="<?php echo htmlspecialchars($search); ?>">
       </div>
       <button type="submit" class="btn btn-primary" style="padding:8px 20px;">Filter</button>
-      <a href="?" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">Clear</a>
+      <a href="admin/janmashtami-contest-registrations" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:8px 16px; border:1px solid var(--border); border-radius:var(--radius-md);">Clear</a>
     </form>
   </div>
 </div>
@@ -299,10 +299,10 @@ function renderPaymentBadge(string $status): string {
   <span>Page <?php echo $page; ?> of <?php echo $totalPages; ?> (<?php echo $total; ?> total)</span>
   <div style="display:flex; gap:var(--space-sm);">
     <?php if ($page > 1): ?>
-      <a href="?page=<?php echo $page - 1; ?>&status=<?php echo urlencode($statusFilter); ?>&contest=<?php echo urlencode($contestFilter); ?>&search=<?php echo urlencode($search); ?>" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:6px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">&larr; Previous</a>
+      <a href="admin/janmashtami-contest-registrations?page=<?php echo $page - 1; ?>&status=<?php echo urlencode($statusFilter); ?>&contest=<?php echo urlencode($contestFilter); ?>&search=<?php echo urlencode($search); ?>" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:6px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">&larr; Previous</a>
     <?php endif; ?>
     <?php if ($page < $totalPages): ?>
-      <a href="?page=<?php echo $page + 1; ?>&status=<?php echo urlencode($statusFilter); ?>&contest=<?php echo urlencode($contestFilter); ?>&search=<?php echo urlencode($search); ?>" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:6px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">Next &rarr;</a>
+      <a href="admin/janmashtami-contest-registrations?page=<?php echo $page + 1; ?>&status=<?php echo urlencode($statusFilter); ?>&contest=<?php echo urlencode($contestFilter); ?>&search=<?php echo urlencode($search); ?>" class="btn btn-outline-dark btn-sm" style="text-decoration:none; padding:6px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">Next &rarr;</a>
     <?php endif; ?>
   </div>
 </div>
