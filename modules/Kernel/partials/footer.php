@@ -87,6 +87,8 @@
       <div class="footer-bottom-links">
         <a href="<?php echo BASE_URL; ?>privacy-policy">Privacy Policy</a>
         <a href="<?php echo BASE_URL; ?>terms-of-service">Terms of Service</a>
+        <a href="<?php echo BASE_URL; ?>cancellation-and-refund">Cancellation & Refund</a>
+        <a href="<?php echo BASE_URL; ?>shipping-and-exchange">Shipping & Exchange</a>
         <a href="<?php echo BASE_URL; ?>credits">Credits</a>
       </div>
     </div>

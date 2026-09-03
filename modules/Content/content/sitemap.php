@@ -96,6 +96,8 @@ $staticPages = [
     ['loc' => BASE_URL . 'forums',                             'freq' => 'monthly', 'pri' => '0.5'],
     ['loc' => BASE_URL . 'privacy-policy',                      'freq' => 'yearly',  'pri' => '0.3'],
     ['loc' => BASE_URL . 'terms-of-service',                    'freq' => 'yearly',  'pri' => '0.3'],
+    ['loc' => BASE_URL . 'cancellation-and-refund',              'freq' => 'yearly',  'pri' => '0.3'],
+    ['loc' => BASE_URL . 'shipping-and-exchange',                'freq' => 'yearly',  'pri' => '0.3'],
 ];
 foreach ($staticPages as $p) {
     sitemap_add($p['loc'], '', $p['freq'], $p['pri']);
