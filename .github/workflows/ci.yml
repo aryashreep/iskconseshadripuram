@@ -54,9 +54,9 @@ jobs:
           set -o pipefail
           # Lint every project PHP file except vendor/ and node_modules/.
           # Output is captured so the pipeline exit status reflects php -l, not grep.
-          find . \( -path ./vendor -o -path ./node_modules -o -path ./logs \) -prune \
+          find . \( -path ./.git -o -path ./vendor -o -path ./node_modules -o -path ./logs \) -prune \
             -o -name '*.php' -print0 \
-            | xargs -0 -n1 -P4 php -l > /tmp/php-lint.log 2>&1
+            | xargs -0 -r php -l > /tmp/php-lint.log 2>&1
           status=$?
           # Only print files that actually failed to lint.
           grep -v 'No syntax errors detected' /tmp/php-lint.log || true

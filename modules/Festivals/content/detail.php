@@ -137,7 +137,7 @@ include '../partials/header.php';
 
 <!-- Custom Page Header with Hero Banner -->
 <section class="page-header">
-  <div class="page-header-bg" style="background-image: url('<?php echo htmlspecialchars($festival['image_url'] ?? 'assets/images/banners/calendar.jpg');"></div>
+  <div class="page-header-bg" style="background-image: url('<?php echo htmlspecialchars($festival['image_url'] ?? 'assets/images/banners/calendar.jpg'); ?>');"></div>
   <div class="container" style="position:relative; z-index:1;">
     <span style="display:inline-block; background:rgba(200, 107, 31, 0.2); border:1px solid var(--primary); color:var(--accent-light); padding:6px 16px; border-radius:var(--radius-xl); font-size:var(--font-size-xs); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:var(--space-md); backdrop-filter:blur(4px);"><?php echo $catBadge; ?> <?php echo $catLabel; ?></span>
     <h1 class="reveal" style="font-family:var(--font-heading); color:var(--white); font-size:calc(var(--font-size-3xl) + 1vw); line-height:1.2; text-shadow:0 2px 10px rgba(0,0,0,0.6); max-width:900px; margin:0 auto var(--space-md) auto;"><?php echo htmlspecialchars($festival['title']); ?></h1>
