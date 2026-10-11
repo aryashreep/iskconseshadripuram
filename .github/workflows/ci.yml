@@ -1,0 +1,322 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+# Read-only by default; no job here needs write access to the repository.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Fast, self-contained checks: no web server or database required.
+  # ---------------------------------------------------------------------------
+  quality:
+    name: Lint, Unit Tests & Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          # pdo_sqlite is required by the in-memory SQLite used in tests/Unit.
+          extensions: pdo_sqlite, mbstring
+          coverage: none
+          tools: composer:v2
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: PHP syntax check (php -l)
+        run: |
+          set -o pipefail
+          # Lint every project PHP file except vendor/ and node_modules/.
+          # Output is captured so the pipeline exit status reflects php -l, not grep.
+          find . \( -path ./vendor -o -path ./node_modules -o -path ./logs \) -prune \
+            -o -name '*.php' -print0 \
+            | xargs -0 -n1 -P4 php -l > /tmp/php-lint.log 2>&1
+          status=$?
+          # Only print files that actually failed to lint.
+          grep -v 'No syntax errors detected' /tmp/php-lint.log || true
+          exit $status
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+  # ---------------------------------------------------------------------------
+  # Full E2E run: MySQL + Apache (so .htaccess rewrites are exercised as in
+  # production) serving http://isjm.test:8080, which playwright.config.js expects.
+  # ---------------------------------------------------------------------------
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: quality
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: isjm_donations
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      DB_HOST: 127.0.0.1
+      DB_NAME: isjm_donations
+      DB_USER: root
+      DB_PASS: root
+      RAZORPAY_KEY_ID: rzp_test_ci_placeholder
+      RAZORPAY_KEY_SECRET: ci_placeholder_secret
+      RAZORPAY_TEST_MODE: 'true'
+      # Credentials for the authenticated admin tests (seeded by create_admins_table.php).
+      ADMIN_USER: admin
+      ADMIN_PASS: isjm@admin
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          # pdo_mysql is needed for the migration scripts run over CLI.
+          extensions: pdo_mysql, mbstring
+          coverage: none
+          tools: composer:v2
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Write .env for CI
+        run: |
+          cat > .env <<'EOF'
+          DB_HOST=127.0.0.1
+          DB_NAME=isjm_donations
+          DB_USER=root
+          DB_PASS=root
+          RAZORPAY_KEY_ID=rzp_test_ci_placeholder
+          RAZORPAY_KEY_SECRET=ci_placeholder_secret
+          RAZORPAY_TEST_MODE=true
+          EOF
+
+      - name: Apply database schema and migrations
+        run: |
+          set -euo pipefail
+          mysql -h 127.0.0.1 -P 3306 -uroot -proot isjm_donations < database/schema.sql
+          mysql -h 127.0.0.1 -P 3306 -uroot -proot isjm_donations < database/seed.sql
+          mysql -h 127.0.0.1 -P 3306 -uroot -proot isjm_donations \
+            < database/migrations/2026_create_janmashtami_contest_registrations.sql
+
+          # Order matters: create_panihati_table.php inserts an admin row that
+          # requires the `role` column added by add_admin_roles.php.
+          for migration in \
+            create_admins_table \
+            add_admin_roles \
+            alter_admin_role_length \
+            create_login_attempts_table \
+            create_page_views_table \
+            create_panihati_table \
+            create_panihati_dynamic_tables \
+            create_panihati_pricing_table \
+            create_panihati_expenses \
+            create_panihati_offline_aggregates ; do
+            echo "=== $migration ==="
+            php "database/migrations/${migration}.php"
+          done
+
+          for migration in \
+            001_create_rbac_tables \
+            002_seed_roles_and_permissions \
+            003_migrate_existing_admins ; do
+            echo "=== RBAC $migration ==="
+            php "modules/RBAC/database/migrations/${migration}.php"
+          done
+
+      - name: Install and configure Apache
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y \
+            apache2 libapache2-mod-php php-mysql php-mbstring php-xml php-curl
+          sudo a2enmod rewrite headers
+
+          # Enable whichever mod_php version apt installed.
+          php_module=$(ls /etc/apache2/mods-available/ \
+            | grep -E '^php[0-9.]+\.load$' | sed 's/\.load$//' | head -1)
+          if [ -n "$php_module" ]; then sudo a2enmod "$php_module"; fi
+
+          # playwright.config.js targets this host; make it resolve locally.
+          echo "127.0.0.1 isjm.test" | sudo tee -a /etc/hosts > /dev/null
+
+          echo "Listen 8080" | sudo tee /etc/apache2/conf-available/isjm-port.conf > /dev/null
+          sudo a2enconf isjm-port
+
+          sudo tee /etc/apache2/sites-available/isjm.conf > /dev/null <<EOF
+          <VirtualHost *:8080>
+              ServerName isjm.test
+              DocumentRoot ${GITHUB_WORKSPACE}
+
+              <Directory ${GITHUB_WORKSPACE}>
+                  Options -Indexes +FollowSymLinks
+                  AllowOverride All
+                  Require all granted
+              </Directory>
+
+              ErrorLog \${APACHE_LOG_DIR}/isjm-error.log
+              CustomLog \${APACHE_LOG_DIR}/isjm-access.log combined
+          </VirtualHost>
+          EOF
+
+          sudo a2ensite isjm
+          sudo a2dissite 000-default
+          # Apache runs as www-data and needs to write application logs.
+          mkdir -p logs
+          sudo chmod -R a+w logs
+          sudo systemctl restart apache2
+
+          for _ in $(seq 1 30); do
+            if curl -fsS -o /dev/null "http://isjm.test:8080/"; then
+              echo "Apache is serving http://isjm.test:8080"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Apache did not become ready; error log follows:"
+          sudo tail -50 /var/log/apache2/isjm-error.log || true
+          exit 1
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npx playwright test
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  # ---------------------------------------------------------------------------
+  # Enforcement: secret scanning and dependency vulnerability checks.
+  # These are non-negotiable gates — they fail the build rather than warn.
+  # The audits read only the lock files, so no install step is required.
+  # ---------------------------------------------------------------------------
+  security:
+    name: Security Enforcement
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Pinned so scan behaviour cannot change underneath us.
+      GITLEAKS_VERSION: 8.30.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history so the commit range below can be resolved.
+          fetch-depth: 0
+
+      - name: Set up PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Audit Composer dependencies
+        run: composer audit --no-interaction --locked
+
+      - name: Audit npm dependencies
+        run: npm audit --audit-level=high
+
+      - name: Install gitleaks (checksum-verified)
+        run: |
+          set -euo pipefail
+          asset="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          base="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
+          curl -sSfL -o "${asset}" "${base}/${asset}"
+          curl -sSfL -o checksums.txt "${base}/gitleaks_${GITLEAKS_VERSION}_checksums.txt"
+          grep "${asset}" checksums.txt | sha256sum -c -
+          tar -xzf "${asset}" gitleaks
+          sudo install -m 0755 gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+
+      - name: Scan for committed secrets
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          # Scan only the commits this push/PR introduces. A credential that is
+          # already in older history would otherwise fail every future change
+          # forever; scan `--all` instead once existing history has been cleaned.
+          base=""
+          if [ "${EVENT_NAME}" = "pull_request" ]; then
+            base="origin/${BASE_REF}"
+          elif [ -n "${BEFORE_SHA}" ] \
+            && [ "${BEFORE_SHA}" != "0000000000000000000000000000000000000000" ] \
+            && git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            base="${BEFORE_SHA}"
+          fi
+
+          if [ -n "${base}" ]; then
+            echo "Scanning commit range: ${base}..HEAD"
+            gitleaks git . --log-opts="${base}..HEAD" --redact --verbose
+          else
+            echo "No usable base commit (new branch or initial push); scanning working tree."
+            gitleaks dir . --redact --verbose
+          fi

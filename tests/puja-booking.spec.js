@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./fixtures');
 
 test.describe('Puja Booking Flow', () => {
 
@@ -151,6 +151,10 @@ test.describe('Puja Booking Flow', () => {
   });
 
   test('all puja detail pages load without errors', async ({ page }) => {
+    // Navigates 7 full pages sequentially, so it needs more than the default
+    // 60s when the suite runs in parallel. test.slow() triples the budget.
+    test.slow();
+
     const slugs = [
       'sri-sri-radha-madhav',
       'sri-sri-gaura-nitai',

@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect, waitForPageReady } = require('./fixtures');
 
 // ============================================
 // Admin Pages - Unauthenticated Access Tests
@@ -144,7 +144,7 @@ test.describe('Admin - Assets', () => {
     });
     
     await page.goto('/admin/login');
-    await page.waitForLoadState('networkidle');
+    await waitForPageReady(page);
     
     expect(cssRequests.length).toBeGreaterThan(0);
     expect(cssRequests[0].status()).toBe(200);
@@ -160,7 +160,7 @@ test.describe('Admin - Assets', () => {
     });
     
     await page.goto('/admin/login');
-    await page.waitForLoadState('networkidle');
+    await waitForPageReady(page);
     
     // Verify CSS loaded
     expect(cssRequests.length).toBeGreaterThan(0);

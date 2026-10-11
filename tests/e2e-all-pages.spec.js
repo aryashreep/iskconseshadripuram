@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect, waitForPageReady } = require('./fixtures');
 
 // ============================================
 // Smoke Tests: Every public page returns 200
@@ -188,7 +188,7 @@ test.describe('Assets', () => {
     });
     
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await waitForPageReady(page);
     
     // At least one CSS file should load
     expect(cssRequests.length).toBeGreaterThan(0);
@@ -208,7 +208,7 @@ test.describe('Assets', () => {
     });
     
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await waitForPageReady(page);
     
     // At least cart.js and main.js should load
     expect(jsRequests.length).toBeGreaterThan(0);
@@ -305,7 +305,7 @@ test.describe('Performance', () => {
     });
     
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await waitForPageReady(page);
     
     // Filter out known third-party errors
     const realErrors = errors.filter(e => 

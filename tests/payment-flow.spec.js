@@ -1,6 +1,11 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./fixtures');
 
-const BASE = 'https://iskconseshadripuram.org';
+// Runs against the local server configured as `baseURL` in playwright.config.js.
+// This previously pointed at the live production site, which made the whole
+// spec network-bound (and issued real requests to the production
+// api/create-order.php endpoint). Set E2E_BASE_URL to target something else
+// deliberately, e.g. E2E_BASE_URL=https://iskconseshadripuram.org.
+const BASE = process.env.E2E_BASE_URL || '';
 
 test.describe('Payment Flow E2E Tests', () => {
 
@@ -151,6 +156,10 @@ test.describe('Payment Flow E2E Tests', () => {
   });
 
   test('all donate cause pages load without 500 errors', async ({ page }) => {
+    // Navigates 11 full pages sequentially, so it needs more than the default
+    // 60s when the suite runs in parallel. test.slow() triples the budget.
+    test.slow();
+
     const causes = [
       'daily-seva', 'nitya-seva', 'food-for-life', 'shastra-daan',
       'tula-daan-utsav', 'donate-a-brick', 'diwali', 'janmashtami',

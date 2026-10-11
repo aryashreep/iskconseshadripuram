@@ -1,0 +1,7 @@
+This file keeps the logs/ directory in version control.
+
+The application writes here (see modules/Kernel/config.php -> error_log, and the
+per-module log writers), but no code creates the directory. Without this file a
+fresh clone would have no logs/ directory and logging would silently fail.
+
+Log contents themselves are ignored by .gitignore — do not commit them.

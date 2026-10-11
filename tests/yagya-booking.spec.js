@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./fixtures');
 
 test.describe('Yagya Booking Flow', () => {
 
@@ -79,6 +79,10 @@ test.describe('Yagya Booking Flow', () => {
   });
 
   test('all yagya detail pages load without errors', async ({ page }) => {
+    // Navigates 5 full pages sequentially, so it needs more than the default
+    // 60s when the suite runs in parallel. test.slow() triples the budget.
+    test.slow();
+
     const slugs = [
       'sri-sudarshan-narasimha-yagya',
       'vastu-yagya',

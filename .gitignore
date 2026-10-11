@@ -20,8 +20,10 @@ Thumbs.db
 *.swp
 *.swo
 
-# Log files
-/logs/
+# Log files — keep the logs/ directory itself (via .gitkeep) so the app can
+# write to it, but ignore everything written into it.
+/logs/*
+!/logs/.gitkeep
 *.log
 
 # Test results
