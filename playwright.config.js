@@ -8,7 +8,7 @@ module.exports = defineConfig({
   retries: 0,
   reporter: [['list']],
   use: {
-    baseURL: 'http://isjm.test:8080',
+    baseURL: process.env.BASE_URL || 'http://isjm.test:8080',
     headless: true,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
