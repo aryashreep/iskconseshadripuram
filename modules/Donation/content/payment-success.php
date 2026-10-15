@@ -20,6 +20,40 @@ if (!empty($causeSlug)) {
     }
 }
 
+// For monthly subscriptions, mark active and resolve cause info if needed
+if ($mode === 'monthly' && !empty($subscriptionId)) {
+    try {
+        $db = getDB();
+        if (empty($causeSlug) || $causeName === 'Donation') {
+            $subStmt = $db->prepare("
+                SELECT s.cause_id, c.slug, c.title, c.short_title
+                FROM donation_subscriptions s
+                LEFT JOIN donation_causes c ON s.cause_id = c.id
+                WHERE s.razorpay_subscription_id = ?
+                LIMIT 1
+            ");
+            $subStmt->execute([$subscriptionId]);
+            $subData = $subStmt->fetch();
+            if ($subData) {
+                $causeSlug = $subData['slug'] ?? $causeSlug;
+                $causeName = $subData['short_title'] ?: ($subData['title'] ?: $causeName);
+                $causeShortTitle = $subData['title'] ?? $causeShortTitle;
+            }
+        }
+
+        $upStmt = $db->prepare("
+            UPDATE donation_subscriptions 
+            SET subscription_status = 'active', 
+                start_at = COALESCE(start_at, NOW()),
+                updated_at = NOW() 
+            WHERE razorpay_subscription_id = ? AND subscription_status = 'created'
+        ");
+        $upStmt->execute([$subscriptionId]);
+    } catch (Throwable $e) {
+        error_log('payment-success subscription activation error: ' . $e->getMessage());
+    }
+}
+
 $pageTitle = 'Payment Successful - ISKCON The Palace Temple of Lord Jagannath';
 $pageType = 'default';
 include '../partials/header.php'; ?>

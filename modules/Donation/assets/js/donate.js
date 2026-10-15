@@ -549,7 +549,8 @@
                   encodeURIComponent(response.razorpay_payment_id) +
                   "&amount=" +
                   encodeURIComponent(amountPaise) +
-                  "&mode=monthly";
+                  "&mode=monthly" +
+                  (causeSlug ? "&cause=" + encodeURIComponent(causeSlug) : "");
               },
               modal: {
                 ondismiss: function () {

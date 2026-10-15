@@ -402,6 +402,21 @@
         : "one_time";
       var formType = formTypeInput ? formTypeInput.value : "tiers";
 
+      // GA4: Begin checkout event
+      if (typeof gtag === 'function') {
+        gtag('event', 'begin_checkout', {
+          currency: 'INR',
+          value: currentAmount,
+          items: [{
+            item_id: causeSlug,
+            item_name: causeSlug.replace(/-/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); }),
+            item_category: 'Donation',
+            price: currentAmount,
+            quantity: 1
+          }]
+        });
+      }
+
       // Show loading
       if (loading) loading.classList.add("active");
       if (donateBtn) donateBtn.disabled = true;
@@ -534,7 +549,8 @@
                   encodeURIComponent(response.razorpay_payment_id) +
                   "&amount=" +
                   encodeURIComponent(amountPaise) +
-                  "&mode=monthly";
+                  "&mode=monthly" +
+                  (causeSlug ? "&cause=" + encodeURIComponent(causeSlug) : "");
               },
               modal: {
                 ondismiss: function () {
